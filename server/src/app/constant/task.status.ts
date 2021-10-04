@@ -1,0 +1,13 @@
+
+
+export const TASK_PROGRESS = {
+    PENDING: 'PENDING',
+    PROGRESS: 'PROGRESS',
+    COMPLETED: 'COMPLETED'
+};
+
+export const TASK_STATUS = {
+    ASSIGNED: 'ASSIGNED',
+    UNASSIGNED: 'UNASSIGNED'
+};
+

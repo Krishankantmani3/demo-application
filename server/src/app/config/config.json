@@ -1,0 +1,11 @@
+{
+  "ENV": "DEVELOPMENT",
+  "PORT": {
+    "DEVELOPMENT": 3000,
+    "PRODUCTION": 3000,
+    "TEST": 3000
+  },
+  "MONGO_URI": {
+    "DEVELOPMENT": "mongodb://172.18.0.2:27017/KKDB"
+  }
+}

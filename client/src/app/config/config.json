@@ -1,0 +1,8 @@
+{
+    "ENV": "DEVELOPMENT",
+    "SERVER_URL" : {
+        "DEVELOPMENT" :{
+            "URL": "http://localhost:3000/"
+          }
+    }
+}
