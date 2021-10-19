@@ -1,5 +1,5 @@
 import { JwtHandler } from "../config/jwt.handler";
-import { ROLE } from "../constant/user.role";
+import { USER_ROLE } from "../constant/user.role";
 
 const error = {
     SERVER_ERROR: "SERVER_ERROR",
@@ -15,11 +15,11 @@ export class AuthMiddleWare{
         this.adminAuth = this.adminAuth.bind(this);
         this.architectAuth = this.architectAuth.bind(this);
         this.builderAuth = this.builderAuth.bind(this);
-        this.roleAuth = this.roleAuth.bind(this);
+        // this.roleAuth = this.roleAuth.bind(this);
     }
 
 
-    public auth(req: any, res: any, next: any, role: number){
+    public roleAuth(req: any, res: any, next: any, role: number){
         try{
             let token = req.signedCookies.jwt_token;
             let userData: any = this.jwtHandler.verifyToken(token);
@@ -38,32 +38,28 @@ export class AuthMiddleWare{
     }
 
     public adminAuth(req: any, res: any, next: any){
-        this.auth(req, res, next, ROLE.ADMIN);
+        this.roleAuth(req, res, next, USER_ROLE.ADMIN);
     }
 
     public architectAuth(req: any, res: any, next: any){
-        this.auth(req, res, next, ROLE.ARCHITECT);
+        this.roleAuth(req, res, next, USER_ROLE.ARCHITECT);
     }
 
     public builderAuth(req: any, res: any, next: any){
-        this.auth(req, res, next, ROLE.BUILDER);
+        this.roleAuth(req, res, next, USER_ROLE.BUILDER);
     }
 
-    public roleAuth(req: any, res: any, next: any){
-
-        console.log(req.params);
-        
-        let role = req.params.role;
-
-        if(role == 1){
-            this.adminAuth(req, res, next);
+    public auth(req: any, res: any){
+        try{
+            let token = req.signedCookies.jwt_token;
+            console.log(token);
+            let userData: any = this.jwtHandler.verifyToken(token);
+            req.user = userData;
+            return res.status(204).json({status: 'success'});;
         }
-        else if(role == 3){
-            // this.auth(req, res, next, ROLE.ARCHITECT);
-            this.architectAuth(req, res, next);
-        }
-        else if(role == 2){
-            this.builderAuth(req, res, next);
+        catch(err){
+            console.error("AuthService.auth", err);
+            res.status(403).json({status: error.SERVER_ERROR});
         }
     }
 }

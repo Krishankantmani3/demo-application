@@ -15,24 +15,25 @@ export class LoginService{
 
     public testReq(url?){
         // url = config.SERVER_URL["ENV"].URL + "/api/test";
-        url = "http://172.18.0.3:9000" + API_URL.test;
-        this.httpService.makeHttpGetRequest(url).subscribe((res)=>{
-            console.log(res);
-        });
+        url = 'https://api.com' + API_URL.test;
+        this.httpService.makeHttpGetRequest(url).subscribe({next:(res)=>{
+            console.log("res",res.body);
+        }, error: (err)=>{
+            console.log("err",err);
+        }});
     }
 
-    public login(data){
-        let url = "http://172.18.0.3:9000" + API_URL.login;
-
-        this.httpService.makeHttpPostRequest(url, data).subscribe((res: any)=>{
-            console.log(res.body);
-            
-            if(res.body.status == "loggedIn"){
-                console.log("Yes");
-                
-                this.router.navigateByUrl('/architect');
-            }          
-        });
+    login(user){
+        let url = 'https://api.com' + API_URL.login;
+        return this.httpService.makeHttpPostRequest(url, user).subscribe({
+                next: (res)=>{
+                    console.log("status",res.status);     
+                    // console.log("headers.status", res.headers);         
+                },
+                error: (err)=>{
+                    console.log("hello",err.status);
+                }
+            });
     }
     
 }

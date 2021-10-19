@@ -22,7 +22,6 @@ export class Approutes {
     app.use('/api', this.router);
   }
 
-
   initializeAllRouting() {
     this.auth.initializeRouting();
     this.admin.initializeRouting();

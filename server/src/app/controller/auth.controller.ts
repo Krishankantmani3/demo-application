@@ -30,10 +30,9 @@ export class Auth{
         
         this.router.post('/register', this.authService.register);
 
-        this.router.get('/auth/role/:role', this.authMiddleware.roleAuth, this.authService.authorized);
+        this.router.get('/auth/', this.authMiddleware.auth);
         
         this.router.get('/test', this.authService.test);
     }
-
     
 };

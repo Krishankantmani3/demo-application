@@ -56,7 +56,8 @@ export class AuthService {
                     return res.status(500).json({ "error": error.DATABASE_ERROR });
                 }
 
-                return this.setJwtTokenInCookies(req, res, data);
+                this.setJwtTokenInCookies(req, res, data);
+                return res.status(200).json({ status: "loggedIn" });
             }
             else {
                 return res.status(301).json({ "error": error.USER_ALREADY_EXIST });
@@ -70,8 +71,11 @@ export class AuthService {
 
     public async login(req: any, res: any) {
         try {
-            let username = req.body.username;
-            let password = req.body.password;
+            req = req.body;
+            console.log(req);
+
+            let username = req.user.username;
+            let password = req.user.password;
 
             let user = await this.userDB.findOneByUserName(username);
 
@@ -86,9 +90,10 @@ export class AuthService {
 
             if (status) {
                 this.setJwtTokenInCookies(req, res, user);
+                return res.status(204).json({ status: "loggedIn" });
             }
             else {
-                return res.status(303).json({ "error": error.INCORRECT_EMAIL_OR_PASSWORD });
+                return res.status(203).json({ "error": error.INCORRECT_EMAIL_OR_PASSWORD });
             }
         }
         catch (err) {
@@ -125,14 +130,18 @@ export class AuthService {
                 let options = {
                     maxAge: 1000 * 60 * 15, // would expire after 15 minutes
                     httpOnly: true, // The cookie only accessible by the web server
-                    signed: true
+                    signed: true,
+                    sameSite: 'None',
+                    secure: true
                 }
-                res.cookie("jwt_token", token);
-                res.status(200).json({ status: "loggedIn" });
+
+                // res.header('Access-Control-Allow-Origin', req.headers.origin);
+                // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+                res.cookie("jwt_token", token, options);
             }
         }
         catch (err) {
-            throw new Error(err);
+            throw new Error('Invalid_token');
         }
     }
 

@@ -15,14 +15,14 @@ export class RegisterService{
 
     public testReq(url?){
         // url = config.SERVER_URL["ENV"].URL + "/api/test";
-        url = "http://172.18.0.3:9000" + API_URL.test;
+        url = 'https://api.com' + API_URL.test;
         this.httpService.makeHttpGetRequest(url).subscribe((res)=>{
             console.log(res);
         });
     }
 
     public register(data){
-        let url = "http://172.18.0.3:9000" + API_URL.register;
+        let url = 'https://api.com' + API_URL.register;
 
         this.httpService.makeHttpPostRequest(url, data).subscribe((res)=>{
             console.log(res);          

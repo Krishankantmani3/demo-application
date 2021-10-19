@@ -9,6 +9,7 @@ export class JwtHandler{
 
     public generateToken(payload:any, options?:any){
         try{
+            console.log(process.env.ACCESS_TIME);
             if(!options){
                 options = { 
                     expiresIn: process.env.ACCESS_TIME

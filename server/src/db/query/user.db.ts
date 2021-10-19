@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import { ROLE } from "../../app/constant/user.role";
+import { USER_ROLE } from "../../app/constant/user.role";
 import { User, Users } from "../model/user.model";
 
 
@@ -56,7 +56,7 @@ export class UserDB {
     public async isArchitectId(_id: Schema.Types.ObjectId){
         try{
             let result = Users.findOne({_id});
-            if(result == undefined || result.Role != ROLE.ARCHITECT){
+            if(result == undefined || result.Role != USER_ROLE.ARCHITECT){
                 return false; 
             } 
             return true;

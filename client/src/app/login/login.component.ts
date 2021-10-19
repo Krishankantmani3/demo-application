@@ -50,7 +50,7 @@ export class LoginComponent {
                 role: this.selectedRole
             };
 
-            this.loginService.login(this.userDetails);
+            this.loginService.login({user: this.userDetails});
         }
     }
 }
