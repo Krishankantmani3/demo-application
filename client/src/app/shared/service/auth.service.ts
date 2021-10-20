@@ -1,7 +1,6 @@
 import { HttpService } from "./http.service";
 import { API_URL } from "../constant/api";
-import { AppState } from "src/app/app.service";
-
+import { AppState } from "../../app.service";
 
 export class AuthService{
     

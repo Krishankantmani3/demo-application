@@ -4,12 +4,17 @@ export type InternalStateType = {
   [key: string]: any
 };
 
-@Injectable({providedIn: 'root'})
+@Injectable()
 export class AppState {
   _state: InternalStateType = { };
   uncaughtErrorHandler: EventEmitter<any> = new EventEmitter();
 
-  constructor() { }
+  value = 1;
+
+  constructor() { 
+    this.value++;
+    console.log("again you created me", this.value);
+  }
 
   //return a clone of the current state
   get state() {

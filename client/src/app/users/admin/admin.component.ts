@@ -1,6 +1,5 @@
 import { Component } from "@angular/core";
-import { AppState } from "src/app/app.service";
-
+import { AppState } from "../../app.service";
 
 @Component({
     selector:"admin",
@@ -8,6 +7,7 @@ import { AppState } from "src/app/app.service";
 })
 export class AdminComponent{
    constructor(private appState: AppState){
-
+    console.log("admin route", appState.value++);
+    // console.log("appState", appState.get('userData'));
    }
 }

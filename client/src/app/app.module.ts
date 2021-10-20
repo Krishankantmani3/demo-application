@@ -1,12 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { Inject, NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { routes } from '../app.routes';
+import { routes } from './app.routes';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthGuard } from './shared/guards/auth-guard.service';
 import { HttpService } from './shared/service/http.service';
-// import { AppState } from './app.service';
+import { AppState } from './app.service';
 @NgModule({
   declarations: [
     AppComponent
@@ -18,8 +18,8 @@ import { HttpService } from './shared/service/http.service';
   ],
   providers: [
     AuthGuard, 
-    HttpService
-    // AppState
+    HttpService,
+    AppState
   ],
   bootstrap: [AppComponent]
 })

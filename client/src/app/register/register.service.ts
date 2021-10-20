@@ -4,8 +4,6 @@ import { HttpService } from "../shared/service/http.service";
 import { API_URL } from '../shared/constant/api';
 // let config = require('../../config/config.json');
 
-
-
 @Injectable()
 export class RegisterService{
 

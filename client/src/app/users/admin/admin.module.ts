@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AdminComponent } from "./admin.component";
-import { AppState } from "src/app/app.service";
+
 const routes: Routes = [
     {
         path:'',
@@ -17,8 +17,7 @@ const routes: Routes = [
         AdminComponent
     ],
     exports: [AdminComponent],
-    imports: [RouterModule.forChild(routes)],
-    providers: [AppState]
+    imports: [RouterModule.forChild(routes)]
 }
 )
 export class AdminModule{
