@@ -28,7 +28,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
         try{
             if(!this.appState.get('isUserAuthenticated')){
                 this.authService.authenticate().subscribe((res)=>{
-                    if(res.status == 204){
+                    if(res.status == 200){
                         this.authService.redirectUrl = null;
                         this.appState.set('isUserAuthenticated', 1);
                         this.appState.set('userData', res);

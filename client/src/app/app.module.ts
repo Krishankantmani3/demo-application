@@ -1,12 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Inject, NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { routes } from '../app.routes';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthGuard } from './shared/guards/auth-guard.service';
 import { HttpService } from './shared/service/http.service';
-import { AppState } from './app.service';
+// import { AppState } from './app.service';
 @NgModule({
   declarations: [
     AppComponent
@@ -18,9 +18,14 @@ import { AppState } from './app.service';
   ],
   providers: [
     AuthGuard, 
-    HttpService,
-    AppState
+    HttpService
+    // AppState
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+
+  constructor(){
+
+  }
+}

@@ -5,7 +5,6 @@ import { Auth } from "../controller/auth.controller";
 import { BuilderController } from "../controller/builder.controller";
 
 
-
 export class Approutes {
   router: Router;
   auth: Auth;

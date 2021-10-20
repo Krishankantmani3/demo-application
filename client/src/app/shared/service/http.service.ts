@@ -23,8 +23,8 @@ export class HttpService{
     }
 
     public makeHttpPostRequest(url, body, options?){
-        return this.http.post(url, body, this.requestOptionJson);
-        // return this.intercept(this.http.post(url, body, this.requestOptionJson));
+        // return this.http.post(url, body, this.requestOptionJson);
+        return this.intercept(this.http.post(url, body, this.requestOptionJson));
     }
 
     private intercept(observable: Observable<HttpResponse<any>>) {

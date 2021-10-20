@@ -8,10 +8,8 @@ export class AuthService{
     redirectUrl: String;
     
     constructor(private httpService: HttpService, private appState: AppState){
-
     }
-        
-
+    
     authenticate(){
         return this.httpService.makeHttpGetRequest( API_URL.auth);
     }

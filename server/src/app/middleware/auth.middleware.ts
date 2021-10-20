@@ -15,7 +15,6 @@ export class AuthMiddleWare{
         this.adminAuth = this.adminAuth.bind(this);
         this.architectAuth = this.architectAuth.bind(this);
         this.builderAuth = this.builderAuth.bind(this);
-        // this.roleAuth = this.roleAuth.bind(this);
     }
 
 
@@ -52,10 +51,8 @@ export class AuthMiddleWare{
     public auth(req: any, res: any){
         try{
             let token = req.signedCookies.jwt_token;
-            console.log(token);
             let userData: any = this.jwtHandler.verifyToken(token);
-            req.user = userData;
-            return res.status(204).json({status: 'success'});;
+            return res.status(200).json({...userData});
         }
         catch(err){
             console.error("AuthService.auth", err);
