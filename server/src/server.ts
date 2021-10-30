@@ -10,8 +10,8 @@ import https from 'https';
 // var http = require('http');
 // var https = require('https');
 
-var privateKey  = fs.readFileSync('/server/cert/localhost.decrypted.key', 'utf8');
-var certificate = fs.readFileSync('/server/cert/localhost.crt', 'utf8');
+var privateKey  = fs.readFileSync('/project/cert/api.com/api.com.decrypted.key', 'utf8');
+var certificate = fs.readFileSync('/project/cert/api.com/api.com.crt', 'utf8');
 var credentials = {key: privateKey, cert: certificate};
 
 const cookieParser = require('cookie-parser');

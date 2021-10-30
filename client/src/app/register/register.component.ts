@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { UserDetails } from "./user.model";
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { RegisterService } from "./register.service";
+import { Router } from "@angular/router";
 
 enum role {
     ARCHITECT = 3,
@@ -20,7 +21,7 @@ export class RegisterComponent {
     isFormDirty: boolean;
     isSubmitted: boolean;
 
-    constructor(private registerService: RegisterService) {
+    constructor(private registerService: RegisterService, private router: Router) {
         this.createFormGroup();
     }
 
@@ -68,5 +69,9 @@ export class RegisterComponent {
 
             this.registerService.register({user: this.userDetails});
         }
+    }
+
+    routeToLoginPage(){
+        this.router.navigate(['/login']);
     }
 }
