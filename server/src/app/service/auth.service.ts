@@ -90,10 +90,10 @@ export class AuthService {
 
             if (status) {
                 this.setJwtTokenInCookies(req, res, user);
-                return res.status(204).json({ status: "loggedIn" });
+                return res.status(204).json({});
             }
             else {
-                return res.status(203).json({ "error": error.INCORRECT_EMAIL_OR_PASSWORD });
+                return res.status(303).json({ "error": error.INCORRECT_EMAIL_OR_PASSWORD });
             }
         }
         catch (err) {

@@ -51,7 +51,9 @@ export class LoginComponent {
                 role: this.selectedRole
             };
 
-            this.loginService.login({user: this.userDetails});
+            this.loginService.login({user: this.userDetails}).then((res)=>{
+                this.router.navigate['/architect'];
+            });
         }
     }
 

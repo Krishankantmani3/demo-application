@@ -15,8 +15,8 @@ export class AuthMiddleWare{
         this.adminAuth = this.adminAuth.bind(this);
         this.architectAuth = this.architectAuth.bind(this);
         this.builderAuth = this.builderAuth.bind(this);
+        this.auth = this.auth.bind(this);
     }
-
 
     public roleAuth(req: any, res: any, next: any, role: number){
         try{
@@ -52,11 +52,15 @@ export class AuthMiddleWare{
         try{
             let token = req.signedCookies.jwt_token;
             let userData: any = this.jwtHandler.verifyToken(token);
+            if(userData == error.INVALID_TOKEN){
+                return res.status(403).json({ message: error.INVALID_TOKEN });
+            }
+            
             return res.status(200).json({...userData});
         }
         catch(err){
             console.error("AuthService.auth", err);
-            res.status(403).json({status: error.SERVER_ERROR});
+            res.status(503).json({status: error.SERVER_ERROR});
         }
     }
 }

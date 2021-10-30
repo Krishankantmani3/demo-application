@@ -30,7 +30,7 @@ export class JwtHandler{
             return userData;
         }
         catch(err){
-            // console.error("JwtHandler.verifyToken",err);
+            console.error("JwtHandler.verifyToken",err);
             return error.INVALID_TOKEN;
         }
     }

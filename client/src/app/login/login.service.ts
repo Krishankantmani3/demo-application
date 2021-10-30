@@ -8,32 +8,33 @@ import { Router } from "@angular/router";
 
 
 @Injectable()
-export class LoginService{
+export class LoginService {
 
-    constructor(private httpService: HttpService, private router: Router){
+    constructor(private httpService: HttpService, private router: Router) {
     }
 
-    public testReq(url?){
+    public testReq(url?) {
         // url = config.SERVER_URL["ENV"].URL + "/api/test";
         url = 'https://api.com' + API_URL.test;
-        this.httpService.makeHttpGetRequest(url).subscribe({next:(res)=>{
-            console.log("res",res.body);
-        }, error: (err)=>{
-            console.log("err",err);
-        }});
+        this.httpService.makeHttpGetRequest(url).subscribe({
+            next: (res) => {
+                console.log("res", res.body);
+            }, error: (err) => {
+                console.log("err", err);
+            }
+        });
     }
 
-    login(user){
-        let url = 'https://api.com' + API_URL.login;
-        return this.httpService.makeHttpPostRequest(url, user).subscribe({
-                next: (res)=>{
-                    console.log("status",res.status);     
-                    // console.log("headers.status", res.headers);         
-                },
-                error: (err)=>{
-                    console.log("hello",err.status);
+    login(user) {
+        return new Promise((resolve, reject) => {
+            let url = 'https://api.com' + API_URL.login;
+            return this.httpService.makeHttpPostRequest(url, user).subscribe((res)=>{
+                if(res.status == 204){
+                    return  resolve(res);
                 }
+
+                return reject({error: "something went wrong"});
             });
+        });
     }
-    
 }

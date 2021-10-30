@@ -6,7 +6,7 @@ import { AuthGuard } from "./shared/guards/auth-guard.service";
     {
         path: 'admin',
         loadChildren: () => import('./users/admin/admin.module').then(m => m.AdminModule),
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
         data: {
             roles: [USER_ROLE.ADMIN]
         }
@@ -14,7 +14,7 @@ import { AuthGuard } from "./shared/guards/auth-guard.service";
     {
         path: 'builder',
         loadChildren: () => import('./users/builder/builder.module').then(m => m.BuilderModule),
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
         data: {
             role: [USER_ROLE.BUILDER]
         }
@@ -22,7 +22,7 @@ import { AuthGuard } from "./shared/guards/auth-guard.service";
     {
         path: 'architect',
         loadChildren: ()=> import('./users/architect/architect.module').then(m => m.ArchitectModule),
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
         data: {
             role: [USER_ROLE.ARCHITECT]
         }

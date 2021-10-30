@@ -28,6 +28,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
         try{
             if(!this.appState.get('isUserAuthenticated')){
                 this.authService.authenticate().subscribe((res)=>{
+                    console.log(res.status);
                     if(res.status == 200){
                         this.authService.redirectUrl = null;
                         this.appState.set('isUserAuthenticated', 1);
@@ -48,7 +49,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
             }
         }
         catch(err){
-            console.log(err);          
+            console.log('isUserAuthenticated',err);          
             return false; 
         }
     }
@@ -56,7 +57,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     isUserAuthorized(route: ActivatedRouteSnapshot): boolean | Observable<boolean> {
         let routeData = route.data;
 
-        for(let role of this.appState.get('userData').role){
+        for(let role of [this.appState.get('userData').role]){
             if(routeData.role.indexOf(role) < 0){
                 console.warn('Unauthorized Access');
                 this.redirectUserToDashboard(this.appState.state.userData);
