@@ -8,7 +8,7 @@ import { AuthGuard } from "./shared/guards/auth-guard.service";
         loadChildren: () => import('./users/admin/admin.module').then(m => m.AdminModule),
         canActivate: [AuthGuard],
         data: {
-            roles: [USER_ROLE.ADMIN]
+            role: [USER_ROLE.ADMIN]
         }
     },
     {
