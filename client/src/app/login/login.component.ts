@@ -52,7 +52,7 @@ export class LoginComponent {
             };
 
             this.loginService.login({user: this.userDetails}).then((res)=>{
-                this.router.navigate['/architect'];
+                this.router.navigate(['/architect']);
             });
         }
     }
