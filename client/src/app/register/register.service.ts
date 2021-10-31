@@ -20,10 +20,15 @@ export class RegisterService{
     }
 
     public register(data){
-        let url = 'https://api.com' + API_URL.register;
-
-        this.httpService.makeHttpPostRequest(url, data).subscribe((res)=>{
-            console.log(res);          
+        return new Promise((resolve, reject)=>{
+            let url = 'https://api.com' + API_URL.register;
+            this.httpService.makeHttpPostRequest(url, data).subscribe((res)=>{
+                if(res.status == 200){
+                    return resolve(res);
+                }
+                          
+                return reject(res);
+            });
         });
     }
     

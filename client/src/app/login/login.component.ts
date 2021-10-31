@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from "@angular/router";
+import { USER_ROLE } from "../shared/constant/user.role";
 import { LoginService } from "./login.service";
 
 enum role {
@@ -51,9 +52,23 @@ export class LoginComponent {
                 role: this.selectedRole
             };
 
-            this.loginService.login({user: this.userDetails}).then((res)=>{
-                this.router.navigate(['/architect']);
+            this.loginService.login({user: this.userDetails}).then((res: any)=>{
+                this.redirectUserToDashboard(res.body);
             });
+        }
+    }
+
+    redirectUserToDashboard(userData: any) {
+        console.log("userData in login", userData);
+
+        if (userData.role) {
+            if (userData.role.indexOf(USER_ROLE.ADMIN) >= 0) {
+                this.router.navigate(['/admin']);
+            } else if (userData.role.indexOf(USER_ROLE.ARCHITECT) >= 0) {
+                this.router.navigate(['/architect']);
+            } else if (userData.role.indexOf(USER_ROLE.BUILDER) >= 0) {
+                this.router.navigate(['/builder']);
+            }
         }
     }
 

@@ -29,7 +29,7 @@ export class LoginService {
         return new Promise((resolve, reject) => {
             let url = 'https://api.com' + API_URL.login;
             return this.httpService.makeHttpPostRequest(url, user).subscribe((res)=>{
-                if(res.status == 204){
+                if(res.status == 200){
                     return  resolve(res);
                 }
 

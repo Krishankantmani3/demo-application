@@ -60,7 +60,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
         console.log("routeData", routeData);
         console.log("userData", [this.appState.get('userData').role]);
 
-        for (let role of [this.appState.get('userData').role]) {
+        for (let role of this.appState.get('userData').role) {
             if (routeData.role.indexOf(role) < 0) {
                 console.warn('Unauthorized Access');
                 this.redirectUserToDashboard(this.appState.state.userData);

@@ -8,7 +8,7 @@ export class User{
     password: string;
     email: string;
     fullname: string;
-    role: number;
+    role: [number];
 
     constructor(user: User){
         this.username = user.username;
@@ -29,7 +29,7 @@ let UserSchema = new Schema({
     password: {type: String, required: true},
     email: {type: String, unique: true, required: true},
     fullname: {type: String, required: true},
-    role: {type: Number, required: true},
+    role: {type: [Number], required: true},
 });
 
 export let Users = mongoose.model('User', UserSchema);

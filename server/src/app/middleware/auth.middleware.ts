@@ -56,7 +56,7 @@ export class AuthMiddleWare{
                 return res.status(403).json({ message: error.INVALID_TOKEN });
             }
             
-            return res.status(200).json({...userData});
+            return res.status(200).json(userData);
         }
         catch(err){
             console.error("AuthService.auth", err);

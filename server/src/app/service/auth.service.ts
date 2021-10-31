@@ -56,8 +56,16 @@ export class AuthService {
                     return res.status(500).json({ "error": error.DATABASE_ERROR });
                 }
 
-                this.setJwtTokenInCookies(req, res, data);
-                return res.status(200).json({ status: "loggedIn" });
+                let userData = {
+                    _id: data._id,
+                    email: data.email,
+                    username: data.email,
+                    role: data.role,
+                    fullname: data.fullname
+                };
+
+                this.setJwtTokenInCookies(req, res, userData);
+                return res.status(200).json(userData);
             }
             else {
                 return res.status(301).json({ "error": error.USER_ALREADY_EXIST });
@@ -72,25 +80,33 @@ export class AuthService {
     public async login(req: any, res: any) {
         try {
             req = req.body;
-            console.log(req);
 
             let username = req.user.username;
             let password = req.user.password;
 
-            let user = await this.userDB.findOneByUserName(username);
+            let userDetails = await this.userDB.findOneByUserName(username);
 
-            if (user == error.NO_DATA_FOUND) {
+            if (userDetails == error.NO_DATA_FOUND) {
                 return res.status(303).json({ "error": error.INCORRECT_EMAIL_OR_PASSWORD });
             }
-            else if (user == error.DATABASE_ERROR) {
+            else if (userDetails == error.DATABASE_ERROR) {
                 return res.status(500).json({ error: error.SERVER_ERROR });
             }
 
-            let status = bcrypt.compareSync(password, user.password);
+            let status = bcrypt.compareSync(password, userDetails.password);
 
             if (status) {
-                this.setJwtTokenInCookies(req, res, user);
-                return res.status(204).json({});
+                let userData = {
+                    _id: userDetails._id,
+                    email: userDetails.email,
+                    username: userDetails.email,
+                    role: userDetails.role,
+                    fullname: userDetails.fullname
+                };
+
+                this.setJwtTokenInCookies(req, res, userData);
+                console.log("userDAta in server side auth", userData);
+                return res.status(200).json(userData);
             }
             else {
                 return res.status(303).json({ "error": error.INCORRECT_EMAIL_OR_PASSWORD });
@@ -145,8 +161,8 @@ export class AuthService {
         }
     }
 
-    authorized(req: any, res: any, user: any){
-        res.status(200).json({ "authorized" : true });
+    authorized(req: any, res: any, user: any) {
+        res.status(200).json({ "authorized": true });
     }
 
 

@@ -3,6 +3,7 @@ import { UserDetails } from "./user.model";
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { RegisterService } from "./register.service";
 import { Router } from "@angular/router";
+import { USER_ROLE } from "../shared/constant/user.role";
 
 enum role {
     ARCHITECT = 3,
@@ -64,10 +65,25 @@ export class RegisterComponent {
                 password: this.userForm.value.password,
                 confirmPassword: this.userForm.value.confirmPassword,
                 gender: this.userForm.value.gender,
-                role: this.selectedRole
+                role: [this.selectedRole]
             };
 
-            this.registerService.register({user: this.userDetails});
+            this.registerService.register({user: this.userDetails}).then((res: any)=>{
+                this.redirectUserToDashboard(res.body);
+            });
+        }
+    }
+
+    redirectUserToDashboard(userData: any) {
+        console.log("role",userData.role);
+        if (userData.role) {
+            if (userData.role.indexOf(USER_ROLE.ADMIN) >= 0) {
+                this.router.navigate(['/admin']);
+            } else if (userData.role.indexOf(USER_ROLE.ARCHITECT) >= 0) {
+                this.router.navigate(['/architect']);
+            } else if (userData.role.indexOf(USER_ROLE.BUILDER) >= 0) {
+                this.router.navigate(['/builder']);
+            }
         }
     }
 
