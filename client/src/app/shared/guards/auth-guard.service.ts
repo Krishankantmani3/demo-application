@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot } from "@angular/router";
-import { Observable, throwError } from "rxjs";
+import { Observable, of, throwError } from "rxjs";
 import { catchError, map } from 'rxjs/operators';
 import { AppState } from "../../app.service";
 import { USER_ROLE } from "../constant/user.role";
@@ -27,22 +27,17 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     isUserAuthenticated(route: ActivatedRouteSnapshot, url: string): boolean | Observable<boolean> {
         try {
             if (!this.appState.get('isUserAuthenticated')) {
-                this.authService.authenticate().subscribe({
-                    next: (res) => {
-                        console.log("status1",res.status);
-                        this.authService.redirectUrl = null;
-                        this.appState.set('isUserAuthenticated', 1);
-                        this.appState.set('userData', res.body);
-                        return this.isUserAuthorized(route);
-                    },
-                    error: (err) => {
-                        console.log("status2", err.status);
-                        this.authService.redirectUrl = url;
-                        this.appState.set('isUserAuthenticated', 0);
-                        this.router.navigate(['/login']);
-                        return false;
-                    }
-                });
+                this.authService.authenticate().pipe(map((res) => {
+                    this.authService.redirectUrl = null;
+                    this.appState.set('isUserAuthenticated', 1);
+                    this.appState.set('userData', res.body);
+                    return this.isUserAuthorized(route);
+                }), catchError((error) => {
+                    this.authService.redirectUrl = url;
+                    this.appState.set('isUserAuthenticated', 0);
+                    this.router.navigate(['/login']);
+                    return of(false);
+                }));
             }
             else {
                 this.authService.redirectUrl = null;
