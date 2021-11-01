@@ -24,15 +24,16 @@ export class AuthGuard implements CanActivate, CanActivateChild {
         return this.canActivate(route, state);
     }
 
-    isUserAuthenticated(route: ActivatedRouteSnapshot, url: string): boolean | Observable<boolean> {
+    isUserAuthenticated(route: ActivatedRouteSnapshot, url: string): Observable<boolean> | boolean {
         try {
             if (!this.appState.get('isUserAuthenticated')) {
-                this.authService.authenticate().pipe(map((res) => {
+                return this.authService.authenticate().pipe(map((res) => {
                     this.authService.redirectUrl = null;
                     this.appState.set('isUserAuthenticated', 1);
                     this.appState.set('userData', res.body);
                     return this.isUserAuthorized(route);
                 }), catchError((error) => {
+                    console.log("error in req");
                     this.authService.redirectUrl = url;
                     this.appState.set('isUserAuthenticated', 0);
                     this.router.navigate(['/login']);
@@ -50,7 +51,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
         }
     }
 
-    isUserAuthorized(route: ActivatedRouteSnapshot): boolean | Observable<boolean> {
+    isUserAuthorized(route: ActivatedRouteSnapshot) {
         let routeData = route.data;
         console.log("routeData", routeData);
         console.log("userData", [this.appState.get('userData').role]);
