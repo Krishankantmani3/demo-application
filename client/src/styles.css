@@ -3,3 +3,5 @@
 .has-error{
 	border-color: #c20b0b!important;
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
