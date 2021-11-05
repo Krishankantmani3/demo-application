@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { Inject, NgModule } from '@angular/core';
+import {  NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
 import { RouterModule } from '@angular/router';
@@ -9,17 +9,14 @@ import { HttpService } from './shared/service/http.service';
 import { AppState } from './app.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ChartsModule } from 'ng2-charts';
-import { NavComponent } from './nav/nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
+import { MatMenuModule } from '@angular/material/menu';
 @NgModule({
   declarations: [
-    AppComponent,
-    NavComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -28,11 +25,10 @@ import { MatListModule } from '@angular/material/list';
     BrowserAnimationsModule,
     ChartsModule,
     LayoutModule,
-    MatToolbarModule,
     MatButtonModule,
-    MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatCardModule,
+    MatMenuModule
   ],
   providers: [
     AuthGuard, 
