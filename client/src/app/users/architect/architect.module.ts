@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { NavModule } from "../../nav/nav.module";
 import { ArchitectComponent } from "./architect.component";
+import { TempComponent } from "./temp/temp.component";
 
 const routes: Routes = [
     {
@@ -12,7 +13,10 @@ const routes: Routes = [
                 path: 'dashboard',
                 loadChildren: () => import('./dash/dash.module').then(m => m.DashModule)
             },
-            { path: '', redirectTo: 'dashboard' }
+            { path: '', redirectTo: 'dashboard' },
+            {
+                path: 'sales', component: TempComponent
+            }
         ]
     }
 ]
