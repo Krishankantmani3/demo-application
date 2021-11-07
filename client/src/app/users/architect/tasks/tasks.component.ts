@@ -29,6 +29,23 @@ export class TasksComponent implements OnInit {
             createdBy: "Falana dhimaka",
             assignedBy: "Vivek malhotra",
             assignedTo: "ab kumar"
+        },{
+            title: " construction",
+            description: "NA",
+            status: "assigned", // assigned or unassigned
+            progress: "working", // pending, working, completed
+            createdBy: "hmmmmmm",
+            assignedBy: "krishankant",
+            assignedTo: "me"
+        },
+        {
+            title: " construction",
+            description: "NA",
+            status: "assigned", // assigned or unassigned
+            progress: "working", // pending, working, completed
+            createdBy: "hmmmmmm",
+            assignedBy: "krishankant",
+            assignedTo: "me"
         }];
         // this.tasksService.getAllTasks()
         //     .then((tasks: []) => {
