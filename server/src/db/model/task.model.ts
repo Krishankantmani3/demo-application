@@ -25,8 +25,8 @@ export class Task{
 let TaskSchema = new Schema({
     title: {type: String, required: true},
     description: {type: String, required: true},
-    status: {type: String},
-    progress: {type: String},
+    status: {type: String}, // assigned or unassigned
+    progress: {type: String}, // pending, working, completed
     createdBy: {type: Schema.Types.ObjectId, required: true, ref: 'Users'},
     assignedBy: {type: Schema.Types.ObjectId, ref: 'Users'},
     assignedTo: {type: Schema.Types.ObjectId, ref: 'Users'}

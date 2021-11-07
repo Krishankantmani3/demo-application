@@ -48,7 +48,7 @@ export class TaskDB{
         }
     }
 
-    public async getAllUassignedTask(){
+    public async getAllUnassignedTask(){
         try {
             let tasks = await Tasks.find({status: TASK_STATUS.UNASSIGNED});
             if(tasks.length == 0){

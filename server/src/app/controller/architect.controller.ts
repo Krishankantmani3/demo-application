@@ -17,5 +17,6 @@ export class ArchitectController{
 
     initializeRouting(){
         // this.router.post(`${baseUrl}/task`,this.authMiddleware.architectAuth,);
+        this.router.get(`${baseUrl}/tasks`,this.authMiddleware.architectAuth,);
     }
 };

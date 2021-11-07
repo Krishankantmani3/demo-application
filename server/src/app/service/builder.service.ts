@@ -25,7 +25,7 @@ export class BuilderService{
 
     public async getAllUassignedTask(req: any, res: any){
         try {
-            let tasks: any = await this.taskDB.getAllUassignedTask();
+            let tasks: any = await this.taskDB.getAllUnassignedTask();
             if(tasks == message.NO_DATA_FOUND){
                 return res.status(404).json({error: message.NO_DATA_FOUND});
             }
