@@ -3,7 +3,7 @@ import { API_URL } from "../../../shared/constant/api";
 import { HttpService } from "../../../shared/service/http.service";
 
 
-Injectable()
+@Injectable()
 export class TasksService {
 
     constructor(private httpService: HttpService) {

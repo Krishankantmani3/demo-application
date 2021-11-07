@@ -15,6 +15,7 @@ export class ArchitectService{
     constructor(){
         this.taskDB = new TaskDB();
         this.updateProgressOfTask = this.updateProgressOfTask.bind(this);
+        this.getAllTasks = this.getAllTasks.bind(this);
     }
 
     public async updateProgressOfTask(req: any, res: any){
@@ -47,7 +48,7 @@ export class ArchitectService{
             }
 
             let tasks = await this.taskDB.getAllTaskByAssignedById(user._id);
-            if(tasks.length == 0){
+            if(tasks == message.NO_DATA_FOUND){
                 res.status(204).json({"message": message.NO_DATA_FOUND});
             }
 
