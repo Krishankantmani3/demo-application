@@ -4,6 +4,11 @@ import { AuthGuard } from "./shared/guards/auth-guard.service";
 
  export const routes: Routes = [
     {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'login'
+    },
+    {
         path: 'admin',
         loadChildren: () => import('./users/admin/admin.module').then(m => m.AdminModule),
         canActivate: [AuthGuard],

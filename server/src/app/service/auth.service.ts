@@ -121,12 +121,20 @@ export class AuthService {
 
     public async logout(req: any, res: any) {
         try {
-            res.clearCookie('jwt_token');
+            console.log("token req.signedCookies.jwt_token", req.signedCookies.jwt_token);
+            let options = {
+                maxAge: 0, // would expire after 15 minutes
+                httpOnly: true, // The cookie only accessible by the web server
+                signed: true,
+                sameSite: 'None',
+                secure: true
+            }
+            res.clearCookie('jwt_token', options);
             res.status(200).json({ status: true });
         }
         catch (err) {
             console.error("AuthService.logout", err);
-            res.status(401).json({ error: error.SERVER_ERROR });
+            res.status(500).json({ error: error.SERVER_ERROR, status: false });
         }
     }
 

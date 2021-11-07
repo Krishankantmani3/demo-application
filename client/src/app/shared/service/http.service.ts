@@ -47,7 +47,19 @@ export class HttpService{
 
     logOutUser(){
         return new Promise((resolve, reject)=>{
+            let url  = 'https://api.com/api/logout'
+            this.makeHttpPostRequest(url,"").subscribe({
+                next: (res)=>{
+                    if(res.status == 200){
+                        return resolve(true);
+                    }
 
+                    return reject(false);
+                },
+                error: (err)=>{
+                    return reject(false);
+                }
+            });
         });
     }
 
