@@ -21,24 +21,24 @@ export class TasksComponent implements OnInit {
 
     fetchAllTasks() {
         this.isLoaded = true;
-        // this.architectTasks = [{
-        //     title: "256 building construction",
-        //     description: "NA",
-        //     status: "assigned", // assigned or unassigned
-        //     progress: "pending", // pending, working, completed
-        //     createdBy: "Falana dhimaka",
-        //     assignedBy: "Vivek malhotra",
-        //     assignedTo: "ab kumar"
-        // }];
-        this.tasksService.getAllTasks()
-            .then((tasks: []) => {
-                this.architectTasks = tasks;
-                this.isLoaded = true;
-            })
-            .catch((err) => {
-                alert("Error in server side");
-                this.isLoaded = true;
-            });
+        this.architectTasks = [{
+            title: "256 building construction",
+            description: "NA",
+            status: "assigned", // assigned or unassigned
+            progress: "pending", // pending, working, completed
+            createdBy: "Falana dhimaka",
+            assignedBy: "Vivek malhotra",
+            assignedTo: "ab kumar"
+        }];
+        // this.tasksService.getAllTasks()
+        //     .then((tasks: []) => {
+        //         this.architectTasks = tasks;
+        //         this.isLoaded = true;
+        //     })
+        //     .catch((err) => {
+        //         alert("Error in server side");
+        //         this.isLoaded = true;
+        //     });
     }
 
 }

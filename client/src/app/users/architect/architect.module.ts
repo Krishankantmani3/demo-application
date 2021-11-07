@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { AuthGuard } from "../../shared/guards/auth-guard.service";
 import { NavModule } from "../../nav/nav.module";
 import { ArchitectComponent } from "./architect.component";
 import { TempComponent } from "./temp/temp.component";
@@ -11,7 +12,8 @@ const routes: Routes = [
         children: [
             {
                 path: 'dashboard',
-                loadChildren: () => import('./dash/dash.module').then(m => m.DashModule)
+                loadChildren: () => import('./dash/dash.module').then(m => m.DashModule),
+                // canActivate: [AuthGuard]
             },
             { path: '', redirectTo: 'dashboard' },
             {
@@ -19,7 +21,8 @@ const routes: Routes = [
             },
             {
                 path: 'tasks',
-                loadChildren: () => import('./tasks/tasks.module').then(m => m.TasksModule)
+                loadChildren: () => import('./tasks/tasks.module').then(m => m.TasksModule),
+                // canActivate: [AuthGuard]
             }
         ]
     }

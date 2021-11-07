@@ -49,7 +49,7 @@ export class ArchitectService{
 
             let tasks = await this.taskDB.getAllTaskByAssignedById(user._id);
             if(tasks == message.NO_DATA_FOUND){
-                res.status(204).json({"message": message.NO_DATA_FOUND});
+                return res.status(204).json({"message": message.NO_DATA_FOUND});
             }
 
             return res.status(200).json(tasks);

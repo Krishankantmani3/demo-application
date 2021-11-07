@@ -5,15 +5,15 @@
         <table class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <th>S. No.</th>
-                    <th>Task Name</th>
-                    <th>Status</th>
-                    <th>Builder Name</th>
+                    <th scope="col">S. No.</th>
+                    <th scope="col">Task Name</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Builder Name</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let task of architectTasks; let i = index">
-                    <td>{{ i }}</td>
+                    <td scope="row">{{ i }}</td>
                     <td>{{ task.title }}</td>
                     <td>{{ task.progress }}</td>
                     <td>{{ task.assignedBy }}</td>
