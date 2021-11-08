@@ -73,4 +73,17 @@ export class TaskDB{
             return message.DATABASE_ERROR;
         }
     }
+
+    public async getAllTaskCreatedByBuilderId(_id: Schema.Types.ObjectId){
+        try {
+            let tasks = await Tasks.find({createdBy: _id});
+            if(tasks.length == 0){
+                return message.NO_DATA_FOUND;
+            }
+            return tasks;
+        } catch (error) {
+            console.error("TaskDB.getAllUassignedTask", error);
+            return message.DATABASE_ERROR;
+        }
+    }
 }

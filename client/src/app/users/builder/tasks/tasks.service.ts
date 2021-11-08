@@ -12,7 +12,7 @@ export class TasksService {
 
     getAllTasks() {
         return new Promise((resolve, reject) => {
-            let url = 'https:/api.com' + API_URL.architect_tasks;
+            let url = 'https:/api.com' + API_URL.builder_tasks;
             this.httpService.makeHttpGetRequest(url).subscribe({
                 next: (res) => {
                     if (res.status == 204) {

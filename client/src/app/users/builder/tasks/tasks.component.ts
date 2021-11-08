@@ -42,7 +42,7 @@ export class TasksComponent implements OnInit {
             title: " construction",
             description: "NA",
             status: "assigned", // assigned or unassigned
-            progress: "working", // pending, working, completed
+            progress: "completed", // pending, working, completed
             createdBy: "hmmmmmm",
             assignedBy: "krishankant",
             assignedTo: "me"

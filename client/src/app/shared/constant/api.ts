@@ -4,5 +4,6 @@ export const API_URL:any = {
     login: '/api/login',
     auth: '/api/auth/',
     test: '/api/test',
-    architect_tasks: '/api/architect/tasks'
+    architect_tasks: '/api/architect/tasks',
+    builder_tasks: '/api/builder/tasks'
 };

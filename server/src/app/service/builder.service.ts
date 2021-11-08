@@ -89,6 +89,24 @@ export class BuilderService{
             res.status(401).json({error: message.SERVER_ERROR});
         }
     }
+
+    public async getAllTaskCreatedByBuilder(req: any, res: any){
+        try {
+            let tasks: any = await this.taskDB.getAllTaskCreatedByBuilderId(req.user._id);
+            if(tasks == message.DATABASE_ERROR){
+                return res.status(501).json({error: message.DATABASE_ERROR});
+            }
+            else if(tasks == message.NO_DATA_FOUND){
+                return res.status(304).json({error: message.NO_DATA_FOUND});
+            }
+
+            return tasks;
+
+        } catch (error) {
+            console.error("BuilderService.getAllTaskAssignedByBuilder", error);
+            res.status(401).json({error: message.SERVER_ERROR});
+        }
+    }
     
 }
 
