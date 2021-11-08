@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { TasksService } from "./tasks.service";
 
 @Component({
@@ -11,7 +12,7 @@ export class TasksComponent implements OnInit {
     architectTasks = [];
     isLoaded = false;
 
-    constructor(private tasksService: TasksService) {
+    constructor(private tasksService: TasksService, private router: Router) {
 
     }
 

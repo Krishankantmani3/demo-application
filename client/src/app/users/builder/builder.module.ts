@@ -23,6 +23,10 @@ const routes: Routes = [
                 path: 'tasks',
                 loadChildren: () => import('./tasks/tasks.module').then(m => m.TasksModule),
                 // canActivate: [AuthGuard]
+            },
+            {
+                path: 'new-task',
+                loadChildren: () => import('./new-task/new-task.module').then(m => m.NewTaskModule)
             }
         ]
     }
