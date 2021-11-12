@@ -7,7 +7,6 @@ export class Task{
     status: string;
     progress: string;
     createdBy: Schema.Types.ObjectId;
-    assignedBy: Schema.Types.ObjectId;
     assignedTo: Schema.Types.ObjectId;
 
     constructor(task: Task){
@@ -16,7 +15,6 @@ export class Task{
         this.status = task.status;
         this.progress = task.progress;
         this.createdBy = task.createdBy;
-        this.assignedBy = task.assignedBy;
         this.assignedTo = task.assignedTo;
     }
 }
@@ -28,7 +26,6 @@ let TaskSchema = new Schema({
     status: {type: String}, // assigned or unassigned
     progress: {type: String}, // pending, working, completed
     createdBy: {type: Schema.Types.ObjectId, required: true, ref: 'Users'},
-    assignedBy: {type: Schema.Types.ObjectId, ref: 'Users'},
     assignedTo: {type: Schema.Types.ObjectId, ref: 'Users'}
 });
 

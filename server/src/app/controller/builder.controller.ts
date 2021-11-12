@@ -21,8 +21,9 @@ export class BuilderController{
     }
 
     initializeRouting(){
-        this.router.post(`${baseUrl}/task`,this.authMiddleware.builderAuth, this.builderService.assignTask);
-        this.router.get(`${baseUrl}/unassigned-tasks`, this.authMiddleware.builderAuth, this.builderService.getAllUassignedTask);
+        this.router.post(`${baseUrl}/task`,this.authMiddleware.builderAuth, this.builderService.createTask);
+        this.router.get(`${baseUrl}/architects`,this.authMiddleware.builderAuth, this.builderService.getArchitectList);
+        this.router.get(`${baseUrl}/unassigned-tasks`, this.authMiddleware.builderAuth, this.builderService.getAllUnassignedTask);
         this.router.get(`${baseUrl}/tasks-assigned-by-me`, this.authMiddleware.builderAuth, this.builderService.getAllTaskAssignedByBuilder);
         this.router.get(`${baseUrl}/tasks`, this.authMiddleware.builderAuth, this.builderService.getAllTaskCreatedByBuilder);
         this.router.get('/hello-hi', this.authMiddleware.builderAuth,(req, res)=>{

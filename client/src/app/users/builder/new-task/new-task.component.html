@@ -1,1 +1,27 @@
-<h1>new Task works</h1>
+
+<div class="card">
+  <div class="card-header">
+    <h1 style="font: bold; font-size:xx-large;">Add new task.</h1>
+  </div>
+  <div class="card-body">
+    <form>
+      <div class="form-group">
+        <label for="exampleFormControlInput1" style="font: bold; font-size: large;">Title Name</label>
+        <input type="name" class="form-control" id="exampleFormControlInput1">
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlSelect1" style="font: bold; font-size: large;">Assign To</label>
+        <select class="form-control" id="exampleFormControlSelect1">
+          <option *ngFor="let v of architectList; let i = index">{{ v }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlTextarea1" style="font: bold; font-size: large;">Description</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+      </div>
+      <button class="btn btn-success my-2 my-sm-0" type="button" [disabled]="isSubmitting" (click)="addNewTask()">submit</button>
+    </form>
+  </div>
+</div>
+
+

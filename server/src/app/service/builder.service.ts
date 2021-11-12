@@ -1,3 +1,4 @@
+import { Task } from "../../db/model/task.model";
 import { TaskDB } from "../../db/query/task.db";
 import { UserDB } from "../../db/query/user.db";
 import { TASK_PROGRESS, TASK_STATUS } from "../constant/task.status";
@@ -18,12 +19,53 @@ export class BuilderService{
     constructor(){
         this.taskDB = new TaskDB();
         this.userDB = new UserDB();
+        this.createTask = this.createTask.bind(this);
         this.assignTask = this.assignTask.bind(this);
-        this.getAllUassignedTask = this.getAllUassignedTask.bind(this);
+        this.getAllUnassignedTask = this.getAllUnassignedTask.bind(this);
+        this.getArchitectList = this.getArchitectList.bind(this);
         this.getAllTaskAssignedByBuilder = this.getAllTaskAssignedByBuilder.bind(this);
     }
 
-    public async getAllUassignedTask(req: any, res: any){
+    public async createTask(req: any, res: any){
+        try{
+            let task: Task = req.body.task;
+            task.createdBy = req.user._id;
+            task.status = task.assignedTo ? TASK_STATUS.ASSIGNED : TASK_STATUS.UNASSIGNED ;
+            task.progress = TASK_PROGRESS.PENDING;
+
+            let result = await this.taskDB.saveTask(task);
+            if(result == message.DATABASE_ERROR){
+                res.status(500).json({error: message.DATABASE_ERROR});
+            }
+            res.status(200).json({data: result});
+        }
+        catch(err){
+            console.error("BuilderService","createTask", err);
+            res.status(501).json({error: message.SERVER_ERROR});            
+        }
+    }
+    
+    public async getArchitectList(req: any, res: any){
+        try{
+            let result = await this.userDB.getArchitectList();
+            if(result == message.DATABASE_ERROR){
+                res.status(500).json({error: message.DATABASE_ERROR});
+            }
+            else if(result == message.NO_DATA_FOUND){
+                return res.status(204);
+            }
+
+
+            res.status(200).json({data: result});
+        }
+        catch(err){
+            console.error("BuilderService","getArchitectList", err);
+            res.status(501).json({error: message.SERVER_ERROR});            
+        }
+    }
+
+
+    public async getAllUnassignedTask(req: any, res: any){
         try {
             let tasks: any = await this.taskDB.getAllUnassignedTask();
             if(tasks == message.NO_DATA_FOUND){

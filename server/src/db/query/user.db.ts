@@ -67,5 +67,20 @@ export class UserDB {
         }
     }
 
+    public async getArchitectList(){
+        try{
+            let result = Users.find({role: USER_ROLE.ARCHITECT});
+            if(!result && result.length == 0 ){
+                return message.NO_DATA_FOUND;
+            }
+
+            return result;
+        }
+        catch(err){
+            console.error("UserDB", "getArchitectList", err);
+            return message.DATABASE_ERROR;
+        }
+    }
+
 
 }

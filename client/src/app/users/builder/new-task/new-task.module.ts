@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AuthGuard } from "../../../shared/guards/auth-guard.service";
 import { NewTaskComponent } from "./new-task.component";
+import { NewTaskService } from "./new-task.service";
 
 const routes: Routes = [
     {
@@ -18,7 +19,7 @@ const routes: Routes = [
         CommonModule,
         RouterModule.forChild(routes)
     ],
-    providers: [],
+    providers: [NewTaskService],
     declarations: [NewTaskComponent]
 })
 export class NewTaskModule{
