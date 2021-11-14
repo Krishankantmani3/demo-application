@@ -1,8 +1,8 @@
 import { Task } from "../../db/model/task.model";
-import { TaskDB } from "../../db/query/task.db";
-import { TASK_STATUS } from "../constant/task.status";
+import { TaskDb } from "../../db/query/task.db";
+import { TASK_STATUS } from "../constant/constant";
 
-const message = {
+const MESSAGE = {
     DATABASE_ERROR: "DATABASE_ERROR",
     NO_DATA_FOUND: "NO_DATA_FOUND",
     SERVER_ERROR: "SERVER_ERROR"
@@ -10,14 +10,9 @@ const message = {
 
 export class AdminService{
     
-    taskDB: TaskDB;
+    taskDb: TaskDb;
 
     constructor(){
-        this.taskDB = new TaskDB();
-    }
-
-    
-
-    
-
+        this.taskDb = new TaskDb();
+    }  
 }

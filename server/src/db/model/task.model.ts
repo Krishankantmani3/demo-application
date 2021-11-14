@@ -4,8 +4,8 @@ import mongoose from 'mongoose';
 export class Task{
     title: string;
     description: string;
-    status: string;
-    progress: string;
+    status: number;
+    progress: number;
     createdBy: Schema.Types.ObjectId;
     assignedTo: Schema.Types.ObjectId;
 
@@ -23,8 +23,8 @@ export class Task{
 let TaskSchema = new Schema({
     title: {type: String, required: true},
     description: {type: String, required: true},
-    status: {type: String}, // assigned or unassigned
-    progress: {type: String}, // pending, working, completed
+    status: {type: Number}, // assigned or unassigned
+    progress: {type: Number}, // pending, working, completed
     createdBy: {type: Schema.Types.ObjectId, required: true, ref: 'Users'},
     assignedTo: {type: Schema.Types.ObjectId, ref: 'Users'}
 });

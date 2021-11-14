@@ -1,8 +1,8 @@
 //import { Task } from "../../db/model/task.model";
-import { TaskDB } from "../../db/query/task.db";
-import { TASK_PROGRESS } from "../constant/task.status";
+import { TaskDb } from "../../db/query/task.db";
+import { TASK_PROGRESS } from "../constant/constant";
 
-const message = {
+const MESSAGE = {
     DATABASE_ERROR: "DATABASE_ERROR",
     NO_DATA_FOUND: "NO_DATA_FOUND",
     SERVER_ERROR: "SERVER_ERROR"
@@ -10,10 +10,10 @@ const message = {
 
 export class ArchitectService{
     
-    taskDB: TaskDB;
+    taskDb: TaskDb;
 
     constructor(){
-        this.taskDB = new TaskDB();
+        this.taskDb = new TaskDb();
         this.updateProgressOfTask = this.updateProgressOfTask.bind(this);
         this.getAllTasksAssignedToArchitect = this.getAllTasksAssignedToArchitect.bind(this);
     }
@@ -22,13 +22,13 @@ export class ArchitectService{
         try{
            let update = {progress: req.body.progress};
            let taskId = req.params.taskId;
-           let result: any = await this.taskDB.findAndupdateTaskById(taskId, update);
+           let result: any = await this.taskDb.findAndupdateTaskById(taskId, update);
 
-           if(result == message.NO_DATA_FOUND){
-               res.status(300).json({error: message.NO_DATA_FOUND});
+           if(result == MESSAGE.NO_DATA_FOUND){
+               res.status(300).json({error: MESSAGE.NO_DATA_FOUND});
            }
-           else if(result == message.DATABASE_ERROR){
-            res.status(501).json({error: message.DATABASE_ERROR});
+           else if(result == MESSAGE.DATABASE_ERROR){
+            res.status(501).json({error: MESSAGE.DATABASE_ERROR});
            }
 
            res.status(200).status({data: result});
@@ -36,7 +36,7 @@ export class ArchitectService{
         }
         catch(err){
             console.error("ArchitectService.updateProgressOfTask", err);
-            res.status(501).json({error: message.SERVER_ERROR});
+            res.status(501).json({error: MESSAGE.SERVER_ERROR});
         }
     }
 
@@ -47,9 +47,9 @@ export class ArchitectService{
                 return res.status(401).json({"message": 'UnAuthorized'});
             }
 
-            let tasks = await this.taskDB.getAllTaskAssignedToArchitectId(user._id);
-            if(tasks == message.NO_DATA_FOUND){
-                return res.status(204).json({"message": message.NO_DATA_FOUND});
+            let tasks = await this.taskDb.getAllTaskAssignedToArchitectId(user._id);
+            if(tasks == MESSAGE.NO_DATA_FOUND){
+                return res.status(204).json({"message": MESSAGE.NO_DATA_FOUND});
             }
 
             console.log("tasks", tasks);
@@ -58,7 +58,7 @@ export class ArchitectService{
         }
         catch(err){
             console.error("ArchitectService.getAllTasks", err);
-            res.status(501).json({error: message.SERVER_ERROR});
+            res.status(501).json({error: MESSAGE.SERVER_ERROR});
         }
     }
 

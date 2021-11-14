@@ -8,7 +8,7 @@ const message = {
     NO_DATA_FOUND: "NO_DATA_FOUND"
 };
 
-export class UserDB {
+export class UserDb {
 
     public async findOneByUserName(username: string) {
         try {

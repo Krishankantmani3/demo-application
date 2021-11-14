@@ -1,9 +1,9 @@
 import * as bcrypt from 'bcrypt';
 import { JwtHandler } from "../config/jwt.handler";
-import { UserDB } from "../../db/query/user.db";
+import { UserDb } from "../../db/query/user.db";
 import { User } from '../../db/model/user.model';
 
-const error = {
+const MESSAGE = {
     SERVER_ERROR: "SERVER_ERROR",
     DATABASE_ERROR: "DATABASE_ERROR",
     INCORRECT_EMAIL_OR_PASSWORD: "INCORRECT_EMAIL_OR_PASSWORD",
@@ -15,11 +15,11 @@ const error = {
 export class AuthService {
 
     jwtHandler: JwtHandler;
-    userDB: UserDB;
+    userDb: UserDb;
 
     constructor() {
         this.jwtHandler = new JwtHandler();
-        this.userDB = new UserDB();
+        this.userDb = new UserDb();
         this.login = this.login.bind(this);
         this.register = this.register.bind(this);
         this.logout = this.logout.bind(this);
@@ -33,7 +33,7 @@ export class AuthService {
         }
         catch (err) {
             console.error("AuthService.test", err);
-            res.status(401).json({ error: error.SERVER_ERROR });
+            res.status(401).json({ error: MESSAGE.SERVER_ERROR });
         }
     }
 
@@ -48,12 +48,12 @@ export class AuthService {
             }
             let email = req.user.email;
             let username = req.user.username;
-            let result = await this.userDB.findByUserNameOrEmail(username, email);
+            let result = await this.userDb.findByUserNameOrEmail(username, email);
 
-            if (result == error.NO_DATA_FOUND) {
-                let data = await this.userDB.saveNewUser(new User(req.body.user));
-                if (data == error.DATABASE_ERROR) {
-                    return res.status(500).json({ "error": error.DATABASE_ERROR });
+            if (result == MESSAGE.NO_DATA_FOUND) {
+                let data = await this.userDb.saveNewUser(new User(req.body.user));
+                if (data == MESSAGE.DATABASE_ERROR) {
+                    return res.status(500).json({ "error": MESSAGE.DATABASE_ERROR });
                 }
 
                 let userData = {
@@ -68,7 +68,7 @@ export class AuthService {
                 return res.status(200).json(userData);
             }
             else {
-                return res.status(301).json({ "error": error.USER_ALREADY_EXIST });
+                return res.status(301).json({ "error": MESSAGE.USER_ALREADY_EXIST });
             }
         }
         catch (err) {
@@ -84,13 +84,13 @@ export class AuthService {
             let username = req.user.username;
             let password = req.user.password;
 
-            let userDetails = await this.userDB.findOneByUserName(username);
+            let userDetails = await this.userDb.findOneByUserName(username);
 
-            if (userDetails == error.NO_DATA_FOUND) {
-                return res.status(303).json({ "error": error.INCORRECT_EMAIL_OR_PASSWORD });
+            if (userDetails == MESSAGE.NO_DATA_FOUND) {
+                return res.status(303).json({ "error": MESSAGE.INCORRECT_EMAIL_OR_PASSWORD });
             }
-            else if (userDetails == error.DATABASE_ERROR) {
-                return res.status(500).json({ error: error.SERVER_ERROR });
+            else if (userDetails == MESSAGE.DATABASE_ERROR) {
+                return res.status(500).json({ error: MESSAGE.SERVER_ERROR });
             }
 
             let status = bcrypt.compareSync(password, userDetails.password);
@@ -109,12 +109,12 @@ export class AuthService {
                 return res.status(200).json(userData);
             }
             else {
-                return res.status(303).json({ "error": error.INCORRECT_EMAIL_OR_PASSWORD });
+                return res.status(303).json({ "error": MESSAGE.INCORRECT_EMAIL_OR_PASSWORD });
             }
         }
         catch (err) {
             console.log("AuthService.login", err);
-            res.status(500).json({ "error": error.SERVER_ERROR });
+            res.status(500).json({ "error": MESSAGE.SERVER_ERROR });
         }
     }
 
@@ -134,7 +134,7 @@ export class AuthService {
         }
         catch (err) {
             console.error("AuthService.logout", err);
-            res.status(500).json({ error: error.SERVER_ERROR, status: false });
+            res.status(500).json({ error: MESSAGE.SERVER_ERROR, status: false });
         }
     }
 
@@ -147,8 +147,8 @@ export class AuthService {
             };
 
             let token = this.jwtHandler.generateToken(payload);
-            if (token == error.SERVER_ERROR) {
-                res.status(500).json({ "error": error.SERVER_ERROR });
+            if (token == MESSAGE.SERVER_ERROR) {
+                res.status(500).json({ "error": MESSAGE.SERVER_ERROR });
             }
             else {
                 let options = {

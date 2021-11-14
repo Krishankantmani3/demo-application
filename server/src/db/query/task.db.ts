@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import { TASK_STATUS } from "../../app/constant/task.status";
+import { TASK_STATUS } from "../../app/constant/constant";
 import { Task, Tasks } from "../model/task.model";
 
 const message = {
@@ -7,7 +7,7 @@ const message = {
     NO_DATA_FOUND: "NO_DATA_FOUND"
 };
 
-export class TaskDB{
+export class TaskDb{
 
     public async saveTask(task: Task){
         try {
