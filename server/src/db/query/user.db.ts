@@ -1,12 +1,7 @@
 import { Schema } from "mongoose";
+import { MESSAGE } from "../../app/constant/constant";
 import { USER_ROLE } from "../../app/constant/user.role";
 import { User, Users } from "../model/user.model";
-
-
-const message = {
-    DATABASE_ERROR: "DATABASE_ERROR",
-    NO_DATA_FOUND: "NO_DATA_FOUND"
-};
 
 export class UserDb {
 
@@ -14,13 +9,13 @@ export class UserDb {
         try {
             let user = await Users.findOne({ username });
             if (user == undefined) {
-                return message.NO_DATA_FOUND;
+                return MESSAGE.NO_DATA_FOUND;
             }
             return user;
         }
         catch (err) {
             console.error("UserDB.findOneByUserName", err);
-            return message.DATABASE_ERROR;
+            return MESSAGE.DATABASE_ERROR;
         }
     }
 
@@ -29,14 +24,14 @@ export class UserDb {
             let result = await Users.find({ $or: [{ "email" : email }, { "username" : username }] });
 
             if (result.length == 0) {
-                return message.NO_DATA_FOUND;
+                return MESSAGE.NO_DATA_FOUND;
             }
             else {
                 return result;
             }
         } catch (err) {
             console.error("UserDB.findByUserNameOrEmail", err);
-            return message.DATABASE_ERROR;
+            return MESSAGE.DATABASE_ERROR;
         }
     }
 
@@ -49,7 +44,7 @@ export class UserDb {
             return data;
         } catch (err) {
             console.error("UserDB.saveNewUser", err);
-            return message.DATABASE_ERROR;
+            return MESSAGE.DATABASE_ERROR;
         }
     }
 
@@ -63,7 +58,7 @@ export class UserDb {
         }
         catch(err){
             console.error("UserDB.isItArchitectId", err);
-            return message.DATABASE_ERROR;
+            return MESSAGE.DATABASE_ERROR;
         }
     }
 
@@ -71,14 +66,14 @@ export class UserDb {
         try{
             let result = Users.find({role: USER_ROLE.ARCHITECT});
             if(!result && result.length == 0 ){
-                return message.NO_DATA_FOUND;
+                return MESSAGE.NO_DATA_FOUND;
             }
 
             return result;
         }
         catch(err){
             console.error("UserDB", "getArchitectList", err);
-            return message.DATABASE_ERROR;
+            return MESSAGE.DATABASE_ERROR;
         }
     }
 

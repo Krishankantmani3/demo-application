@@ -1,14 +1,7 @@
 import { Task } from "../../db/model/task.model";
 import { TaskDb } from "../../db/query/task.db";
 import { UserDb } from "../../db/query/user.db";
-import { TASK_PROGRESS, TASK_STATUS } from "../constant/constant";
-
-const MESSAGE = {
-    DATABASE_ERROR: "DATABASE_ERROR",
-    NO_DATA_FOUND: "NO_DATA_FOUND",
-    SERVER_ERROR: "SERVER_ERROR",
-    INVALID_DATA: "INVALID_DATA"
-};
+import { MESSAGE, TASK_PROGRESS, TASK_STATUS } from "../constant/constant";
 
 export class BuilderService {
 

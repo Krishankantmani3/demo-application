@@ -2,15 +2,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtHandler } from "../config/jwt.handler";
 import { UserDb } from "../../db/query/user.db";
 import { User } from '../../db/model/user.model';
-
-const MESSAGE = {
-    SERVER_ERROR: "SERVER_ERROR",
-    DATABASE_ERROR: "DATABASE_ERROR",
-    INCORRECT_EMAIL_OR_PASSWORD: "INCORRECT_EMAIL_OR_PASSWORD",
-    NO_DATA_FOUND: "NO_DATA_FOUND",
-    USER_ALREADY_EXIST: "USER_ALREADY_EXIST"
-};
-
+import { MESSAGE } from '../constant/constant';
 
 export class AuthService {
 
