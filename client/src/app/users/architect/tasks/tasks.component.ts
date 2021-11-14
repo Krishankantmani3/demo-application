@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { TASK_PROGRESS } from "../../../shared/constant/constant";
 import { TasksService } from "./tasks.service";
 
 @Component({
@@ -10,9 +11,9 @@ export class TasksComponent implements OnInit {
 
     architectTasks = [];
     isLoaded = false;
+    TASK_PROGRESS = TASK_PROGRESS;
 
     constructor(private tasksService: TasksService) {
-
     }
 
     ngOnInit() {
