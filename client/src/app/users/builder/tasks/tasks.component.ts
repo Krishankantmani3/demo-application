@@ -9,7 +9,7 @@ import { TasksService } from "./tasks.service";
 })
 export class TasksComponent implements OnInit {
 
-    architectTasks = [];
+    builderTasks = [];
     isLoaded = false;
 
     constructor(private tasksService: TasksService, private router: Router) {
@@ -22,41 +22,16 @@ export class TasksComponent implements OnInit {
 
     fetchAllTasks() {
         this.isLoaded = true;
-        this.architectTasks = [{
-            title: "256 building construction",
-            description: "NA",
-            status: "assigned", // assigned or unassigned
-            progress: "pending", // pending, working, completed
-            createdBy: "Falana dhimaka",
-            assignedBy: "Vivek malhotra",
-            assignedTo: "ab kumar"
-        },{
-            title: " construction",
-            description: "NA",
-            status: "assigned", // assigned or unassigned
-            progress: "working", // pending, working, completed
-            createdBy: "hmmmmmm",
-            assignedBy: "krishankant",
-            assignedTo: "me"
-        },
-        {
-            title: " construction",
-            description: "NA",
-            status: "assigned", // assigned or unassigned
-            progress: "completed", // pending, working, completed
-            createdBy: "hmmmmmm",
-            assignedBy: "krishankant",
-            assignedTo: "me"
-        }];
-        // this.tasksService.getAllTasks()
-        //     .then((tasks: []) => {
-        //         this.architectTasks = tasks;
-        //         this.isLoaded = true;
-        //     })
-        //     .catch((err) => {
-        //         alert("Error in server side");
-        //         this.isLoaded = true;
-        //     });
+        this.tasksService.getAllTasksCreatedByBuilder()
+            .then((tasks: []) => {
+                console.log("tasks",tasks);
+                this.builderTasks = tasks;
+                this.isLoaded = true;
+            })
+            .catch((err) => {
+                alert("Error in server side");
+                this.isLoaded = true;
+            });
     }
 
     // pushNewTask(task){

@@ -10,21 +10,22 @@ export class TasksService {
 
     }
 
-    getAllTasks() {
+    getAllTasksCreatedByBuilder() {
         return new Promise((resolve, reject) => {
             let url = 'https:/api.com' + API_URL.builder_tasks;
             this.httpService.makeHttpGetRequest(url).subscribe({
                 next: (res) => {
+                    console.log("result", res.body);
                     if (res.status == 204) {
-                        resolve([]);
+                        return resolve([]);
                     }
                     else {
-                        resolve(res.body);
+                        return resolve(res.body);
                     }
                 },
                 error: (err) => {
                     console.log("TasksService", "getAllTasks", err);
-                    reject(err);
+                    return reject(err);
                 }
             });
         });

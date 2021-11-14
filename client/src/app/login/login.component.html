@@ -1,11 +1,10 @@
-
 <div class="container register">
     <div class="row">
         <div class="col-md-3 register-left">
             <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
             <h3>Welcome</h3>
             <p>Are you new user? if yes then, register yourself from below link.</p>
-            <input type="submit" name="" value="Register" (click)="routeToRegisterPage()"/><br />
+            <input type="submit" name="" value="Register" (click)="routeToRegisterPage()" /><br />
         </div>
         <div class="col-md-9 register-right">
             <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
@@ -25,13 +24,19 @@
                     <form [formGroup]="userForm">
                         <div class="row register-form center">
                             <div class="col-md-6">
-                                <div class="form-group" [ngClass]="{'error': isSubmitted && userForm.controls.username.invalid }">
-                                    <input type="text" class="form-control" placeholder="Username *" formControlName="username"/>
-                                    <div *ngIf="isSubmitted && userForm.controls.username.errors?.required" class="text-danger">This field is required. *</div>
+                                <div class="form-group"
+                                    [ngClass]="{'error': isSubmitted && userForm.controls.username.invalid }">
+                                    <input type="text" class="form-control" placeholder="Username *"
+                                        formControlName="username" />
+                                    <div *ngIf="isSubmitted && userForm.controls.username.errors?.required"
+                                        class="text-danger">This field is required. *</div>
                                 </div>
-                                <div class="form-group" [ngClass]="{'error': isSubmitted && userForm.controls.password.invalid }">
-                                    <input type="password" class="form-control" placeholder="Password *" value="" formControlName="password"/>
-                                    <div *ngIf="isSubmitted && userForm.controls.password.errors?.required" class="text-danger">This field is required. *</div>
+                                <div class="form-group"
+                                    [ngClass]="{'error': isSubmitted && userForm.controls.password.invalid }">
+                                    <input type="password" class="form-control" placeholder="Password *" value=""
+                                        formControlName="password" />
+                                    <div *ngIf="isSubmitted && userForm.controls.password.errors?.required"
+                                        class="text-danger">This field is required. *</div>
                                 </div>
                                 <input type="submit" class="btnRegister" value="Login" (click)="submit()" />
                             </div>

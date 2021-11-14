@@ -48,22 +48,9 @@ export class TaskDB{
         }
     }
 
-    public async getAllUnassignedTask(){
+    public async getAllTaskAssignedToArchitectId(_id: Schema.Types.ObjectId){
         try {
-            let tasks = await Tasks.find({status: TASK_STATUS.UNASSIGNED});
-            if(tasks.length == 0){
-                return message.NO_DATA_FOUND;
-            }
-            return tasks;
-        } catch (error) {
-            console.error("TaskDB.getAllUassignedTask", error);
-            return message.DATABASE_ERROR;
-        }
-    }
-
-    public async getAllTaskByAssignedById(_id: Schema.Types.ObjectId){
-        try {
-            let tasks = await Tasks.find({assignedBy: _id});
+            let tasks = await Tasks.find({assignedTo : _id});
             if(tasks.length == 0){
                 return message.NO_DATA_FOUND;
             }

@@ -15,7 +15,7 @@ export class ArchitectService{
     constructor(){
         this.taskDB = new TaskDB();
         this.updateProgressOfTask = this.updateProgressOfTask.bind(this);
-        this.getAllTasks = this.getAllTasks.bind(this);
+        this.getAllTasksAssignedToArchitect = this.getAllTasksAssignedToArchitect.bind(this);
     }
 
     public async updateProgressOfTask(req: any, res: any){
@@ -40,17 +40,19 @@ export class ArchitectService{
         }
     }
 
-    public async getAllTasks(req: any, res: any){
+    public async getAllTasksAssignedToArchitect(req: any, res: any){
         try{
             let user = req.user;
             if(!user){
                 return res.status(401).json({"message": 'UnAuthorized'});
             }
 
-            let tasks = await this.taskDB.getAllTaskByAssignedById(user._id);
+            let tasks = await this.taskDB.getAllTaskAssignedToArchitectId(user._id);
             if(tasks == message.NO_DATA_FOUND){
                 return res.status(204).json({"message": message.NO_DATA_FOUND});
             }
+
+            console.log("tasks", tasks);
 
             return res.status(200).json(tasks);
         }

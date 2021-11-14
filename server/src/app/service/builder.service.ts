@@ -11,145 +11,109 @@ const message = {
     NO_ASSIGNED_TASK: "NO_ASSIGNED_TASK"
 };
 
-export class BuilderService{
-    
+export class BuilderService {
+
     taskDB: TaskDB;
     userDB: UserDB;
 
-    constructor(){
+    constructor() {
         this.taskDB = new TaskDB();
         this.userDB = new UserDB();
         this.createTask = this.createTask.bind(this);
         this.assignTask = this.assignTask.bind(this);
-        this.getAllUnassignedTask = this.getAllUnassignedTask.bind(this);
         this.getArchitectList = this.getArchitectList.bind(this);
-        this.getAllTaskAssignedByBuilder = this.getAllTaskAssignedByBuilder.bind(this);
+        this.getAllTaskCreatedByBuilder = this.getAllTaskCreatedByBuilder.bind(this);
     }
 
-    public async createTask(req: any, res: any){
-        try{
-            let task: Task = req.body.task;
+    public async createTask(req: any, res: any) {
+        try {
+            console.log(req.body);
+            let task: Task = req.body;
             task.createdBy = req.user._id;
-            task.status = task.assignedTo ? TASK_STATUS.ASSIGNED : TASK_STATUS.UNASSIGNED ;
+            task.status = task.assignedTo ? TASK_STATUS.ASSIGNED : TASK_STATUS.UNASSIGNED;
             task.progress = TASK_PROGRESS.PENDING;
 
             let result = await this.taskDB.saveTask(task);
-            if(result == message.DATABASE_ERROR){
-                res.status(500).json({error: message.DATABASE_ERROR});
+            if (result == message.DATABASE_ERROR) {
+                res.status(500).json({ error: message.DATABASE_ERROR });
             }
-            res.status(200).json({data: result});
+            res.status(200).json({ data: result });
         }
-        catch(err){
-            console.error("BuilderService","createTask", err);
-            res.status(501).json({error: message.SERVER_ERROR});            
+        catch (err) {
+            console.error("BuilderService", "createTask", err);
+            res.status(501).json({ error: message.SERVER_ERROR });
         }
     }
-    
-    public async getArchitectList(req: any, res: any){
-        try{
+
+    public async getArchitectList(req: any, res: any) {
+        try {
             let result = await this.userDB.getArchitectList();
-            if(result == message.DATABASE_ERROR){
-                res.status(500).json({error: message.DATABASE_ERROR});
+            if (result == message.DATABASE_ERROR) {
+                res.status(500).json({ error: message.DATABASE_ERROR });
             }
-            else if(result == message.NO_DATA_FOUND){
+            else if (result == message.NO_DATA_FOUND) {
                 return res.status(204);
             }
 
 
-            res.status(200).json({data: result});
+            res.status(200).json({ data: result });
         }
-        catch(err){
-            console.error("BuilderService","getArchitectList", err);
-            res.status(501).json({error: message.SERVER_ERROR});            
+        catch (err) {
+            console.error("BuilderService", "getArchitectList", err);
+            res.status(501).json({ error: message.SERVER_ERROR });
         }
     }
 
-
-    public async getAllUnassignedTask(req: any, res: any){
+    public async assignTask(req: any, res: any) {
         try {
-            let tasks: any = await this.taskDB.getAllUnassignedTask();
-            if(tasks == message.NO_DATA_FOUND){
-                return res.status(404).json({error: message.NO_DATA_FOUND});
-            }
-            else if(tasks == message.DATABASE_ERROR){
-                return res.status(500).json({error: message.SERVER_ERROR});
-            }
-
-            return tasks;
-            
-        } catch (error) {
-            console.error("BuilderService.getAllUassignedTask", error);
-            res.status.json({error: message.SERVER_ERROR});
-        }
-    }
-
-    public async assignTask(req: any, res: any){
-        try{
             let architectId = req.body.architectId;
             let taskId = req.body.taskId;
             let result = await this.userDB.isArchitectId(architectId);
-            if(result == message.DATABASE_ERROR){
-                return res.status(501).json({error: message.DATABASE_ERROR}); 
+            if (result == message.DATABASE_ERROR) {
+                return res.status(501).json({ error: message.DATABASE_ERROR });
             }
-            else if(result == false){
-                return res.status(301).json({error: message.INVALID_DATA});
+            else if (result == false) {
+                return res.status(301).json({ error: message.INVALID_DATA });
             }
 
             let update = { assignedTo: architectId, assignedBy: req.user._id, status: TASK_STATUS.ASSIGNED, progress: TASK_PROGRESS.PENDING };
             let updatedTask: any = await this.taskDB.findAndupdateTaskById(taskId, update);
 
-            if(updatedTask == message.DATABASE_ERROR){
-                return res.status(501).json({error: message.DATABASE_ERROR}); 
+            if (updatedTask == message.DATABASE_ERROR) {
+                return res.status(501).json({ error: message.DATABASE_ERROR });
             }
-            else if(updatedTask = message.NO_DATA_FOUND){
-                return res.status(301).json({error: message.NO_DATA_FOUND});
+            else if (updatedTask = message.NO_DATA_FOUND) {
+                return res.status(301).json({ error: message.NO_DATA_FOUND });
             }
-            else{
-                return res.status(200).json({updatedTask});
+            else {
+                return res.status(200).json({ updatedTask });
             }
         }
-        catch(err){
+        catch (err) {
             console.error("BuilderService.assignTask", err);
-            res.status(401).json({error: message.SERVER_ERROR});            
+            res.status(401).json({ error: message.SERVER_ERROR });
         }
     }
 
-    public async getAllTaskAssignedByBuilder(req: any, res: any){
-        try {
-            let tasks: any = await this.taskDB.getAllTaskByAssignedById(req.user._id);
-            if(tasks == message.DATABASE_ERROR){
-                return res.status(501).json({error: message.DATABASE_ERROR});
-            }
-            else if(tasks == message.NO_DATA_FOUND){
-                return res.status(301).json({error: message.NO_DATA_FOUND});
-            }
-
-            return tasks;
-
-        } catch (error) {
-            console.error("BuilderService.getAllTaskAssignedByBuilder", error);
-            res.status(401).json({error: message.SERVER_ERROR});
-        }
-    }
-
-    public async getAllTaskCreatedByBuilder(req: any, res: any){
+    public async getAllTaskCreatedByBuilder(req: any, res: any) {
         try {
             let tasks: any = await this.taskDB.getAllTaskCreatedByBuilderId(req.user._id);
-            if(tasks == message.DATABASE_ERROR){
-                return res.status(501).json({error: message.DATABASE_ERROR});
+            if (tasks == message.DATABASE_ERROR) {
+                return res.status(501).json({ error: message.DATABASE_ERROR });
             }
-            else if(tasks == message.NO_DATA_FOUND){
-                return res.status(304).json({error: message.NO_DATA_FOUND});
+            else if (tasks == message.NO_DATA_FOUND) {
+                return res.status(304).json({ error: message.NO_DATA_FOUND });
             }
 
-            return tasks;
+            console.log("tasks", tasks);
+            return res.status(200).json(tasks);
 
         } catch (error) {
             console.error("BuilderService.getAllTaskAssignedByBuilder", error);
-            res.status(401).json({error: message.SERVER_ERROR});
+            res.status(401).json({ error: message.SERVER_ERROR });
         }
     }
-    
+
 }
 
 

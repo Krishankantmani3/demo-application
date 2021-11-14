@@ -15,12 +15,11 @@ export class ArchitectController{
         this.app = app;
         this.router = router;
         this.authMiddleware = new AuthMiddleWare();
-        this.architectService = new ArchitectService();
-        
+        this.architectService = new ArchitectService();       
     }
 
     initializeRouting(){
         // this.router.post(`${baseUrl}/task`,this.authMiddleware.architectAuth,);
-        this.router.get(`${baseUrl}/tasks`,this.authMiddleware.architectAuth, this.architectService.getAllTasks);
+        this.router.get(`${baseUrl}/tasks`,this.authMiddleware.architectAuth, this.architectService.getAllTasksAssignedToArchitect);
     }
 };

@@ -6,17 +6,17 @@ import { HttpService } from "../shared/service/http.service";
 import { LoginComponent } from "./login.component";
 import { LoginService } from "./login.service";
 
-const routes:Routes = [
+const routes: Routes = [
     {
-    path:'',
-    pathMatch: 'full',
-    component: LoginComponent
+        path: '',
+        pathMatch: 'full',
+        component: LoginComponent
     }
 ];
 
 
 @NgModule({
-    imports:[
+    imports: [
         RouterModule.forChild(routes),
         CommonModule,
         FormsModule,
@@ -25,8 +25,8 @@ const routes:Routes = [
     providers: [
         LoginService,
         HttpService],
-    exports:[LoginComponent],
-    declarations:[LoginComponent]
+    exports: [LoginComponent],
+    declarations: [LoginComponent]
 })
-export class LoginModule{
+export class LoginModule {
 }

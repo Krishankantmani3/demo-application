@@ -10,11 +10,12 @@ export class TasksService {
 
     }
 
-    getAllTasks() {
+    getAllTasksAssignedToArchitect() {
         return new Promise((resolve, reject) => {
             let url = 'https:/api.com' + API_URL.architect_tasks;
             this.httpService.makeHttpGetRequest(url).subscribe({
                 next: (res) => {
+                    console.log("result", res.body, res.status);
                     if (res.status == 204) {
                         resolve([]);
                     }
