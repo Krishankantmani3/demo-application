@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, EMPTY,  Observable, throwError } from 'rxjs';
+import { AppState } from '../../app.service';
 
 
 @Injectable()
@@ -14,7 +15,7 @@ export class HttpService{
         withCredentials: true
     };
 
-    constructor(private http: HttpClient){
+    constructor(private http: HttpClient, private appState: AppState){
 
     }
 
@@ -51,6 +52,7 @@ export class HttpService{
             this.makeHttpPostRequest(url,"").subscribe({
                 next: (res)=>{
                     if(res.status == 200){
+                        this.appState.clear();
                         return resolve(true);
                     }
 

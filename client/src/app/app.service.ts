@@ -38,6 +38,10 @@ export class AppState {
     return this._state[prop] = value;
   }
 
+  clear(){
+    this._state = { };
+  }
+
 
   private _clone(object: InternalStateType) {
     // simple object clone

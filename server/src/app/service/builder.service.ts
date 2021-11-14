@@ -94,7 +94,7 @@ export class BuilderService {
                 return res.status(501).json({ error: MESSAGE.DATABASE_ERROR });
             }
             else if (tasks == MESSAGE.NO_DATA_FOUND) {
-                return res.status(304).json({ error: MESSAGE.NO_DATA_FOUND });
+                return res.status(204).json({ error: MESSAGE.NO_DATA_FOUND });
             }
 
             console.log("tasks", tasks);
@@ -102,7 +102,7 @@ export class BuilderService {
 
         } catch (error) {
             console.error("BuilderService.getAllTaskAssignedByBuilder", error);
-            res.status(401).json({ error: MESSAGE.SERVER_ERROR });
+            res.status(500).json({ error: MESSAGE.SERVER_ERROR });
         }
     }
 
