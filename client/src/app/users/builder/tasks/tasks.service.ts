@@ -6,9 +6,8 @@ import { HttpService } from "../../../shared/service/http.service";
 @Injectable()
 export class TasksService {
 
-    architectList = [];
+    
     constructor(private httpService: HttpService) {
-        this.getListOfArchitect();
     }
 
     getAllTasksCreatedByBuilder() {
@@ -29,18 +28,6 @@ export class TasksService {
                     return reject(err);
                 }
             });
-        });
-    }
-
-    getListOfArchitect(){
-        let url = 'https://api.com/api/builder/architects'
-        this.httpService.makeHttpGetRequest(url).subscribe({
-            next: (res: any)=>{
-                this.architectList = res.body.data; 
-            },
-            error: (err)=>{
-                console.log("server error");
-            }
         });
     }
 

@@ -23,18 +23,4 @@ export class NewTaskService {
         });
     }
 
-    getListOfArchitect(){
-        let url = 'https://api.com/api/builder/architects'
-        return new Promise((resolve, reject)=>{
-            this.httpService.makeHttpGetRequest(url).subscribe({
-                next: (res: any)=>{
-                    return resolve(res.body.data);
-                },
-                error: (err)=>{
-                    reject(err);
-                }
-            });
-        });
-    }
-
 }

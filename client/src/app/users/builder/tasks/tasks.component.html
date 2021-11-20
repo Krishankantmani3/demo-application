@@ -28,7 +28,7 @@
                     <td>{{ task.assignedTo }}</td>
                     <td>        
                         <select class="form-control" (change)="updateAssignee(i, $event.target.value)">
-                        <option *ngFor="let architect of tasksService.architectList; let i = index" [selected]="task.assignedTo == architect._id ? 'selected' : null">{{ architect.username }}</option>
+                        <option *ngFor="let architect of builderService.architectList; let i = index" [selected]="task.assignedTo == architect._id ? 'selected' : null">{{ architect.username }}</option>
                       </select>
                     </td>
                 </tr>

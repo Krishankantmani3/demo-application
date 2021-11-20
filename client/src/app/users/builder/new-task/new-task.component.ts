@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { BuilderService } from "../builder.service";
 import { NewTaskService } from "./new-task.service";
 
 @Component({
@@ -9,15 +10,13 @@ import { NewTaskService } from "./new-task.service";
 })
 export class NewTaskComponent {
     taskForm: any;
-    architectList: [];
     isFormDirty: boolean;
     isSubmitted: boolean;
     isSubmitting = false;
     newTask: { title: any; description: any; assignedTo: any; status: String, progress: String };
 
-    constructor(private newTaskService: NewTaskService, private router: Router) {
+    constructor(private newTaskService: NewTaskService, private router: Router, public builderService: BuilderService) {
         this.createFormGroup();
-        this.fetchArchitectList();
         // let task = {
         //     title: ,
         //     description: {type: String, required: true},
@@ -63,19 +62,6 @@ export class NewTaskComponent {
                 this.router.navigate(['/builder/tasks']);
             });
         }
-    }
-
-    fetchArchitectList() {
-        this.newTaskService.getListOfArchitect().then((result: any) => {
-            if (result == "NO_DATA_FOUND") {
-                alert("NO_DATA_FOUND for architect List");
-            }
-            else {
-                this.architectList = result;
-            }
-        }).catch((err) => {
-            console.log(err);
-        });
     }
 }
 

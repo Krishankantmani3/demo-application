@@ -12,7 +12,7 @@
         <label for="exampleFormControlSelect1" style="font: bold; font-size: large;">Assign To</label>
         <select class="form-control" formControlName="assignedTo">
           <option>none</option>
-          <option *ngFor="let architect of architectList; let i = index" [ngValue]="architect._id">{{ architect.username }}</option>
+          <option *ngFor="let architect of builderService.architectList; let i = index" [ngValue]="architect._id">{{ architect.username }}</option>
         </select>
       </div>
       <div class="form-group">

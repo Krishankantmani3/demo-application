@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { TASK_PROGRESS_MAP } from "../../../shared/constant/constant";
+import { BuilderService } from "../builder.service";
 import { TasksService } from "./tasks.service";
 
 @Component({
@@ -14,7 +15,7 @@ export class TasksComponent implements OnInit {
     isLoaded = false;
     TASK_PROGRESS = TASK_PROGRESS_MAP;
 
-    constructor(private tasksService: TasksService, private router: Router) {
+    constructor(private tasksService: TasksService, private router: Router, private builderService: BuilderService) {
 
     }
 
@@ -38,11 +39,12 @@ export class TasksComponent implements OnInit {
 
     updateAssignee(index, username){
         let taskId = this.builderTasks[index]._id;
-        let userId = this.tasksService.architectList.find( architect => architect.username == username )._id;
+        let userId = this.builderService.architectList.find( architect => architect.username == username )._id;
 
         if (userId != this.builderTasks[index].assignedTo) {
             this.tasksService.updateAssignee(taskId, userId).then((res) => {
                 this.builderTasks[index].assignedTo = userId;
+                this.builderTasks[index].progress = 1;
             })
             .catch((err) => {
                 console.log(err);

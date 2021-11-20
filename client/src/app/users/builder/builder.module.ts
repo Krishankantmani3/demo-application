@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { NavModule } from "../../nav/nav.module";
 import { BuilderComponent } from "./builder.component";
+import { BuilderService } from "./builder.service";
 import { TempComponent } from "./temp/temp.component";
 
 const routes: Routes = [
@@ -39,6 +40,9 @@ const routes: Routes = [
     imports:[
         RouterModule.forChild(routes),
         NavModule
+    ],
+    providers: [
+        BuilderService
     ]
 })
 export class BuilderModule{

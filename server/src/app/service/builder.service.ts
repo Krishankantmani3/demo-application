@@ -75,15 +75,17 @@ export class BuilderService {
             let query = {_id: taskId, createdBy: req.user._id};
             let updatedTask: any = await this.taskDb.findAndupdateTaskById(query, update);
 
+            console.log("updatedTask", updatedTask);
+
             if (updatedTask == MESSAGE.DATABASE_ERROR) {
                 console.log("MESSAGE.DATABASE_ERROR", 2);
                 return res.status(501).json({ error: MESSAGE.DATABASE_ERROR });
             }
-            else if (updatedTask = MESSAGE.NO_DATA_FOUND) {
+            else if (updatedTask == MESSAGE.NO_DATA_FOUND) {
                 return res.status(301).json({ error: MESSAGE.NO_DATA_FOUND });
             }
             else {
-                return res.status(200).json({ updatedTask });
+                return res.status(200).json(updatedTask);
             }
         }
         catch (err) {
