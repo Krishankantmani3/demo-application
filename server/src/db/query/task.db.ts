@@ -29,9 +29,9 @@ export class TaskDb{
         }
     }
 
-    public async findAndupdateTaskById(taskId: Schema.Types.ObjectId, update: any){
+    public async findAndupdateTaskById(query: any, update: any){
         try {
-            let updatedTask = await Tasks.findOneAndUpdate({_id: taskId}, update,{new: true});
+            let updatedTask = await Tasks.findOneAndUpdate(query, {$set: update}, {new: true});
             if(updatedTask == undefined){
                 return MESSAGE.NO_DATA_FOUND;
             }

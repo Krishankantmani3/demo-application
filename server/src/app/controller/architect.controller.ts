@@ -4,24 +4,25 @@ import { ArchitectService } from "../service/architect.service";
 
 const baseUrl = '/architect';
 
-export class ArchitectController{
+export class ArchitectController {
 
     router: Router;
     app: Application;
     authMiddleware: AuthMiddleWare;
     architectService: ArchitectService;
 
-    constructor(app: Application, router: Router){
+    constructor(app: Application, router: Router) {
         this.app = app;
         this.router = router;
         this.authMiddleware = new AuthMiddleWare();
-        this.architectService = new ArchitectService();       
+        this.architectService = new ArchitectService();
     }
 
-    initializeRouting(){
+    initializeRouting() {
         // this.router.post(`${baseUrl}/task`,this.authMiddleware.architectAuth,);
-        this.router.get(`${baseUrl}/tasks`,this.authMiddleware.architectAuth, this.architectService.getAllTasksAssignedToArchitect);
-        this.router.get(`${baseUrl}/task/:taskId`,this.authMiddleware.architectAuth, this.architectService.getTask);
-        
+        this.router.get(`${baseUrl}/tasks`, this.authMiddleware.architectAuth, this.architectService.getAllTasksAssignedToArchitect);
+        this.router.get(`${baseUrl}/task/:taskId`, this.authMiddleware.architectAuth, this.architectService.getTask);
+        this.router.put(`${baseUrl}/task/progress/:taskId/:progress`, this.authMiddleware.architectAuth, this.architectService.updateProgressOfTask);
+
     }
 };

@@ -29,6 +29,12 @@ export class HttpService{
         // return this.intercept(this.http.post(url, body, this.requestOptionJson));
     }
 
+    public makeHttpPutRequest(url, body?, options?){
+        return this.http.put(url, body, this.requestOptionJson);
+
+        // return this.intercept(this.http.post(url, body, this.requestOptionJson));
+    }
+
     private intercept(observable: Observable<HttpResponse<any>>) {
         
         return observable.pipe(catchError((err, source) => {

@@ -69,7 +69,8 @@ export class BuilderService {
             }
 
             let update = { assignedTo: architectId, assignedBy: req.user._id, status: TASK_STATUS.ASSIGNED, progress: TASK_PROGRESS.PENDING };
-            let updatedTask: any = await this.taskDb.findAndupdateTaskById(taskId, update);
+            let query = {_id: taskId, createdBy: req.user._id};
+            let updatedTask: any = await this.taskDb.findAndupdateTaskById(query, update);
 
             if (updatedTask == MESSAGE.DATABASE_ERROR) {
                 return res.status(501).json({ error: MESSAGE.DATABASE_ERROR });

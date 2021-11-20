@@ -52,14 +52,17 @@ export class TasksComponent implements OnInit {
             });
     }
 
-    updateProgress(index, progress){
-
+    updateProgress(index, progress) {
         let taskProgress = TASK_PROGRESS_MAP_REV.get(progress);
-        
-    
-
-
-
+        let taskId = this.architectTasks[index]._id;
+        if (progress != this.architectTasks[index].progress) {
+            this.tasksService.updateTask(taskId, taskProgress).then((res) => {
+                this.architectTasks[index].progress = taskProgress;
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        }
     }
 
 }

@@ -32,9 +32,17 @@ export class TasksService {
     }
 
     updateTask(taskId, progress){
-        let url = 'https://api.com/api/architect/task/update/taskId/:taskId/progress/:';
-
-        this.httpService.makeHttpPostRequest(url, taskId);
+        let url = `https://api.com/api/architect/task/progress/${taskId}/${progress}`;
+        return new Promise((resolve, reject)=>{
+            this.httpService.makeHttpPutRequest(url).subscribe({
+                next: (res)=>{
+                    return resolve(res.body);
+                },
+                error: (err)=>{
+                    return reject(err);
+                }
+            });
+        });        
     }
 
 }
