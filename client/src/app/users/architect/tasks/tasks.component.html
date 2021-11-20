@@ -19,7 +19,14 @@
                     <td>{{ task.title }}</td>
                     <td>{{ TASK_PROGRESS.get(task.progress) }}</td>
                     <td>{{ task.createdBy }}</td>
-                    <td><button type="button" class="btn btn-success">update status</button></td>
+                    <td>
+                        <div class="form-group">
+                        <!-- <label for="exampleFormControlSelect1">Example select</label> -->
+                        <select class="form-control" (change)="updateProgress(i, $event.target.value)">
+                          <option *ngFor="let index of [1, 2, 3]" [ngValue]="index">{{ TASK_PROGRESS.get(index) }}</option>
+                        </select>
+                      </div>
+                    </td>
                 </tr>
             </tbody>
         </table>

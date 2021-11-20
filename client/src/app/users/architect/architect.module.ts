@@ -23,6 +23,10 @@ const routes: Routes = [
                 path: 'tasks',
                 loadChildren: () => import('./tasks/tasks.module').then(m => m.TasksModule),
                 // canActivate: [AuthGuard]
+            },
+            {
+                path: 'task/update/:taskId',
+                loadChildren: () => import('./update_progress_of_task/update_progress_of_task.module').then( m => m.UpdateProgressOfTaskModule)
             }
         ]
     }

@@ -31,4 +31,10 @@ export class TasksService {
         });
     }
 
+    updateTask(taskId, progress){
+        let url = 'https://api.com/api/architect/task/update/taskId/:taskId/progress/:';
+
+        this.httpService.makeHttpPostRequest(url, taskId);
+    }
+
 }

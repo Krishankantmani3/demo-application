@@ -18,7 +18,7 @@ export class TaskDb{
     public async findTaskById(_id: Schema.Types.ObjectId): Promise<string | Task>{
         try{
             let result = Tasks.findOne({_id});
-            if(result = undefined){
+            if(result == undefined){
                 return MESSAGE.NO_DATA_FOUND;
             }
             return result;
@@ -32,7 +32,7 @@ export class TaskDb{
     public async findAndupdateTaskById(taskId: Schema.Types.ObjectId, update: any){
         try {
             let updatedTask = await Tasks.findOneAndUpdate({_id: taskId}, update,{new: true});
-            if(updatedTask = undefined){
+            if(updatedTask == undefined){
                 return MESSAGE.NO_DATA_FOUND;
             }
 

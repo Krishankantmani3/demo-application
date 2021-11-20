@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { TASK_PROGRESS } from "../../../shared/constant/constant";
+import { FormArray, FormControl } from "@angular/forms";
+import { Router } from "@angular/router";
+import { TASK_PROGRESS_MAP, TASK_PROGRESS_MAP_REV } from "../../../shared/constant/constant";
 import { TasksService } from "./tasks.service";
 
 @Component({
@@ -11,13 +13,30 @@ export class TasksComponent implements OnInit {
 
     architectTasks = [];
     isLoaded = false;
-    TASK_PROGRESS = TASK_PROGRESS;
+    TASK_PROGRESS = TASK_PROGRESS_MAP;
+    taskFormArr;
 
-    constructor(private tasksService: TasksService) {
+    constructor(private tasksService: TasksService, private router: Router) {
+        this.createFormArray();
+    }
+
+    createFormArray(){
+        this.taskFormArr = new FormArray([]);
+        this.architectTasks.forEach((val, i)=>{
+            this.taskFormArr.push(new FormControl(''));
+        });
+
+        this.taskFormArr.valueChanges.subscribe((data)=>{
+            console.log("data", data);
+        });
     }
 
     ngOnInit() {
         this.fetchAllTasks();
+    }
+
+    routeToUpdateTask(taskId){
+        this.router.navigate([`/architect/task/update/${taskId}`]);
     }
 
     fetchAllTasks() {
@@ -31,6 +50,16 @@ export class TasksComponent implements OnInit {
                 alert("Error in server side");
                 this.isLoaded = true;
             });
+    }
+
+    updateProgress(index, progress){
+
+        let taskProgress = TASK_PROGRESS_MAP_REV.get(progress);
+        
+    
+
+
+
     }
 
 }
