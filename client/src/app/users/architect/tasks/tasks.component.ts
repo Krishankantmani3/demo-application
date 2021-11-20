@@ -56,7 +56,7 @@ export class TasksComponent implements OnInit {
         let taskProgress = TASK_PROGRESS_MAP_REV.get(progress);
         let taskId = this.architectTasks[index]._id;
         if (progress != this.architectTasks[index].progress) {
-            this.tasksService.updateTask(taskId, taskProgress).then((res) => {
+            this.tasksService.updateProgressOfTask(taskId, taskProgress).then((res) => {
                 this.architectTasks[index].progress = taskProgress;
             })
             .catch((err) => {

@@ -24,9 +24,13 @@
                 <tr *ngFor="let task of builderTasks; let i = index">
                     <td scope="row">{{ i+1 }}</td>
                     <td>{{ task.title }}</td>
-                    <td>{{ task.progress }}</td>
+                    <td>{{ TASK_PROGRESS.get(task.progress) }}</td>
                     <td>{{ task.assignedTo }}</td>
-                    <td><button type="button" class="btn btn-success" [disabled]="task.progress == 'completed'">assign</button></td>
+                    <td>        
+                        <select class="form-control" (change)="updateAssignee(i, $event.target.value)">
+                        <option *ngFor="let architect of tasksService.architectList; let i = index" [selected]="task.assignedTo == architect._id ? 'selected' : null">{{ architect.username }}</option>
+                      </select>
+                    </td>
                 </tr>
             </tbody>
         </table>

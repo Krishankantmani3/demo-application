@@ -48,10 +48,12 @@ export class UserDb {
         }
     }
 
-    public async isArchitectId(_id: Schema.Types.ObjectId){
+    public async isArchitectId(userId: Schema.Types.ObjectId){
         try{
-            let result = Users.findOne({_id});
-            if(result == undefined || result.Role != USER_ROLE.ARCHITECT){
+
+            let result = await Users.findOne({_id: userId});
+            console.log("result", userId);
+            if(result == undefined || !result.role.includes(USER_ROLE.ARCHITECT)){
                 return false; 
             } 
             return true;

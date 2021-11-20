@@ -31,7 +31,7 @@ export class TasksService {
         });
     }
 
-    updateTask(taskId, progress){
+    updateProgressOfTask(taskId, progress){
         let url = `https://api.com/api/architect/task/progress/${taskId}/${progress}`;
         return new Promise((resolve, reject)=>{
             this.httpService.makeHttpPutRequest(url).subscribe({

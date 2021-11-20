@@ -58,21 +58,25 @@ export class BuilderService {
 
     public async assignTask(req: any, res: any) {
         try {
-            let architectId = req.body.architectId;
-            let taskId = req.body.taskId;
+            let architectId = req.params.assignee;
+            console.log("Assignee", architectId);
+
+            let taskId = req.params.taskId;
             let result = await this.userDb.isArchitectId(architectId);
             if (result == MESSAGE.DATABASE_ERROR) {
-                return res.status(501).json({ error: MESSAGE.DATABASE_ERROR });
+                console.log("MESSAGE.DATABASE_ERROR", 1);
+                return res.status(500).json({ error: MESSAGE.DATABASE_ERROR });
             }
             else if (result == false) {
                 return res.status(301).json({ error: MESSAGE.INVALID_DATA });
             }
 
-            let update = { assignedTo: architectId, assignedBy: req.user._id, status: TASK_STATUS.ASSIGNED, progress: TASK_PROGRESS.PENDING };
+            let update = { assignedTo: architectId, status: TASK_STATUS.ASSIGNED, progress: TASK_PROGRESS.PENDING };
             let query = {_id: taskId, createdBy: req.user._id};
             let updatedTask: any = await this.taskDb.findAndupdateTaskById(query, update);
 
             if (updatedTask == MESSAGE.DATABASE_ERROR) {
+                console.log("MESSAGE.DATABASE_ERROR", 2);
                 return res.status(501).json({ error: MESSAGE.DATABASE_ERROR });
             }
             else if (updatedTask = MESSAGE.NO_DATA_FOUND) {

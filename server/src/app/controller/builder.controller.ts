@@ -23,5 +23,6 @@ export class BuilderController{
         this.router.post(`${baseUrl}/task`,this.authMiddleware.builderAuth, this.builderService.createTask);
         this.router.get(`${baseUrl}/architects`,this.authMiddleware.builderAuth, this.builderService.getArchitectList);
         this.router.get(`${baseUrl}/tasks`, this.authMiddleware.builderAuth, this.builderService.getAllTaskCreatedByBuilder);
+        this.router.put(`${baseUrl}/task/assignee/:taskId/:assignee`, this.authMiddleware.builderAuth, this.builderService.assignTask);
     }
 };
