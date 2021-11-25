@@ -2,6 +2,7 @@ import { Task } from "../../db/model/task.model";
 import { TaskDb } from "../../db/query/task.db";
 import { UserDb } from "../../db/query/user.db";
 import { MESSAGE, TASK_PROGRESS, TASK_STATUS } from "../constant/constant";
+import { printErrorLog } from "../utility/logger";
 
 export class BuilderService {
 
@@ -32,7 +33,7 @@ export class BuilderService {
             res.status(200).json({ data: result });
         }
         catch (err) {
-            console.error("BuilderService", "createTask", err);
+            printErrorLog("BuilderService", "createTask", err);
             res.status(501).json({ error: MESSAGE.SERVER_ERROR });
         }
     }
@@ -51,7 +52,7 @@ export class BuilderService {
             res.status(200).json({ data: result });
         }
         catch (err) {
-            console.error("BuilderService", "getArchitectList", err);
+            printErrorLog("BuilderService", "getArchitectList", err);
             res.status(501).json({ error: MESSAGE.SERVER_ERROR });
         }
     }
@@ -72,7 +73,7 @@ export class BuilderService {
             }
 
             let update = { assignedTo: architectId, status: TASK_STATUS.ASSIGNED, progress: TASK_PROGRESS.PENDING };
-            let query = {_id: taskId, createdBy: req.user._id};
+            let query = { _id: taskId, createdBy: req.user._id };
             let updatedTask: any = await this.taskDb.findAndupdateTaskById(query, update);
 
             console.log("updatedTask", updatedTask);
@@ -89,7 +90,7 @@ export class BuilderService {
             }
         }
         catch (err) {
-            console.error("BuilderService.assignTask", err);
+            printErrorLog("BuilderService", "assignTask", err);
             res.status(401).json({ error: MESSAGE.SERVER_ERROR });
         }
     }
@@ -103,12 +104,9 @@ export class BuilderService {
             else if (tasks == MESSAGE.NO_DATA_FOUND) {
                 return res.status(204).json({ error: MESSAGE.NO_DATA_FOUND });
             }
-
-            console.log("tasks", tasks);
             return res.status(200).json(tasks);
-
         } catch (error) {
-            console.error("BuilderService.getAllTaskAssignedByBuilder", error);
+            printErrorLog("BuilderService", "getAllTaskAssignedByBuilder", error);
             res.status(500).json({ error: MESSAGE.SERVER_ERROR });
         }
     }

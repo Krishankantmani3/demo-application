@@ -3,6 +3,7 @@ import { JwtHandler } from "../config/jwt.handler";
 import { UserDb } from "../../db/query/user.db";
 import { User } from '../../db/model/user.model';
 import { MESSAGE } from '../constant/constant';
+import { printErrorLog } from '../utility/logger';
 
 export class AuthService {
 
@@ -24,7 +25,7 @@ export class AuthService {
             res.status(200).json({ testing: "OK" });
         }
         catch (err) {
-            console.error("AuthService.test", err);
+            printErrorLog("AuthService", "test", err);
             res.status(401).json({ error: MESSAGE.SERVER_ERROR });
         }
     }
@@ -64,7 +65,7 @@ export class AuthService {
             }
         }
         catch (err) {
-            console.log("AuthService.register", err);
+            printErrorLog("AuthService", "register", err);
             res.status(401).json({ "error": err });
         }
     }
@@ -105,7 +106,7 @@ export class AuthService {
             }
         }
         catch (err) {
-            console.log("AuthService.login", err);
+            printErrorLog("AuthService", "login", err);
             res.status(500).json({ "error": MESSAGE.SERVER_ERROR });
         }
     }
@@ -125,7 +126,7 @@ export class AuthService {
             res.status(200).json({ status: true });
         }
         catch (err) {
-            console.error("AuthService.logout", err);
+            printErrorLog("AuthService", "logout", err);
             res.status(500).json({ error: MESSAGE.SERVER_ERROR, status: false });
         }
     }
@@ -140,7 +141,7 @@ export class AuthService {
 
             let token = this.jwtHandler.generateToken(payload);
             if (token == MESSAGE.SERVER_ERROR) {
-                res.status(500).json({ "error": MESSAGE.SERVER_ERROR });
+                return res.status(500).json({ "error": MESSAGE.SERVER_ERROR });
             }
             else {
                 let options = {
@@ -150,9 +151,6 @@ export class AuthService {
                     sameSite: 'None',
                     secure: true
                 }
-
-                // res.header('Access-Control-Allow-Origin', req.headers.origin);
-                // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
                 res.cookie("jwt_token", token, options);
             }
         }

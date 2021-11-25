@@ -19,6 +19,7 @@ export class Approutes {
     this.architect = new ArchitectController(app, this.router);
     this.builder = new BuilderController(app, this.router);
     app.use('/api', this.router);
+    this.initializeAllRouting();
   }
 
   initializeAllRouting() {

@@ -1,6 +1,7 @@
 import { Schema } from "mongoose";
 import { MESSAGE } from "../../app/constant/constant";
 import { USER_ROLE } from "../../app/constant/user.role";
+import { printErrorLog } from "../../app/utility/logger";
 import { User, Users } from "../model/user.model";
 
 export class UserDb {
@@ -14,7 +15,7 @@ export class UserDb {
             return user;
         }
         catch (err) {
-            console.error("UserDB.findOneByUserName", err);
+            printErrorLog("UserDB", "findOneByUserName", err);
             return MESSAGE.DATABASE_ERROR;
         }
     }
@@ -30,7 +31,7 @@ export class UserDb {
                 return result;
             }
         } catch (err) {
-            console.error("UserDB.findByUserNameOrEmail", err);
+            printErrorLog("UserDB", "findByUserNameOrEmail", err);
             return MESSAGE.DATABASE_ERROR;
         }
     }
@@ -43,7 +44,7 @@ export class UserDb {
             
             return data;
         } catch (err) {
-            console.error("UserDB.saveNewUser", err);
+            printErrorLog("UserDB", "saveNewUser", err);
             return MESSAGE.DATABASE_ERROR;
         }
     }
@@ -59,7 +60,7 @@ export class UserDb {
             return true;
         }
         catch(err){
-            console.error("UserDB.isItArchitectId", err);
+            printErrorLog("UserDB", "isItArchitectId", err);
             return MESSAGE.DATABASE_ERROR;
         }
     }
@@ -74,10 +75,8 @@ export class UserDb {
             return result;
         }
         catch(err){
-            console.error("UserDB", "getArchitectList", err);
+            printErrorLog("UserDB", "getArchitectList", err);
             return MESSAGE.DATABASE_ERROR;
         }
     }
-
-
 }

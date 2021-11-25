@@ -6,20 +6,15 @@ import * as fs from 'fs';
 import http from 'http';
 import https from 'https';
 
-// var fs = require('fs');
-// var http = require('http');
-// var https = require('https');
-
-var privateKey  = fs.readFileSync('/project/cert/api.com/api.com.decrypted.key', 'utf8');
-var certificate = fs.readFileSync('/project/cert/api.com/api.com.crt', 'utf8');
-var credentials = {key: privateKey, cert: certificate};
-
+const privateKey  = fs.readFileSync('/server/cert/api.com/api.com.decrypted.key', 'utf8');
+const certificate = fs.readFileSync('/server/cert/api.com/api.com.crt', 'utf8');
+const credentials = {key: privateKey, cert: certificate};
 const cookieParser = require('cookie-parser');
 const config = require('./app/config/config.json');
 
 const PORT = 9000;
 
-var corsOptions = {
+const corsOptions = {
     origin: 'http://172.17.0.2:4200',
     credentials: true
 };
@@ -40,15 +35,9 @@ class Server {
     }
 
     public startServer() {
-        this.appRoutes.initializeAllRouting();
-        // this.app.listen(PORT, () => {
-        //     console.log("listening at port 9000");
-        // });
-
         this.httpServer.listen(80,()=>{
             console.log("http running on 80"); 
         });
-        
         this.httpsServer.listen(443, ()=>{
             console.log("https running on 443");
         });
@@ -57,12 +46,9 @@ class Server {
     loadGlobalMiddleware() {
         this.app.enable('trust proxy');
         this.app.use(function(req,res,next){
-            console.log("hello", req.url);
-            
             if (!req.secure) {
                 return res.redirect('https://' + req.headers.host + req.url);
             }
-
             return next();
         });
         this.app.use(cors(corsOptions));

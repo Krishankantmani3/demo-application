@@ -10,20 +10,18 @@ export default function setMongooseConfig(){
 
     db.on('connected', ()=>{
         console.log('connected');
-    });
-    
-    db.on('disconnected', ()=>{
-        console.log("disconnected");
-    });
 
+        db.on('disconnected', ()=>{
+            console.log("disconnected");
+        });
+    });
     
     mongoose.connect(config.MONGO_URI[config.ENV], {useNewUrlParser: true, useUnifiedTopology: true},(err)=>{
         if(err){
             console.log("error at connection of mongodb");
         }
         else{
-            console.log("connected well");
-            
+            console.log("connected well");         
         }
     });
 }

@@ -1,6 +1,7 @@
 //import { Task } from "../../db/model/task.model";
 import { TaskDb } from "../../db/query/task.db";
 import { MESSAGE, TASK_PROGRESS } from "../constant/constant";
+import { printErrorLog } from "../utility/logger";
 
 
 export class ArchitectService {
@@ -31,7 +32,7 @@ export class ArchitectService {
             res.status(200).json(result);
         }
         catch (err) {
-            console.error("ArchitectService", "updateProgressOfTask", err);
+            printErrorLog("ArchitectService", "updateProgressOfTask", err);
             res.status(501).json({ error: MESSAGE.SERVER_ERROR });
         }
     }
@@ -80,7 +81,7 @@ export class ArchitectService {
             return res.status(200).json(task);
         }
         catch (err) {
-            console.error("ArchitectService", "getTask", err);
+            printErrorLog("ArchitectService", "getTask", err);
             res.status(501).json({ error: MESSAGE.SERVER_ERROR });
         }
     }

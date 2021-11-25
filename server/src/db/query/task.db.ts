@@ -1,5 +1,6 @@
 import { Schema } from "mongoose";
 import { MESSAGE, TASK_STATUS } from "../../app/constant/constant";
+import { printErrorLog } from "../../app/utility/logger";
 import { Task, Tasks } from "../model/task.model";
 
 export class TaskDb{
@@ -10,7 +11,7 @@ export class TaskDb{
             let result = await newTask.save();
             return result;
         } catch (error) {
-            console.error("TaskDB.saveTask", error);
+            printErrorLog("TaskDB", "saveTask", error);
             return MESSAGE.DATABASE_ERROR;
         }
     }
@@ -24,7 +25,7 @@ export class TaskDb{
             return result;
         }
         catch(err){
-            console.error("TaskDB.findTaskById", err);
+            printErrorLog("TaskDB", "findTaskById", err);
             return MESSAGE.DATABASE_ERROR;
         }
     }
@@ -38,7 +39,7 @@ export class TaskDb{
 
             return updatedTask;
         } catch (error) {
-            console.error("TaskDB.findAndupdateTaskById", error);
+            printErrorLog("TaskDB", "findAndupdateTaskById", error);
             return MESSAGE.DATABASE_ERROR;
         }
     }
@@ -51,7 +52,7 @@ export class TaskDb{
             }
             return tasks;
         } catch (error) {
-            console.error("TaskDB.getAllUassignedTask", error);
+            printErrorLog("TaskDB", "getAllUassignedTask", error);
             return MESSAGE.DATABASE_ERROR;
         }
     }
@@ -64,7 +65,7 @@ export class TaskDb{
             }
             return tasks;
         } catch (error) {
-            console.error("TaskDB.getAllUassignedTask", error);
+            printErrorLog("TaskDB", "getAllUassignedTask", error);
             return MESSAGE.DATABASE_ERROR;
         }
     }

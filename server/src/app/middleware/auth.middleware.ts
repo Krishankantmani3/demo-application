@@ -1,11 +1,6 @@
-import { JwtHandler } from "../config/jwt.handler";
+import { JwtHandler } from "../utility/jwt.handler";
 import { USER_ROLE } from "../constant/user.role";
-
-const error = {
-    SERVER_ERROR: "SERVER_ERROR",
-    INVALID_TOKEN: "INVALID_TOKEN",
-    ACCESS_DENIED: "ACCESS_DENIED"
-};
+import { MESSAGE } from "../constant/constant";
 
 export class AuthMiddleWare{
 
@@ -24,15 +19,15 @@ export class AuthMiddleWare{
             let userData: any = this.jwtHandler.verifyToken(token);
             console.log(token);
             
-            if(userData == error.INVALID_TOKEN || userData.role != role){
-               return  res.status(403).json({status: error.ACCESS_DENIED});
+            if(userData == MESSAGE.INVALID_TOKEN || userData.role != role){
+               return  res.status(403).json({status: MESSAGE.ACCESS_DENIED});
             }
             req.user = userData;
             return next();
         }
         catch(err){
             console.error("AuthService.auth", err);
-            res.status(403).json({status: error.SERVER_ERROR});
+            res.status(403).json({status: MESSAGE.SERVER_ERROR});
         }
     }
 
@@ -52,15 +47,15 @@ export class AuthMiddleWare{
         try{
             let token = req.signedCookies.jwt_token;
             let userData: any = this.jwtHandler.verifyToken(token);
-            if(userData == error.INVALID_TOKEN){
-                return res.status(403).json({ message: error.INVALID_TOKEN });
+            if(userData == MESSAGE.INVALID_TOKEN){
+                return res.status(403).json({ message: MESSAGE.INVALID_TOKEN });
             }
             
             return res.status(200).json(userData);
         }
         catch(err){
             console.error("AuthService.auth", err);
-            res.status(503).json({status: error.SERVER_ERROR});
+            res.status(503).json({status: MESSAGE.SERVER_ERROR});
         }
     }
 }
