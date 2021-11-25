@@ -3,7 +3,6 @@ import * as dotenv from 'dotenv';
 import { AuthMiddleWare } from "../middleware/auth.middleware";
 import { AuthService } from "../service/auth.service";
 import { UserService } from "../service/user.service";
-
 dotenv.config();
 
 export class Auth{
@@ -22,17 +21,11 @@ export class Auth{
         this.userService = new UserService();
     }
 
-    initializeRouting(){
-        
+    initializeRouting(){      
         this.router.post('/login', this.authService.login);
-
         this.router.post('/logout', this.authService.logout);
-        
         this.router.post('/register', this.authService.register);
-
         this.router.get('/auth', this.authMiddleware.auth);
-        
         this.router.get('/test', this.authService.test);
     }
-    
 };

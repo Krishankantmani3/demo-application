@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { MESSAGE } from '../constant/constant';
+import { MESSAGE } from './constant/constant';
 import { printErrorLog } from './logger';
 
 

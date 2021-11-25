@@ -1,6 +1,6 @@
 //import { Task } from "../../db/model/task.model";
-import { TaskDb } from "../../db/query/task.db";
-import { MESSAGE, TASK_PROGRESS } from "../constant/constant";
+import { TaskDb } from "../../mongodb/query/task.db";
+import { MESSAGE, TASK_PROGRESS } from "../utility/constant/constant";
 import { printErrorLog } from "../utility/logger";
 
 

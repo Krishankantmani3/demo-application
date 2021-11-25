@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import { MESSAGE, TASK_STATUS } from "../../app/constant/constant";
+import { MESSAGE, TASK_STATUS } from "../../app/utility/constant/constant";
 import { printErrorLog } from "../../app/utility/logger";
 import { Task, Tasks } from "../model/task.model";
 

@@ -1,6 +1,5 @@
 import { Schema } from "mongoose";
 import mongoose from 'mongoose';
-// const bcrypt = require('bcrypt');
 import * as bcrypt from 'bcrypt';
 
 export class User{

@@ -1,8 +1,8 @@
 import * as bcrypt from 'bcrypt';
-import { JwtHandler } from "../config/jwt.handler";
-import { UserDb } from "../../db/query/user.db";
-import { User } from '../../db/model/user.model';
-import { MESSAGE } from '../constant/constant';
+import { JwtHandler } from "../utility/jwt.handler";
+import { UserDb } from "../../mongodb/query/user.db";
+import { User } from '../../mongodb/model/user.model';
+import { MESSAGE } from '../utility/constant/constant';
 import { printErrorLog } from '../utility/logger';
 
 export class AuthService {

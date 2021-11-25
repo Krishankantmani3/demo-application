@@ -19,10 +19,8 @@ export class ArchitectController {
     }
 
     initializeRouting() {
-        // this.router.post(`${baseUrl}/task`,this.authMiddleware.architectAuth,);
         this.router.get(`${baseUrl}/tasks`, this.authMiddleware.architectAuth, this.architectService.getAllTasksAssignedToArchitect);
         this.router.get(`${baseUrl}/task/:taskId`, this.authMiddleware.architectAuth, this.architectService.getTask);
         this.router.put(`${baseUrl}/task/progress/:taskId/:progress`, this.authMiddleware.architectAuth, this.architectService.updateProgressOfTask);
-
     }
 };

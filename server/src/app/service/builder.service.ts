@@ -1,7 +1,7 @@
-import { Task } from "../../db/model/task.model";
-import { TaskDb } from "../../db/query/task.db";
-import { UserDb } from "../../db/query/user.db";
-import { MESSAGE, TASK_PROGRESS, TASK_STATUS } from "../constant/constant";
+import { Task } from "../../mongodb/model/task.model";
+import { TaskDb } from "../../mongodb/query/task.db";
+import { UserDb } from "../../mongodb/query/user.db";
+import { MESSAGE, TASK_PROGRESS, TASK_STATUS } from "../utility/constant/constant";
 import { printErrorLog } from "../utility/logger";
 
 export class BuilderService {

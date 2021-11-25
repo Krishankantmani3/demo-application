@@ -1,6 +1,6 @@
 import { Schema } from "mongoose";
-import { MESSAGE } from "../../app/constant/constant";
-import { USER_ROLE } from "../../app/constant/user.role";
+import { MESSAGE } from "../../app/utility/constant/constant";
+import { USER_ROLE } from "../../app/utility/constant/constant";
 import { printErrorLog } from "../../app/utility/logger";
 import { User, Users } from "../model/user.model";
 

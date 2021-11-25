@@ -1,6 +1,6 @@
 import express, { Application, Request, Response } from "express";
 import { Approutes } from "./app/config/routes";
-import setMongooseConfig from './db/config/mongoose.config';
+import setMongooseConfig from './mongodb/config/mongoose.config';
 import cors from 'cors';
 import * as fs from 'fs';
 import http from 'http';

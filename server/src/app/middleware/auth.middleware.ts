@@ -1,6 +1,7 @@
 import { JwtHandler } from "../utility/jwt.handler";
-import { USER_ROLE } from "../constant/user.role";
-import { MESSAGE } from "../constant/constant";
+import { USER_ROLE } from "../utility/constant/constant";
+import { MESSAGE } from "../utility/constant/constant";
+import { printErrorLog } from "../utility/logger";
 
 export class AuthMiddleWare{
 
@@ -26,7 +27,7 @@ export class AuthMiddleWare{
             return next();
         }
         catch(err){
-            console.error("AuthService.auth", err);
+            printErrorLog("AuthService","auth", err);
             res.status(403).json({status: MESSAGE.SERVER_ERROR});
         }
     }
@@ -54,7 +55,7 @@ export class AuthMiddleWare{
             return res.status(200).json(userData);
         }
         catch(err){
-            console.error("AuthService.auth", err);
+            printErrorLog("AuthService","auth", err);
             res.status(503).json({status: MESSAGE.SERVER_ERROR});
         }
     }
