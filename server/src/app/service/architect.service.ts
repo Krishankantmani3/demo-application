@@ -21,7 +21,6 @@ export class ArchitectService {
             let taskId = req.params.taskId;
             let query = {_id: taskId, assignedTo: req.user._id };
             let result: any = await this.taskDb.findAndupdateTaskById(query, update);
-
             if (result == MESSAGE.NO_DATA_FOUND) {
                 res.status(304).json({ error: MESSAGE.NO_DATA_FOUND });
             }
@@ -48,9 +47,9 @@ export class ArchitectService {
             if (tasks == MESSAGE.NO_DATA_FOUND) {
                 return res.status(204).json({ "message": MESSAGE.NO_DATA_FOUND });
             }
-
-            console.log("tasks", tasks);
-
+            else if(tasks == MESSAGE.DATABASE_ERROR){
+                return res.status(500).json({ "message": MESSAGE.DATABASE_ERROR });
+            }
             return res.status(200).json(tasks);
         }
         catch (err) {
@@ -63,21 +62,19 @@ export class ArchitectService {
         try {
             let user = req.user;
             let taskId = req.params.taskId;
-
             if (!user) {
                 return res.status(401).json({ "message": 'UnAuthorized' });
             }
-
             let task: any = await this.taskDb.findTaskById(taskId);
-            console.log("task", task);
-
             if (task == MESSAGE.NO_DATA_FOUND) {
                 return res.status(404).json({ "message": MESSAGE.NO_DATA_FOUND });
+            }
+            else if(task == MESSAGE.DATABASE_ERROR){
+                return res.status(500).json({ "message": MESSAGE.DATABASE_ERROR });
             }
             else if (task.assignedTo != user._id) {
                 return res.status(401).json({ "message": MESSAGE.UNAUTHORIZED_ACCESS });
             }
-
             return res.status(200).json(task);
         }
         catch (err) {

@@ -44,29 +44,37 @@ export class TaskDb{
         }
     }
 
-    public async getAllTaskAssignedToArchitectId(_id: Schema.Types.ObjectId){
-        try {
-            let tasks = await Tasks.find({assignedTo : _id});
-            if(tasks.length == 0){
-                return MESSAGE.NO_DATA_FOUND;
-            }
-            return tasks;
-        } catch (error) {
-            printErrorLog("TaskDB", "getAllUassignedTask", error);
-            return MESSAGE.DATABASE_ERROR;
-        }
+    public getAllTaskAssignedToArchitectId(_id: Schema.Types.ObjectId){
+        return new Promise((resolve, reject)=>{
+            Tasks.find({assignedTo: _id}, {title: 1, description: 1, status: 1, progress: 1, createdBy: 1}).populate('createdBy', 'username').exec((err: any, tasks: any)=>{
+                if(err){
+                    printErrorLog("TaskDB", "getAllTaskAssignedToArchitectId", err);
+                    return resolve(MESSAGE.DATABASE_ERROR);
+                }
+                
+                if(tasks.length == 0){
+                    return resolve(MESSAGE.NO_DATA_FOUND);
+                }       
+                return resolve(tasks);
+
+            });
+        });
     }
 
-    public async getAllTaskCreatedByBuilderId(_id: Schema.Types.ObjectId){
-        try {
-            let tasks = await Tasks.find({createdBy: _id});
-            if(tasks.length == 0){
-                return MESSAGE.NO_DATA_FOUND;
-            }
-            return tasks;
-        } catch (error) {
-            printErrorLog("TaskDB", "getAllUassignedTask", error);
-            return MESSAGE.DATABASE_ERROR;
-        }
+    public getAllTaskCreatedByBuilderId(_id: Schema.Types.ObjectId){
+        return new Promise((resolve, reject)=>{
+            Tasks.find({createdBy: _id}, {title: 1, description: 1, status: 1, progress: 1, assignedTo: 1}).populate('assignedTo', 'username').exec((err: any, tasks: any)=>{
+                if(err){
+                    printErrorLog("TaskDB", "getAllTaskCreatedByBuilderId", err);
+                    return resolve(MESSAGE.DATABASE_ERROR);
+                }
+                
+                if(tasks.length == 0){
+                    return resolve(MESSAGE.NO_DATA_FOUND);
+                }       
+                return resolve(tasks);
+
+            });
+        });
     }
 }

@@ -4,6 +4,7 @@ import { UserDb } from "../../mongodb/query/user.db";
 import { User } from '../../mongodb/model/user.model';
 import { MESSAGE } from '../utility/constant/constant';
 import { printErrorLog } from '../utility/logger';
+import { setJwtTokenInCookies } from '../utility/cookie.service';
 
 export class AuthService {
 
@@ -21,12 +22,11 @@ export class AuthService {
 
     public async test(req: any, res: any) {
         try {
-            console.error("log ---- /api/test/");
             res.status(200).json({ testing: "OK" });
         }
         catch (err) {
             printErrorLog("AuthService", "test", err);
-            res.status(401).json({ error: MESSAGE.SERVER_ERROR });
+            res.status(401).json({ message: MESSAGE.SERVER_ERROR });
         }
     }
 
@@ -34,10 +34,9 @@ export class AuthService {
     public async register(req: any, res: any) {
         try {
             req.user = req.body.user;
-            console.log(req.body);
 
             if (req.user == undefined) {
-                return res.status(301).json({ "error": "empty data" });
+                return res.status(301).json({ message: MESSAGE.INVALID_DATA });
             }
             let email = req.user.email;
             let username = req.user.username;
@@ -46,7 +45,7 @@ export class AuthService {
             if (result == MESSAGE.NO_DATA_FOUND) {
                 let data = await this.userDb.saveNewUser(new User(req.body.user));
                 if (data == MESSAGE.DATABASE_ERROR) {
-                    return res.status(500).json({ "error": MESSAGE.DATABASE_ERROR });
+                    return res.status(500).json({ message: MESSAGE.DATABASE_ERROR });
                 }
 
                 let userData = {
@@ -57,37 +56,33 @@ export class AuthService {
                     fullname: data.fullname
                 };
 
-                this.setJwtTokenInCookies(req, res, userData);
+                setJwtTokenInCookies(req, res, userData);
                 return res.status(200).json(userData);
             }
             else {
-                return res.status(301).json({ "error": MESSAGE.USER_ALREADY_EXIST });
+                return res.status(301).json({ message: MESSAGE.USER_ALREADY_EXIST });
             }
         }
         catch (err) {
             printErrorLog("AuthService", "register", err);
-            res.status(401).json({ "error": err });
+            res.status(401).json({ message: err });
         }
     }
 
     public async login(req: any, res: any) {
         try {
             req = req.body;
-
             let username = req.user.username;
             let password = req.user.password;
-
             let userDetails = await this.userDb.findOneByUserName(username);
 
             if (userDetails == MESSAGE.NO_DATA_FOUND) {
-                return res.status(303).json({ "error": MESSAGE.INCORRECT_EMAIL_OR_PASSWORD });
+                return res.status(303).json({ message: MESSAGE.INCORRECT_EMAIL_OR_PASSWORD });
             }
             else if (userDetails == MESSAGE.DATABASE_ERROR) {
-                return res.status(500).json({ error: MESSAGE.SERVER_ERROR });
+                return res.status(500).json({ message: MESSAGE.SERVER_ERROR });
             }
-
             let status = bcrypt.compareSync(password, userDetails.password);
-
             if (status) {
                 let userData = {
                     _id: userDetails._id,
@@ -96,25 +91,22 @@ export class AuthService {
                     role: userDetails.role,
                     fullname: userDetails.fullname
                 };
-
-                this.setJwtTokenInCookies(req, res, userData);
-                console.log("userDAta in server side auth", userData);
+                setJwtTokenInCookies(req, res, userData);
                 return res.status(200).json(userData);
             }
             else {
-                return res.status(303).json({ "error": MESSAGE.INCORRECT_EMAIL_OR_PASSWORD });
+                return res.status(303).json({ message: MESSAGE.INCORRECT_EMAIL_OR_PASSWORD });
             }
         }
         catch (err) {
             printErrorLog("AuthService", "login", err);
-            res.status(500).json({ "error": MESSAGE.SERVER_ERROR });
+            res.status(500).json({ message: MESSAGE.SERVER_ERROR });
         }
     }
 
 
     public async logout(req: any, res: any) {
         try {
-            console.log("token req.signedCookies.jwt_token", req.signedCookies.jwt_token);
             let options = {
                 maxAge: 0, // would expire after 15 minutes
                 httpOnly: true, // The cookie only accessible by the web server
@@ -127,43 +119,11 @@ export class AuthService {
         }
         catch (err) {
             printErrorLog("AuthService", "logout", err);
-            res.status(500).json({ error: MESSAGE.SERVER_ERROR, status: false });
-        }
-    }
-
-    setJwtTokenInCookies(req: any, res: any, user: any) {
-        try {
-            let payload = {
-                _id: user._id,
-                username: user.username,
-                role: user.role
-            };
-
-            let token = this.jwtHandler.generateToken(payload);
-            if (token == MESSAGE.SERVER_ERROR) {
-                return res.status(500).json({ "error": MESSAGE.SERVER_ERROR });
-            }
-            else {
-                let options = {
-                    maxAge: 1000 * 60 * 15, // would expire after 15 minutes
-                    httpOnly: true, // The cookie only accessible by the web server
-                    signed: true,
-                    sameSite: 'None',
-                    secure: true
-                }
-                res.cookie("jwt_token", token, options);
-            }
-        }
-        catch (err) {
-            throw new Error('Invalid_token');
+            res.status(500).json({ message: MESSAGE.SERVER_ERROR, status: false });
         }
     }
 
     authorized(req: any, res: any, user: any) {
         res.status(200).json({ "authorized": true });
     }
-
-
-
-
 }

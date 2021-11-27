@@ -18,8 +18,6 @@ export class AuthMiddleWare{
         try{
             let token = req.signedCookies.jwt_token;
             let userData: any = this.jwtHandler.verifyToken(token);
-            console.log(token);
-            
             if(userData == MESSAGE.INVALID_TOKEN || userData.role != role){
                return  res.status(403).json({status: MESSAGE.ACCESS_DENIED});
             }
@@ -27,7 +25,7 @@ export class AuthMiddleWare{
             return next();
         }
         catch(err){
-            printErrorLog("AuthService","auth", err);
+            printErrorLog("AuthService","roleAuth", err);
             res.status(403).json({status: MESSAGE.SERVER_ERROR});
         }
     }

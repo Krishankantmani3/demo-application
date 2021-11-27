@@ -23,7 +23,6 @@ export class UserDb {
     public async findByUserNameOrEmail(username: any, email: any) {
         try {
             let result = await Users.find({ $or: [{ "email" : email }, { "username" : username }] });
-
             if (result.length == 0) {
                 return MESSAGE.NO_DATA_FOUND;
             }
@@ -40,8 +39,6 @@ export class UserDb {
         try {
             let newUser = new Users(user);
             let data = await newUser.save();
-            console.log(data);
-            
             return data;
         } catch (err) {
             printErrorLog("UserDB", "saveNewUser", err);
@@ -53,7 +50,6 @@ export class UserDb {
         try{
 
             let result = await Users.findOne({_id: userId});
-            console.log("result", userId);
             if(result == undefined || !result.role.includes(USER_ROLE.ARCHITECT)){
                 return false; 
             } 
@@ -71,7 +67,6 @@ export class UserDb {
             if(!result && result.length == 0 ){
                 return MESSAGE.NO_DATA_FOUND;
             }
-
             return result;
         }
         catch(err){

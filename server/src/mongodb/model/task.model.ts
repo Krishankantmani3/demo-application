@@ -19,15 +19,13 @@ export class Task{
     }
 }
 
-
 let TaskSchema = new Schema({
     title: {type: String, required: true},
     description: {type: String, required: true},
     status: {type: Number}, // assigned or unassigned
     progress: {type: Number}, // pending, working, completed
-    createdBy: {type: Schema.Types.ObjectId, required: true, ref: 'Users'},
-    assignedTo: {type: Schema.Types.ObjectId, ref: 'Users'}
+    createdBy: {type: Schema.Types.ObjectId, required: true, ref: 'User'},
+    assignedTo: {type: Schema.Types.ObjectId, ref: 'User'}
 });
-
 
 export let Tasks = mongoose.model('Task', TaskSchema);
