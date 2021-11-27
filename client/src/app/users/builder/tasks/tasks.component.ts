@@ -24,10 +24,8 @@ export class TasksComponent implements OnInit {
     }
 
     fetchAllTasks() {
-        this.isLoaded = true;
         this.tasksService.getAllTasksCreatedByBuilder()
             .then((tasks: []) => {
-                console.log("tasks",tasks);
                 this.builderTasks = tasks;
                 this.isLoaded = true;
             })

@@ -21,7 +21,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let task of builderTasks; let i = index">
+                <tr *ngFor="let task of builderTasks; let i = index" [style.background-color]=" task.progress == 1 ? '#EAEAEA' : (task.progress == 2 ? '#F4E185' : '#009DAE')">
                     <td scope="row">{{ i+1 }}</td>
                     <td>{{ task.title }}</td>
                     <td>{{ TASK_PROGRESS.get(task.progress) }}</td>

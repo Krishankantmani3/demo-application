@@ -1,7 +1,8 @@
-<div *ngIf="isLoaded">
-    <h1 class="p-3 text-center center" *ngIf="architectTasks.length == 0">No Tasks yet for you.</h1>
-    <h1 class="center">All task assigned to you.</h1>
-    <div class="container" *ngIf="architectTasks.length != 0">
+<mat-progress-bar *ngIf="isLoaded == false" mode="indeterminate" color="accent"></mat-progress-bar>
+<div *ngIf="isLoaded == true">
+    <h1 class="p-3 text-center center" *ngIf="architectTasks?.length == 0">No Tasks yet for you.</h1>
+    <div class="container" *ngIf="architectTasks?.length != 0">
+        <h1 class="center">All task assigned to you.</h1>
         <table class="table table-striped table-bordered">
             <thead>
                 <tr>
@@ -13,7 +14,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let task of architectTasks; let i = index">
+                <tr *ngFor="let task of architectTasks; let i = index" [style.background-color]=" task.progress == 1 ? '#EAEAEA' : (task.progress == 2 ? '#F4E185' : '#009DAE')">
                     <td scope="row">{{ i+1 }}</td>
                     <td>{{ task.title }}</td>
                     <td>{{ TASK_PROGRESS.get(task.progress) }}</td>

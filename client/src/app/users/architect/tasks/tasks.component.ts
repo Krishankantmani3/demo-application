@@ -27,7 +27,6 @@ export class TasksComponent implements OnInit {
         });
 
         this.taskFormArr.valueChanges.subscribe((data)=>{
-            console.log("data", data);
         });
     }
 
@@ -40,11 +39,13 @@ export class TasksComponent implements OnInit {
     }
 
     fetchAllTasks() {
-        this.isLoaded = true;
         this.tasksService.getAllTasksAssignedToArchitect()
             .then((tasks: []) => {
                 this.architectTasks = tasks;
-                this.isLoaded = true;
+                // this.isLoaded = true;
+                setTimeout(()=> {
+                    this.isLoaded = true;
+                },6000);
             })
             .catch((err) => {
                 alert("Error in server side");
