@@ -1,23 +1,17 @@
+import { setAppEnvVariable } from "./app/config/env.config";
 import express, { Application, Request, Response } from "express";
 import { Approutes } from "./app/config/routes";
 import setMongooseConfig from './mongodb/config/mongoose.config';
-import cors from 'cors';
 import * as fs from 'fs';
 import http from 'http';
 import https from 'https';
+import { corsMiddlewareFun } from "./app/middleware/cors.middleware";
 
 const privateKey  = fs.readFileSync('/server/cert/api.com/api.com.decrypted.key', 'utf8');
 const certificate = fs.readFileSync('/server/cert/api.com/api.com.crt', 'utf8');
 const credentials = {key: privateKey, cert: certificate};
 const cookieParser = require('cookie-parser');
-const config = require('./app/config/config.json');
 
-const PORT = 9000;
-
-const corsOptions = {
-    origin: 'http://172.17.0.2:4200',
-    credentials: true
-};
 
 class Server {
     app: Application;
@@ -26,6 +20,7 @@ class Server {
     httpsServer: any;
 
     constructor() {
+        setAppEnvVariable();
         this.app = express();
         // your express configuration here
         this.httpServer = http.createServer(this.app);
@@ -38,8 +33,8 @@ class Server {
         this.httpServer.listen(80,()=>{
             console.log("http running on 80"); 
         });
-        this.httpsServer.listen(443, ()=>{
-            console.log("https running on 443");
+        this.httpsServer.listen(process.env.PORT, ()=>{
+            console.log("port", process.env.PORT);
         });
     }
 
@@ -51,8 +46,8 @@ class Server {
             }
             return next();
         });
-        this.app.use(cors(corsOptions));
-        this.app.use(cookieParser("YOUR_SECRET"));
+        this.app.use(corsMiddlewareFun());
+        this.app.use(cookieParser(process.env.COOKIE_SECRET));
         this.app.use(express.json());
     }
 }
