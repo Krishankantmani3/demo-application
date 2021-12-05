@@ -3,7 +3,6 @@ import { TaskDb } from "../../mongodb/query/task.db";
 import { MESSAGE, TASK_PROGRESS } from "../utility/constant/constant";
 import { printErrorLog } from "../utility/logger";
 
-
 export class ArchitectService {
 
     taskDb: TaskDb;

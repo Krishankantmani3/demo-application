@@ -5,6 +5,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { HttpService } from "../shared/service/http.service";
 import { LoginComponent } from "./login.component";
 import { LoginService } from "./login.service";
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 const routes: Routes = [
     {
@@ -20,7 +21,8 @@ const routes: Routes = [
         RouterModule.forChild(routes),
         CommonModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatProgressBarModule
     ],
     providers: [
         LoginService,

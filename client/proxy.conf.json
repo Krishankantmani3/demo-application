@@ -1,0 +1,9 @@
+{
+    "/api": {
+        "target": "https://api.com",
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "debug",
+        "withCredentials": true
+    }
+}

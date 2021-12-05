@@ -15,7 +15,7 @@ export class LoginService {
 
     public testReq(url?) {
         // url = config.SERVER_URL["ENV"].URL + "/api/test";
-        url = 'https://api.com' + API_URL.test;
+        url = API_URL.test;
         this.httpService.makeHttpGetRequest(url).subscribe({
             next: (res) => {
                 console.log("res", res.body);
@@ -27,7 +27,7 @@ export class LoginService {
 
     login(user) {
         return new Promise((resolve, reject) => {
-            let url = 'https://api.com' + API_URL.login;
+            let url = API_URL.login;
             return this.httpService.makeHttpPostRequest(url, user).subscribe((res)=>{
                 if(res.status == 200){
                     return  resolve(res);

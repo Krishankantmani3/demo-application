@@ -11,7 +11,7 @@ export class BuilderService{
     }
 
     getListOfArchitect(){
-        let url = 'https://api.com/api/builder/architects'
+        let url = '/api/builder/architects'
         this.httpService.makeHttpGetRequest(url).subscribe({
             next: (res: any)=>{
                 this.architectList = res.body.data; 

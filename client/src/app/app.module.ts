@@ -3,11 +3,12 @@ import {  NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthGuard } from './shared/guards/auth-guard.service';
 import { HttpService } from './shared/service/http.service';
 import { AppState } from './app.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppHttpInterceptor } from './app.http-inceptor';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   providers: [
     AuthGuard, 
     HttpService,
-    AppState
+    AppState,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AppHttpInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

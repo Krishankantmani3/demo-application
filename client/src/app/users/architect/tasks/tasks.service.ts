@@ -12,7 +12,7 @@ export class TasksService {
 
     getAllTasksAssignedToArchitect() {
         return new Promise((resolve, reject) => {
-            let url = 'https:/api.com' + API_URL.architect_tasks;
+            let url = API_URL.architect_tasks;
             this.httpService.makeHttpGetRequest(url).subscribe({
                 next: (res) => {
                     console.log("result", res.body, res.status);
@@ -32,7 +32,7 @@ export class TasksService {
     }
 
     updateProgressOfTask(taskId, progress){
-        let url = `https://api.com/api/architect/task/progress/${taskId}/${progress}`;
+        let url = `/api/architect/task/progress/${taskId}/${progress}`;
         return new Promise((resolve, reject)=>{
             this.httpService.makeHttpPutRequest(url).subscribe({
                 next: (res)=>{

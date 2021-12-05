@@ -13,7 +13,7 @@ export class RegisterService{
 
     public testReq(url?){
         // url = config.SERVER_URL["ENV"].URL + "/api/test";
-        url = 'https://api.com' + API_URL.test;
+        url = API_URL.test;
         this.httpService.makeHttpGetRequest(url).subscribe((res)=>{
             console.log(res);
         });
@@ -21,7 +21,7 @@ export class RegisterService{
 
     public register(data){
         return new Promise((resolve, reject)=>{
-            let url = 'https://api.com' + API_URL.register;
+            let url = API_URL.register;
             this.httpService.makeHttpPostRequest(url, data).subscribe((res)=>{
                 if(res.status == 200){
                     return resolve(res);

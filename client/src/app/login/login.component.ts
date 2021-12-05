@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from "@angular/router";
 import { USER_ROLE } from "../shared/constant/user.role";
+import { AuthService } from "../shared/service/auth.service";
 import { LoginService } from "./login.service";
 
 enum role {
@@ -20,8 +21,9 @@ export class LoginComponent {
     userForm: any;
     isFormDirty: boolean;
     isSubmitted: boolean;
+    isLogging = false;
 
-    constructor(private loginService: LoginService, private router: Router) {
+    constructor(private loginService: LoginService, private router: Router, private authService: AuthService) {
         this.createFormGroup();
     }
 
@@ -44,7 +46,7 @@ export class LoginComponent {
 
     submit() {
         this.isSubmitted = true;
-        
+        this.isLogging = true;
         if(this.userForm.valid){
             this.userDetails = {
                 username: this.userForm.value.username,
@@ -53,7 +55,14 @@ export class LoginComponent {
             };
 
             this.loginService.login({user: this.userDetails}).then((res: any)=>{
-                this.redirectUserToDashboard(res.body);
+                this.isLogging = false;
+                if(this.authService.redirectUrl){
+                    this.router.navigateByUrl(this.authService.redirectUrl);
+                    this.authService.redirectUrl = null;
+                }
+                else{
+                    this.redirectUserToDashboard(res.body);
+                }
             });
         }
     }

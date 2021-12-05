@@ -24,7 +24,11 @@
     "PRODUCTION": "DGNDGJ4589ghhfd615ionEFBJRFFB45bgfheyyuj"
   },
   "ALLOWED_ORIGIN": {
-    "DEVELOPMENT": "http://172.17.0.2:4200 http://localost:4200",
-    "TEST": "http://172.17.0.2:4200 http://localost:4200"
+    "DEVELOPMENT": "http://172.17.0.2:4200 http://localost:4200 https://task.com",
+    "TEST": "http://172.17.0.2:4200 http://localost:4200 https://task.com"
+  },
+  "COOKIE_TIMEOUT": {
+    "DEVELOPMENT": 86400000,
+    "TEST": 86400000
   }
 }

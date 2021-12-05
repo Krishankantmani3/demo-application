@@ -1,4 +1,5 @@
 import { Routes } from "@angular/router";
+import { NotFoundComponent } from "./shared/components/notFound/notfound.component";
 import { USER_ROLE } from "./shared/constant/user.role";
 import { AuthGuard } from "./shared/guards/auth-guard.service";
 
@@ -39,7 +40,12 @@ import { AuthGuard } from "./shared/guards/auth-guard.service";
     {
         path: 'login',
         loadChildren: ()=> import('./login/login.module').then(m => m.LoginModule)
-    }
+    },
+    {
+         path: '404',
+         component: NotFoundComponent
+    },
+    { path: '**', redirectTo: '/404' }
 ];
 
 

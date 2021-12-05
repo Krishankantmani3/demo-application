@@ -9,7 +9,7 @@ export class NewTaskService {
     }
 
     createNewTask(task) {
-        let url = 'https://api.com/api/builder/task';
+        let url = '/api/builder/task';
 
         return new Promise((resolve, reject) => {
             this.httpService.makeHttpPostRequest(url, task).subscribe({

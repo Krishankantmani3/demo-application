@@ -9,7 +9,7 @@ export class UpdateProgressOfTaskService{
     }
 
     getTask(taskId){
-        let url = `https://api.com/api/architect/task/${taskId}`;
+        let url = `/api/architect/task/${taskId}`;
 
         return new Promise((resolve, reject)=>{
             this.httpService.makeHttpGetRequest(url).subscribe({

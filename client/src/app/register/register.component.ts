@@ -20,6 +20,7 @@ export class RegisterComponent {
     userForm: any;
     isFormDirty: boolean;
     isSubmitted: boolean;
+    isRegistering = false;
 
     constructor(private registerService: RegisterService, private router: Router) {
         this.createFormGroup();
@@ -55,7 +56,7 @@ export class RegisterComponent {
 
     submit() {
         this.isSubmitted = true;
-        
+        this.isRegistering = true;
         if(this.userForm.valid){
             this.userDetails = {
                 fullname: this.userForm.value.fullname, 
@@ -68,6 +69,7 @@ export class RegisterComponent {
             };
 
             this.registerService.register({user: this.userDetails}).then((res: any)=>{
+                this.isRegistering = false;
                 this.redirectUserToDashboard(res.body);
             });
         }

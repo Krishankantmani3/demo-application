@@ -42,10 +42,7 @@ export class TasksComponent implements OnInit {
         this.tasksService.getAllTasksAssignedToArchitect()
             .then((tasks: []) => {
                 this.architectTasks = tasks;
-                // this.isLoaded = true;
-                setTimeout(()=> {
-                    this.isLoaded = true;
-                },6000);
+                this.isLoaded = true;
             })
             .catch((err) => {
                 alert("Error in server side");
