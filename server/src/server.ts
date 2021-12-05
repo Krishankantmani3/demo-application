@@ -2,16 +2,11 @@ import { setAppEnvVariable } from "./app/config/env.config";
 import express, { Application, Request, Response } from "express";
 import { Approutes } from "./app/config/routes";
 import setMongooseConfig from './mongodb/config/mongoose.config';
-import * as fs from 'fs';
 import http from 'http';
 import https from 'https';
 import { corsMiddlewareFun } from "./app/middleware/cors.middleware";
-
-const privateKey  = fs.readFileSync('/server/cert/api.com/api.com.decrypted.key', 'utf8');
-const certificate = fs.readFileSync('/server/cert/api.com/api.com.crt', 'utf8');
-const credentials = {key: privateKey, cert: certificate};
 const cookieParser = require('cookie-parser');
-
+// /api    
 
 class Server {
     app: Application;
@@ -24,6 +19,7 @@ class Server {
         this.app = express();
         // your express configuration here
         this.httpServer = http.createServer(this.app);
+        const credentials = {key: process.env.SSL_KEY, cert: process.env.SSL_CERT};
         this.httpsServer = https.createServer(credentials, this.app);
         this.loadGlobalMiddleware();
         this.appRoutes = new Approutes(this.app);
