@@ -12,7 +12,7 @@ export class TasksService {
 
     getAllTasksCreatedByBuilder() {
         return new Promise((resolve, reject) => {
-            let url = API_URL.builder_tasks;
+            let url = API_URL.BUILDER_TASKS;
             this.httpService.makeHttpGetRequest(url).subscribe({
                 next: (res) => {
                     console.log("result", res.body);
@@ -32,7 +32,7 @@ export class TasksService {
     }
 
     updateAssignee(taskId, assignee){
-        let url = `/api/builder/task/assignee/${taskId}/${assignee}`;
+        let url = `${API_URL}/${taskId}/${assignee}`;
         return new Promise((resolve, reject)=>{
             this.httpService.makeHttpPutRequest(url).subscribe({
                 next: (res)=>{

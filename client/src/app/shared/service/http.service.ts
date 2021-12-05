@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, EMPTY,  Observable, throwError } from 'rxjs';
 import { AppState } from '../../app.service';
+import { API_URL } from '../constant/api';
 
 
 @Injectable()
@@ -54,7 +55,7 @@ export class HttpService{
 
     logOutUser(){
         return new Promise((resolve, reject)=>{
-            let url  = '/api/logout';
+            let url  = API_URL.LOGOUT;
             this.makeHttpPostRequest(url,"").subscribe({
                 next: (res)=>{
                     if(res.status == 200){

@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host 172.17.0.2 --port 443 --disableHostCheck true --ssl --live-reload --proxy-config proxy.conf.json",
+    "start": "ng serve --host 172.17.0.2 --port 443 --disable-host-check true --ssl --live-reload --proxy-config proxy.conf.json",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

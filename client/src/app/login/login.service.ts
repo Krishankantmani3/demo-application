@@ -5,8 +5,6 @@ import { API_URL } from '../shared/constant/api';
 import { Router } from "@angular/router";
 // let config = require('../../config/config.json');
 
-
-
 @Injectable()
 export class LoginService {
 
@@ -14,8 +12,7 @@ export class LoginService {
     }
 
     public testReq(url?) {
-        // url = config.SERVER_URL["ENV"].URL + "/api/test";
-        url = API_URL.test;
+        url = API_URL.TEST;
         this.httpService.makeHttpGetRequest(url).subscribe({
             next: (res) => {
                 console.log("res", res.body);
@@ -27,7 +24,7 @@ export class LoginService {
 
     login(user) {
         return new Promise((resolve, reject) => {
-            let url = API_URL.login;
+            let url = API_URL.LOGIN;
             return this.httpService.makeHttpPostRequest(url, user).subscribe((res)=>{
                 if(res.status == 200){
                     return  resolve(res);

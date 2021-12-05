@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { API_URL } from "../../shared/constant/api";
 import { HttpService } from "../../shared/service/http.service";
 
 
@@ -11,7 +12,7 @@ export class BuilderService{
     }
 
     getListOfArchitect(){
-        let url = '/api/builder/architects'
+        let url = API_URL.ARCHITECTS;
         this.httpService.makeHttpGetRequest(url).subscribe({
             next: (res: any)=>{
                 this.architectList = res.body.data; 

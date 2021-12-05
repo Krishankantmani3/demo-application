@@ -5,8 +5,7 @@ import setMongooseConfig from './mongodb/config/mongoose.config';
 import http from 'http';
 import https from 'https';
 import { corsMiddlewareFun } from "./app/middleware/cors.middleware";
-const cookieParser = require('cookie-parser');
-// /api    
+const cookieParser = require('cookie-parser'); 
 
 class Server {
     app: Application;
@@ -45,6 +44,10 @@ class Server {
         this.app.use(corsMiddlewareFun());
         this.app.use(cookieParser(process.env.COOKIE_SECRET));
         this.app.use(express.json());
+        this.app.use('/', (req, res, next)=>{
+            console.log("req --> ", req.url);
+            next();
+        });
     }
 }
 
