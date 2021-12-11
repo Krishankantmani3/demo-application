@@ -1,9 +1,7 @@
 import { Application, Router } from "express";
-// import * as dotenv from 'dotenv';
 import { AuthMiddleWare } from "../middleware/auth.middleware";
 import { AuthService } from "../service/auth.service";
 import { UserService } from "../service/user.service";
-// dotenv.config();
 
 export class Auth{
 

@@ -19,7 +19,7 @@ export function setJwtTokenInCookies(req: any, res: any, user: any) {
                 maxAge: process.env.COOKIE_TIMEOUT, // would expire after 24 hrs.
                 httpOnly: true, // The cookie only accessible by the web server
                 signed: true,
-                sameSite: 'None',
+                sameSite: 'Strict',
                 secure: true
             }
             res.cookie("jwt_token", token, options);

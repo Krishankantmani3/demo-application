@@ -1,7 +1,7 @@
 {
   "ENV": "DEVELOPMENT",
   "PORT": {
-    "DEVELOPMENT": 443,
+    "DEVELOPMENT": 9000,
     "PRODUCTION": 443,
     "TEST": 443
   },

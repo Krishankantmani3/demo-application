@@ -70,7 +70,7 @@
             "browserTarget": "client:build",
             "sslKey": "cert/task.com/task.com.decrypted.key",
             "sslCert": "cert/task.com/task.com.crt",
-            "ssl": true
+            "ssl": false
           },
           "configurations": {
             "production": {
