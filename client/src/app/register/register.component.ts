@@ -28,13 +28,11 @@ export class RegisterComponent {
 
     createFormGroup() {
         this.userForm = new FormGroup({
-            // languageId: new FormControl('', Validators.required),
-            fullname: new FormControl('', Validators.required),
-            username: new FormControl('', Validators.required),
-            email: new FormControl('', [Validators.required, Validators.email]),
-            // role: new FormControl('', Validators.required),
-            password: new FormControl('', Validators.required),
-            confirmPassword: new FormControl('', Validators.required),
+            fullname: new FormControl('', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(30)])),
+            username: new FormControl('', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(12)]) ),
+            email: new FormControl('', Validators.compose([Validators.required, Validators.email, Validators.maxLength(25)])),
+            password: new FormControl('', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(10)])),
+            confirmPassword: new FormControl('', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(10)])),
             gender: new FormControl('', Validators.required)
         });
         // this.userForm.valueChanges.subscribe(data => {

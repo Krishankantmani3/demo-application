@@ -30,8 +30,8 @@ export class LoginComponent {
     createFormGroup() {
         this.userForm = new FormGroup({
             // languageId: new FormControl('', Validators.required),
-            username: new FormControl('', Validators.required),
-            password: new FormControl('', Validators.required)
+            username: new FormControl('',Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(12)])),
+            password: new FormControl('', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(10)]))
         });
         this.userForm.valueChanges.subscribe(data => {
             if (this.userForm.dirty) {
@@ -47,6 +47,7 @@ export class LoginComponent {
     submit() {
         this.isSubmitted = true;
         this.isLogging = true;
+        console.log("validity", this.userForm.controls.password.errors);
         if(this.userForm.valid){
             this.userDetails = {
                 username: this.userForm.value.username,
@@ -64,6 +65,9 @@ export class LoginComponent {
                     this.redirectUserToDashboard(res.body);
                 }
             });
+        }
+        else{
+            this.isLogging = false;
         }
     }
 

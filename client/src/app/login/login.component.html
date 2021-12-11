@@ -27,17 +27,17 @@
                             <div class="col-md-6">
                                 <div class="form-group"
                                     [ngClass]="{'error': isSubmitted && userForm.controls.username.invalid }">
-                                    <input type="text" class="form-control" placeholder="Username *"
-                                        formControlName="username" />
-                                    <div *ngIf="isSubmitted && userForm.controls.username.errors?.required"
-                                        class="text-danger">This field is required. *</div>
+                                    <input type="text" class="form-control" placeholder="Username *" formControlName="username" />
+                                    <div *ngIf="isSubmitted && userForm.controls.username.errors?.required" class="text-danger">This field is required. *</div>
+                                    <div *ngIf="isSubmitted && userForm.controls.username.errors?.minlength" class="text-danger">Atleast 4 characters allowed.</div>
+                                    <div *ngIf="isSubmitted && userForm.controls.username.errors?.maxlength" class="text-danger">Atmost 12 characters allowed.</div>
                                 </div>
                                 <div class="form-group"
                                     [ngClass]="{'error': isSubmitted && userForm.controls.password.invalid }">
-                                    <input type="password" class="form-control" placeholder="Password *" value=""
-                                        formControlName="password" />
-                                    <div *ngIf="isSubmitted && userForm.controls.password.errors?.required"
-                                        class="text-danger">This field is required. *</div>
+                                    <input type="password" class="form-control" placeholder="Password *" formControlName="password" />
+                                    <div *ngIf="isSubmitted && userForm.controls.password.errors?.required" class="text-danger">This field is required. *</div>
+                                    <div *ngIf="isSubmitted && userForm.controls.password.errors?.minlength" class="text-danger">Atleast 4 characters allowed.</div>
+                                    <div *ngIf="isSubmitted && userForm.controls.password.errors?.maxlength" class="text-danger">Atmost 10 characters allowed.</div>
                                 </div>
                                 <input type="submit" class="btnRegister" value="Login" (click)="submit()" />
                             </div>
