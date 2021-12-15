@@ -18,7 +18,11 @@ export class Approutes {
     this.admin = new AdminController(app, this.router);
     this.architect = new ArchitectController(app, this.router);
     this.builder = new BuilderController(app, this.router);
+    app.use(express.static('../../client'));
     app.use('/api', this.router);
+    app.use('*', (req, res)=>{
+      res.sendFile('../../client/index.html');
+    });
     this.initializeAllRouting();
   }
 
