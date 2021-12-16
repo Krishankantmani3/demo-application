@@ -7,8 +7,6 @@ export function setAppEnvVariable() {
         process.env.NODE_ENV = 'development';
     }
 
-    process.env.SSL_KEY  = fs.readFileSync('/server/cert/api.com/api.com.decrypted.key', 'utf8');
-    process.env.SSL_CERT = fs.readFileSync('/server/cert/api.com/api.com.crt', 'utf8');
     envValidationForProd();
 
     process.env.PORT = process.env.PORT || JSON.stringify(config.PORT[process.env.NODE_ENV.toUpperCase()]);
