@@ -25,7 +25,7 @@ COPY server/package*.json /server/
 # install all packages
 RUN npm install
 
-RUN cp -R server/node_modules /runtime/
+RUN cp -R node_modules /runtime/
 # copy source code to /app/
 COPY server/ /server/
 
