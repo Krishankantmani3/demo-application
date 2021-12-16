@@ -22,7 +22,7 @@ export class Approutes {
     app.use(express.static(path.join(__dirname, '../../client')));
     app.use('/api', this.router);
     app.use('*', (req, res)=>{
-      res.sendFile('../../client/index.html', {root: __dirname});
+      res.sendFile(path.join(__dirname, '../../client/', 'index.html'));
     });
     this.initializeAllRouting();
   }
