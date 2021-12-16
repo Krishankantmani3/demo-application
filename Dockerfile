@@ -29,11 +29,13 @@ RUN npm install
 COPY server/ /server/
 
 RUN npm run build \
-    && cp -R dist/*  /runtime/
+    && cp -R dist/*  /runtime/ \
+    && cp package*.json /runtime/
 
 WORKDIR /runtime
 
-RUN rm -r /client /server
+RUN rm -r /client /server \
+    && rm -rf /var/lib/apt/lists/*
 
 # Serve the app
-CMD ["npm", "start"]
+CMD ["node", "server.js"]

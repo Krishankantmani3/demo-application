@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-const config = require('../../config/config');
+const config = require('../../config/config.json');
 
 export function setAppEnvVariable() {
 
