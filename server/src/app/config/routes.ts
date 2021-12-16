@@ -19,8 +19,8 @@ export class Approutes {
     this.admin = new AdminController(app, this.router);
     this.architect = new ArchitectController(app, this.router);
     this.builder = new BuilderController(app, this.router);
-    app.use(express.static(path.join(__dirname, '../../client')));
     app.use('/api', this.router);
+    app.use(express.static(path.join(__dirname, '../../client')));
     app.use('*', (req, res)=>{
       res.sendFile(path.join(__dirname, '../../client/', 'index.html'));
     });
