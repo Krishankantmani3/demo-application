@@ -30,7 +30,7 @@ COPY server/ /server/
 
 RUN npm run build \
     && cp -R dist/*  /runtime/ \
-    && cp -R src/config/ /runtime
+    && cp -R src/config/ /runtime \
     && cp package*.json /runtime/
 
 WORKDIR /runtime
