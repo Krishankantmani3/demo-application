@@ -1,4 +1,5 @@
 import express, { Application, Router } from "express";
+import path from "path";
 import { AdminController } from "../controller/admin.controller";
 import { ArchitectController } from "../controller/architect.controller";
 import { Auth } from "../controller/auth.controller";
@@ -18,10 +19,10 @@ export class Approutes {
     this.admin = new AdminController(app, this.router);
     this.architect = new ArchitectController(app, this.router);
     this.builder = new BuilderController(app, this.router);
-    app.use(express.static('../../client'));
+    app.use(express.static(path.join(__dirname, '../../client')));
     app.use('/api', this.router);
     app.use('*', (req, res)=>{
-      res.sendFile('../../client/index.html');
+      res.sendFile('../../client/index.html', {root: __dirname});
     });
     this.initializeAllRouting();
   }
