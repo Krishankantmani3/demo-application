@@ -7,7 +7,7 @@ export const API_URL = {
     TEST: '/api/test',
     ARCHITECT_TASKS: '/api/architect/tasks',
     ARCHITECT_TASK: '/api/architect/task',
-    ARCHITECT_TASK_PROGRESS: '/api/architect/task/progress/',
+    ARCHITECT_TASK_PROGRESS: '/api/architect/task/progress',
     BUILDER_TASKS: '/api/builder/tasks',
     BUILDER_TASK: '/api/builder/task',
     BUILDER_TASK_ASSIGN: '/api/builder/task/assignee',

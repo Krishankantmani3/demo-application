@@ -48,13 +48,9 @@ export class TasksComponent implements OnInit {
                 console.log(err);
             });
         }
-
-
     }
 
     // pushNewTask(task){
     //     this.architectTasks.push(task);
     // }
-
-
 }

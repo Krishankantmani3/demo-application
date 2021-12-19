@@ -32,7 +32,7 @@ export class TasksService {
     }
 
     updateAssignee(taskId, assignee){
-        let url = `${API_URL}/${taskId}/${assignee}`;
+        let url = `${API_URL.BUILDER_TASK_ASSIGN}/${taskId}/${assignee}`;
         return new Promise((resolve, reject)=>{
             this.httpService.makeHttpPutRequest(url).subscribe({
                 next: (res)=>{
