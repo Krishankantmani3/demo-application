@@ -1,3 +1,4 @@
+import console from "console";
 
 
 export function printConsoleLog(className: string, methodName: string, message: any){
@@ -10,4 +11,7 @@ export function printErrorLog(className: string, methodName: string, error: any)
     console.log(errorObj);
 }
 
+export function printConsoleMessage(msg: any){
+    console.log(msg);
+}
 

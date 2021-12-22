@@ -1,22 +1,25 @@
-import { setAppEnvVariable } from "./app/config/env.config";
+import { envValidationForProd } from "./app/config/env.config";
 import express, { Application, Request, Response } from "express";
 import { Approutes } from "./app/config/routes";
 import setMongooseConfig from './mongodb/config/mongoose.config';
 import http from 'http';
-const cookieParser = require('cookie-parser'); 
+import { RedisUtility } from "./redis/utility/redis.utility";
+const cookieParser = require('cookie-parser');
 
 class Server {
     app: Application;
     appRoutes: Approutes;
     httpServer: any;
     httpsServer: any;
+    redisUitility: RedisUtility;
 
     constructor() {
-        setAppEnvVariable();
+        envValidationForProd();
         this.app = express();
         this.httpServer = http.createServer(this.app);
         this.loadGlobalMiddleware();
         this.appRoutes = new Approutes(this.app);
+        this.redisUitility = new RedisUtility();
     }
 
     public startServer() {
