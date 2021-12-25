@@ -52,7 +52,7 @@ export class ArchitectService {
             return res.status(200).json(tasks);
         }
         catch (err) {
-            console.error("ArchitectService", "getAllTasksAssignedToArchitect", err);
+            printErrorLog("ArchitectService", "getAllTasksAssignedToArchitect", err);
             res.status(501).json({ error: MESSAGE.SERVER_ERROR });
         }
     }

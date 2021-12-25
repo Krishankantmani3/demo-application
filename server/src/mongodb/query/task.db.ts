@@ -77,4 +77,24 @@ export class TaskDb{
             });
         });
     }
+
+    public getAllTasks() {
+        return new Promise((resolve, reject) => {
+            Tasks.find({}, { title: 1, description: 1, status: 1, progress: 1, assignedTo: 1, createdBy: 1 })
+            .populate('assignedTo', 'username')
+            .populate('createdBy', 'username')
+            .exec((err: any, tasks: any) => {
+                if (err) {
+                    printErrorLog("TaskDB", "getAllTasks", err);
+                    return resolve(MESSAGE.DATABASE_ERROR);
+                }
+
+                if (tasks.length == 0) {
+                    return resolve(MESSAGE.NO_DATA_FOUND);
+                }
+                return resolve(tasks);
+
+            });
+        });
+    }
 }

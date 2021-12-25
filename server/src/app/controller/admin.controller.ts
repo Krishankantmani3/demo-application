@@ -19,7 +19,7 @@ export class AdminController{
     }
 
     initializeRouting(){    
-        // this.router.post(`${baseUrl}/task`, this.authMiddleware.adminAuth ,this.adminService.createTask);
+       this.router.get(`${baseUrl}/tasks`, this.authMiddleware.adminAuth ,this.adminService.getAllTasks);
     }
 
     

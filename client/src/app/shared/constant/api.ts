@@ -11,5 +11,6 @@ export const API_URL = {
     BUILDER_TASKS: '/api/builder/tasks',
     BUILDER_TASK: '/api/builder/task',
     BUILDER_TASK_ASSIGN: '/api/builder/task/assignee',
-    ARCHITECTS: '/api/builder/architects'
+    ARCHITECTS: '/api/builder/architects',
+    TASKS: 'api/admin/tasks'
 };

@@ -1,12 +1,24 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { NavModule } from "../../../app/nav/nav.module";
 import { AdminComponent } from "./admin.component";
 
 const routes: Routes = [
     {
         path:'',
-        pathMatch: 'full',
-        component: AdminComponent
+        component: AdminComponent,
+        children: [
+            {
+                path: 'dashboard',
+                loadChildren: () => import('./dash/dash.module').then(m => m.DashModule),
+                // canActivate: [AuthGuard]
+            },
+            {
+                path: 'tasks',
+                pathMatch: 'full',
+                loadChildren: () => import('./tasks/tasks.module').then(m => m.TasksModule)
+            }
+        ]
     }
 ]
 
@@ -17,9 +29,11 @@ const routes: Routes = [
         AdminComponent
     ],
     exports: [AdminComponent],
-    imports: [RouterModule.forChild(routes)]
-}
-)
+    imports: [
+        RouterModule.forChild(routes),
+        NavModule
+    ]
+})
 export class AdminModule{
 
 }
