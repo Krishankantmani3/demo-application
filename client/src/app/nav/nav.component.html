@@ -18,7 +18,7 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>{{ userRole == _USER_ROLE.ARCHITECT ? 'Architect': (userRole == _USER_ROLE.BUILDER ? 'Builder' : "Admin") }}</span>
+      <span>{{ userRole }} - {{ userName }}</span>
       <button type="button" class="btn btn-outline-danger my-2 my-sm-0" style="margin-left: auto;" (click)="logout()">Logout</button>
     </mat-toolbar>
     <router-outlet></router-outlet>

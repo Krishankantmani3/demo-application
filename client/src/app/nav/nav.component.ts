@@ -14,7 +14,8 @@ import { Router } from '@angular/router';
 })
 export class NavComponent {
 
-  userRole: Number;
+  userRole: String;
+  userName: String;
   _USER_ROLE;
 
   menuItems = ['dashboard', 'sales', 'tasks'];
@@ -26,7 +27,8 @@ export class NavComponent {
     );
 
   constructor(private breakpointObserver: BreakpointObserver, private appState: AppState, private httpService: HttpService, private router: Router) {
-    this.userRole = appState.get('userData').role;
+    this.userRole = appState.get('userData').role == 1 ? 'Admin' : (appState.get('userData').role == 2 ? "Builder" : "Architect");
+    this.userName = appState.get('userData').username;
     this._USER_ROLE = USER_ROLE;
   }
 
