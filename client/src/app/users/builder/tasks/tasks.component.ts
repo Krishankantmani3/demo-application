@@ -41,7 +41,7 @@ export class TasksComponent implements OnInit {
 
         if (userId != this.builderTasks[index].assignedTo) {
             this.tasksService.updateAssignee(taskId, userId).then((res) => {
-                this.builderTasks[index].assignedTo = userId;
+                this.builderTasks[index].assignedTo = {_id: userId, username};
                 this.builderTasks[index].progress = 1;
             })
             .catch((err) => {

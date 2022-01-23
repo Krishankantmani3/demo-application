@@ -34,10 +34,6 @@ export class TasksComponent implements OnInit {
         this.fetchAllTasks();
     }
 
-    routeToUpdateTask(taskId){
-        this.router.navigate([`/architect/task/update/${taskId}`]);
-    }
-
     fetchAllTasks() {
         this.tasksService.getAllTasks()
             .then((tasks: []) => {

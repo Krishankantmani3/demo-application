@@ -14,7 +14,7 @@ export class AuthMiddleWare{
         this.auth = this.auth.bind(this);
     }
 
-    public roleAuth(req: any, res: any, next: any, role: number){
+    private roleAuth(req: any, res: any, next: any, role: number){
         try{
             let token = req.signedCookies.jwt_token;
             let userData: any = this.jwtHandler.verifyToken(token);

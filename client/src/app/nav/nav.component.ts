@@ -13,12 +13,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent {
-
   userRole: String;
   userName: String;
   _USER_ROLE;
-
-  menuItems = ['dashboard', 'sales', 'tasks'];
+  menuItems;
   
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -30,6 +28,20 @@ export class NavComponent {
     this.userRole = appState.get('userData').role == 1 ? 'Admin' : (appState.get('userData').role == 2 ? "Builder" : "Architect");
     this.userName = appState.get('userData').username;
     this._USER_ROLE = USER_ROLE;
+    this.setLeftPanel(appState.get('userData').role);
+
+  }
+
+  setLeftPanel(role: number){
+    if(USER_ROLE.ADMIN == role){
+      this.menuItems = ['dashboard', 'users', 'tasks'];
+    }
+    else if(USER_ROLE.ARCHITECT == role){
+      this.menuItems = ['dashboard', 'sales', 'tasks'];
+    }
+    else{
+      this.menuItems = ['dashboard', 'sales', 'tasks'];
+    }
   }
 
   logout(){
