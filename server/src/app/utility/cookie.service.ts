@@ -26,6 +26,6 @@ export function setJwtTokenInCookies(req: any, res: any, user: any) {
         }
     }
     catch (err) {
-        throw new Error('Invalid_token');
+        throw err;
     }
 }

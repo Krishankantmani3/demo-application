@@ -5,9 +5,10 @@ import { ArchitectController } from "../controller/architect.controller";
 import { Auth } from "../controller/auth.controller";
 import { BuilderController } from "../controller/builder.controller";
 
+// var auth2 = require("../controller/auth.controller");
 
 export class Approutes {
-  router: Router;
+  router: express.Router;
   auth: Auth;
   admin: AdminController;
   architect: ArchitectController;

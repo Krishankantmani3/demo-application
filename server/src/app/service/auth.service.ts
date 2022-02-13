@@ -1,15 +1,17 @@
-import * as bcrypt from 'bcrypt';
 import { JwtHandler } from "../utility/jwt.handler";
 import { UserDb } from "../../mongodb/query/user.db";
 import { User } from '../../mongodb/model/user.model';
 import { MESSAGE } from '../utility/constant/constant';
 import { printErrorLog } from '../utility/logger';
 import { setJwtTokenInCookies } from '../utility/cookie.service';
+import passport from 'passport';
+import { RedisUtility } from "../../redis/utility/redis.utility";
 
 export class AuthService {
 
     jwtHandler: JwtHandler;
     userDb: UserDb;
+    redisUtility: RedisUtility;
 
     constructor() {
         this.jwtHandler = new JwtHandler();
@@ -18,6 +20,7 @@ export class AuthService {
         this.register = this.register.bind(this);
         this.logout = this.logout.bind(this);
         this.test = this.test.bind(this);
+        this.redisUtility = new RedisUtility();
     }
 
     public async test(req: any, res: any) {
@@ -29,7 +32,6 @@ export class AuthService {
             res.status(401).json({ message: MESSAGE.SERVER_ERROR });
         }
     }
-
 
     public async register(req: any, res: any) {
         try {
@@ -69,53 +71,41 @@ export class AuthService {
         }
     }
 
-    public async login(req: any, res: any) {
-        try {
-            req = req.body;
-            let username = req.user.username;
-            let password = req.user.password;
-            let userDetails = await this.userDb.findOneByUserName(username);
+    public async login(req: any, res: any, next: any) {
+        passport.authenticate('local', (err, user, info) => {
+            if (err) {
+                printErrorLog("AuthService", "login", err);
+                return next(err);
+            }
 
-            if (userDetails == MESSAGE.NO_DATA_FOUND) {
-                return res.status(303).json({ message: MESSAGE.INCORRECT_EMAIL_OR_PASSWORD });
+            if (!user) {
+                return res.status(info.status).json(info.message);
             }
-            else if (userDetails == MESSAGE.DATABASE_ERROR) {
-                return res.status(500).json({ message: MESSAGE.SERVER_ERROR });
-            }
-            let status = bcrypt.compareSync(password, userDetails.password);
-            if (status) {
-                let userData = {
-                    _id: userDetails._id,
-                    email: userDetails.email,
-                    username: userDetails.email,
-                    role: userDetails.role,
-                    fullname: userDetails.fullname
-                };
-                setJwtTokenInCookies(req, res, userData);
-                return res.status(200).json(userData);
-            }
-            else {
-                return res.status(303).json({ message: MESSAGE.INCORRECT_EMAIL_OR_PASSWORD });
-            }
-        }
-        catch (err) {
-            printErrorLog("AuthService", "login", err);
-            res.status(500).json({ message: MESSAGE.SERVER_ERROR });
-        }
+
+            req.logIn(user, (err: Error) => {
+                if (err) {
+                    printErrorLog("AuthService", "login", err);
+                    return next(err);
+                }
+
+                return res.status(200).json(req.user);
+            });
+        })(req, res, next);
     }
 
-
-    public async logout(req: any, res: any) {
+    public async logout(req: any, res: any, next: any) {
         try {
-            let options = {
-                maxAge: 0, // would expire after 15 minutes
-                httpOnly: true, // The cookie only accessible by the web server
-                signed: true,
-                sameSite: 'None',
-                secure: true
+            if (req.user) {
+                res.status(200).json({ status: true });
             }
-            res.clearCookie('jwt_token', options);
-            res.status(200).json({ status: true });
+            req.logout();
+            req.session.destroy(async (err: any) => {
+                if (err) {
+                    return next(err);
+                }
+                await this.redisUtility.deleteKeyFromRedis('login_' + req.sessionID);
+                res.status(200).json({ status: true });
+            });
         }
         catch (err) {
             printErrorLog("AuthService", "logout", err);

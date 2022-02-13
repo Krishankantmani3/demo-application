@@ -2,10 +2,12 @@ import { Application, Router } from "express";
 import { AuthMiddleWare } from "../middleware/auth.middleware";
 import { AuthService } from "../service/auth.service";
 import { UserService } from "../service/user.service";
+import express from "express";
+
 
 export class Auth{
 
-    router: Router;
+    router: express.Router;
     app: Application;
     authMiddleware: AuthMiddleWare;
     authService: AuthService;

@@ -55,7 +55,7 @@ export class LoginComponent {
                 role: this.selectedRole
             };
 
-            this.loginService.login({user: this.userDetails}).then((res: any)=>{
+            this.loginService.login(this.userDetails).then((res: any)=>{
                 this.isLogging = false;
                 if(this.authService.redirectUrl){
                     this.router.navigateByUrl(this.authService.redirectUrl);
