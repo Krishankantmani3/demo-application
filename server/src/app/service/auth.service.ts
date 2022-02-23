@@ -95,15 +95,19 @@ export class AuthService {
 
     public async logout(req: any, res: any, next: any) {
         try {
-            if (req.user) {
+            let username: any = null;
+            if (!req.user) {
                 res.status(200).json({ status: true });
+            }
+            else{
+                username = req.user.username;
             }
             req.logout();
             req.session.destroy(async (err: any) => {
                 if (err) {
                     return next(err);
                 }
-                await this.redisUtility.deleteKeyFromRedis('login_' + req.sessionID);
+                await this.redisUtility.deleteOneKeyFromRedis('login_' + username + '_' +req.sessionID);
                 res.status(200).json({ status: true });
             });
         }

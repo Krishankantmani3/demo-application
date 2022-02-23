@@ -5,11 +5,13 @@ import * as bcrypt from 'bcrypt';
 import { UserDb } from "../../mongodb/query/user.db";
 import { UserResponseDTO } from "../utility/dto/userResponse.dto";
 import { UserSessionDTO } from "../utility/dto/userSession.dto";
+import { UserSessionUtility } from "../utility/userSession.utility";
 
 const redisUtility = new RedisUtility();
 const userDb = new UserDb();
 const LOGIN_KEY_PREFIX = 'login_';
-
+const userSessionUtility = new UserSessionUtility();
+const SESSION_MAX_LIMIT = 1;
 async function verifyLoginCredential(username: any, password: any) {
     let result: any = {};
 
@@ -37,7 +39,7 @@ export const passportConfig = (passport: any, tokenService?: any) => {
         if (!sessionUser || !sessionUser.username) {
             return done(null, false);
         }
-        let redisKey = LOGIN_KEY_PREFIX + sessionUser.sessionId;
+        let redisKey = LOGIN_KEY_PREFIX + sessionUser.username + '_' + sessionUser.sessionId;
         let storedUserDetails = await redisUtility.getValueFromRedis(redisKey);
         if (storedUserDetails) {
             return done(null, storedUserDetails);
@@ -51,19 +53,36 @@ export const passportConfig = (passport: any, tokenService?: any) => {
         passReqToCallback: true
     },
         async (req: any, username, password, done) => {
-            let result = await verifyLoginCredential(username, password);
-            const status = result.status;
-            let userDetails: UserSessionDTO | string = result.userDetails;
+            try {
+                let result = await verifyLoginCredential(username, password);
+                const status = result.status;
+                let userDetails: UserSessionDTO | string = result.userDetails;
 
-            if (result.status && req.sessionID) {
-                userDetails = new UserSessionDTO(userDetails);
-                userDetails.setUserSessionId(req.sessionID);
-                let redisKey = LOGIN_KEY_PREFIX + req.sessionID;
-                await redisUtility.setValueToRedis(redisKey, userDetails);
-                return done(null, userDetails);
-            }
-            else {
-                return done(null, false);
+                if (result.status && req.sessionID) {
+                    userDetails = new UserSessionDTO(userDetails);
+                    let keyPattern = LOGIN_KEY_PREFIX + userDetails.username;
+                    let userSessionCount = null;
+                    if (req.body.forcedLogin) {
+                        await userSessionUtility.deleteFromAllSession(keyPattern);
+                    }
+                    else {
+                        userSessionCount = await userSessionUtility.userSessionCount(keyPattern);
+                    }
+
+                    if (userSessionCount >= SESSION_MAX_LIMIT) {
+                        throw { message: "Active session exceeding limit", status: 406 };
+                    }
+
+                    userDetails.setUserSessionId(req.sessionID);
+                    let redisKey = LOGIN_KEY_PREFIX + userDetails.username + '_' + req.sessionID;
+                    await redisUtility.setValueToRedis(redisKey, userDetails);
+                    return done(null, userDetails);
+                }
+                else {
+                    return done(null, false);
+                }
+            } catch (err: any) {
+                done(null, false, err);
             }
         }
     ));

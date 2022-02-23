@@ -15,7 +15,7 @@ setMongooseConfig();
 var app = express();
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(express.json());
-if(process.env.NODE_ENV == 'production' || process.env.NODE_ENV == 'test'){
+if (process.env.NODE_ENV == 'production' || process.env.NODE_ENV == 'test') {
     app.set('trust proxy', 1);
 }
 app.use(session(sessionOption));
@@ -26,6 +26,6 @@ app.use(passport.session());
 const appRoutes = new Approutes(app);
 const httpServer = http.createServer(app);
 
-httpServer.listen(process.env.PORT,()=>{
+httpServer.listen(process.env.PORT, () => {
     console.log("http running on " + process.env.PORT);
 });

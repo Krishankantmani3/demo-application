@@ -37,7 +37,7 @@ export class RedisUtility{
         });
     }
 
-    public deleteKeyFromRedis(key: string | number){
+    public deleteOneKeyFromRedis(key: string | number){
         return new Promise((resolve, reject) =>{
             redisClient.del(key, (err: Error, data: any)=>{
                 if(err){
@@ -50,5 +50,33 @@ export class RedisUtility{
         });
     }
 
+    public getValueFromKeyPattern(key: string | number){
+        return new Promise((resolve, reject)=>{
+            redisClient.keys(key, (err: Error, result: string) => {
+                if (err) {
+                    printErrorLog("RedisUtility", "getValueFromKeyPattern", err);
+                    return reject(err);
+                }        
+                if (result) {
+                    return resolve(result);
+                }
+                else {
+                    return resolve(false);
+                }
+              });
+        });
+    }
 
+    public deleteManyKeysFromRedis(key: [string] | [number] ){
+        return new Promise((resolve, reject) =>{
+            redisClient.mdel(key, (err: Error, data: any)=>{
+                if(err){
+                    printErrorLog("RedisUtility", "deleteManyKeysFromRedis", err);
+                    return reject(err);
+                }
+
+                return resolve(true);
+            });
+        });
+    }
 }
