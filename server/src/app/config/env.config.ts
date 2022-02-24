@@ -14,6 +14,7 @@ function setAppEnvVariable() {
     process.env.ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || config.ALLOWED_ORIGIN[process.env.NODE_ENV.toUpperCase()];
     process.env.COOKIE_TIMEOUT = process.env.COOKIE_TIMEOUT || config.COOKIE_TIMEOUT[process.env.NODE_ENV.toUpperCase()];
     process.env.REDIS_URI = process.env.REDIS_URI || JSON.stringify(config.REDIS_URI);
+    process.env.SESSION_MAX_LIMIT = process.env.SESSION_MAX_LIMIT || config.SESSION_MAX_LIMIT;
 }
 
 setAppEnvVariable();

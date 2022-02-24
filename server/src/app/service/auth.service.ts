@@ -6,6 +6,7 @@ import { printErrorLog } from '../utility/logger';
 import { setJwtTokenInCookies } from '../utility/cookie.service';
 import passport from 'passport';
 import { RedisUtility } from "../../redis/utility/redis.utility";
+import { UserResponseDTO } from "../utility/dto/userResponse.dto";
 
 export class AuthService {
 
@@ -89,7 +90,7 @@ export class AuthService {
                     return next(err);
                 }
 
-                return res.status(200).json(req.user);
+                return res.status(200).json(new UserResponseDTO(req.user));
             });
         })(req, res, next);
     }

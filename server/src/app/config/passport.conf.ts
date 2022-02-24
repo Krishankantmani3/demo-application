@@ -3,10 +3,8 @@ import * as local from "passport-local";
 import { MESSAGE } from "../utility/constant/constant";
 import * as bcrypt from 'bcrypt';
 import { UserDb } from "../../mongodb/query/user.db";
-import { UserResponseDTO } from "../utility/dto/userResponse.dto";
 import { UserSessionDTO } from "../utility/dto/userSession.dto";
 import { UserSessionUtility } from "../utility/userSession.utility";
-import { printErrorLog } from "../utility/logger";
 
 const redisUtility = new RedisUtility();
 const userDb = new UserDb();
@@ -16,7 +14,6 @@ const SESSION_MAX_LIMIT = 2;
 
 async function verifyLoginCredential(username: any, password: any) {
     let result: any = {};
-
     let userDetails = await userDb.findOneByUserName(username);
     if (userDetails == MESSAGE.NO_DATA_FOUND) {
         result = { status: 403, message: "wrong username or password" };
@@ -27,9 +24,8 @@ async function verifyLoginCredential(username: any, password: any) {
         throw result;
     }
     let status = bcrypt.compareSync(password, userDetails.password);
-    result = { status: true, userDetails: new UserResponseDTO(userDetails) };
     if (status) {
-        return result;
+        return userDetails;
     }
     else {
         throw { status: 403, message: "wrong username or password" };
@@ -61,10 +57,8 @@ export const passportConfig = (passport: any, tokenService?: any) => {
     },
         async (req: any, username, password, done) => {
             try {
-                let result = await verifyLoginCredential(username, password);
-                const status = result.status;
-                let userDetails: UserSessionDTO | string = result.userDetails;
-                userDetails = new UserSessionDTO(userDetails);
+                let userData = await verifyLoginCredential(username, password);
+                let userDetails: UserSessionDTO = new UserSessionDTO(userData);
                 let keyPattern = LOGIN_KEY_PREFIX + userDetails.username + "_*";
                 let userSessionCount = null;
                 if (req.body.forcedLogin) {

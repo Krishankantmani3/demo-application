@@ -2,6 +2,7 @@ import { USER_ROLE } from "../utility/constant/constant";
 import { MESSAGE } from "../utility/constant/constant";
 import { printErrorLog } from "../utility/logger";
 import { RedisUtility } from "../../redis/utility/redis.utility";
+import { UserResponseDTO } from "../utility/dto/userResponse.dto";
 
 export class AuthMiddleWare {
 
@@ -50,7 +51,7 @@ export class AuthMiddleWare {
     public async auth(req: any, res: any) {
         try {
             if (req.isAuthenticated() && req.user) {
-                return res.status(200).json(req.user);
+                return res.status(200).json(new UserResponseDTO(req.user));
             }
             else {
                 return res.status(403).json({ message: MESSAGE.INVALID_TOKEN });

@@ -33,5 +33,6 @@
   "COOKIE_TIMEOUT": {
     "DEVELOPMENT": 86400000,
     "TEST": 86400000
-  }
+  },
+  "SESSION_MAX_LIMIT": 2
 }
