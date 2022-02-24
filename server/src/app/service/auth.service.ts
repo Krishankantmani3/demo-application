@@ -79,6 +79,7 @@ export class AuthService {
             }
 
             if (!user) {
+                console.log("something galat ba");
                 return res.status(info.status).json(info.message);
             }
 
@@ -97,7 +98,7 @@ export class AuthService {
         try {
             let username: any = null;
             if (!req.user) {
-                res.status(200).json({ status: true });
+                return res.status(200).json({ status: true });
             }
             else{
                 username = req.user.username;
@@ -108,12 +109,12 @@ export class AuthService {
                     return next(err);
                 }
                 await this.redisUtility.deleteOneKeyFromRedis('login_' + username + '_' +req.sessionID);
-                res.status(200).json({ status: true });
+                return res.status(200).json({ status: true });
             });
         }
         catch (err) {
             printErrorLog("AuthService", "logout", err);
-            res.status(500).json({ message: MESSAGE.SERVER_ERROR, status: false });
+            return res.status(500).json({ message: MESSAGE.SERVER_ERROR, status: false });
         }
     }
 

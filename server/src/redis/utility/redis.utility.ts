@@ -37,7 +37,7 @@ export class RedisUtility{
         });
     }
 
-    public deleteOneKeyFromRedis(key: string | number){
+    public deleteOneKeyFromRedis(key: any){
         return new Promise((resolve, reject) =>{
             redisClient.del(key, (err: Error, data: any)=>{
                 if(err){
@@ -67,16 +67,38 @@ export class RedisUtility{
         });
     }
 
-    public deleteManyKeysFromRedis(key: [string] | [number] ){
-        return new Promise((resolve, reject) =>{
-            redisClient.mdel(key, (err: Error, data: any)=>{
-                if(err){
-                    printErrorLog("RedisUtility", "deleteManyKeysFromRedis", err);
+    public async deleteKeysFromKeyPattern(key: string){
+        try {
+            let values:any = await this.getValueFromKeyPattern(key);
+            return new Promise((resolve, reject) =>{
+                if(values && values.length){
+                    resolve(this.deleteOneKeyFromRedis(values));
+                }
+                else{
+                    resolve(true);
+                }
+            });
+        } catch (err) {
+            printErrorLog("RedisUtility", "deleteKeyFromRedis", err);
+            throw err;
+        }
+    }
+
+    public getValuesForMultipleKey(key: any){
+        return new Promise((resolve, reject)=>{
+            redisClient.mget(key, (err: Error, result: string) => {
+                if (err) {
+                    printErrorLog("RedisUtility", "getValuesForMultipleKey", err);
                     return reject(err);
                 }
-
-                return resolve(true);
-            });
+                
+                if (result && result.length) {
+                    return resolve(result);
+                }
+                else {
+                    return resolve(false);
+                }
+              });
         });
     }
 }

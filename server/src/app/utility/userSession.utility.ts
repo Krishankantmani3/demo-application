@@ -32,10 +32,20 @@ export class UserSessionUtility {
         }
     }
 
-    async deleteFromAllSession(key: any){
+    async deleteFromAllSession(key: any) {
         try {
-            let users: any = await this.redisUtility.getValueFromRedis(key);
-            await this.redisUtility.deleteManyKeysFromRedis(users);
+            let sessionKeys: any = await this.redisUtility.getValueFromKeyPattern(key);
+            let sessions: any = await this.redisUtility.getValuesForMultipleKey(sessionKeys);
+            if(sessions && sessions.length){
+                sessions = sessions.map((obj: any)=>{
+                    obj = JSON.parse(obj);
+                    console.log("obj.sessionId",obj,obj["sessionId"] );
+                    return "sess:" + obj.sessionId;
+                });
+            }
+            let fun1 = this.redisUtility.deleteOneKeyFromRedis(sessions);
+            let fun2 = this.redisUtility.deleteKeysFromKeyPattern(key);
+            return Promise.all([fun1, fun2]);
         } catch (err) {
             throw err;
         }

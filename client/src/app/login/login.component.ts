@@ -57,13 +57,42 @@ export class LoginComponent {
 
             this.loginService.login(this.userDetails).then((res: any)=>{
                 this.isLogging = false;
-                if(this.authService.redirectUrl){
-                    this.router.navigateByUrl(this.authService.redirectUrl);
-                    this.authService.redirectUrl = null;
+                console.log("result", res);
+                if(res.status == 200){
+                    if(this.authService.redirectUrl){
+                        this.router.navigateByUrl(this.authService.redirectUrl);
+                        this.authService.redirectUrl = null;
+                    }
+                    else{
+                        this.redirectUserToDashboard(res.body);
+                    }
                 }
-                else{
-                    this.redirectUserToDashboard(res.body);
+                else if(res.status == 406){
+                    // alert("active session limit exceeded");
+                    if(confirm("active session limit exceeded\n Do you want to login forcefully?")){
+                        this.userDetails.forcedLogin = true;
+                        this.isLogging = true;
+                        this.loginService.login(this.userDetails).then((res: any)=>{
+                            this.isLogging = false;
+                            if(res.status == 200){
+                                if(this.authService.redirectUrl){
+                                    this.router.navigateByUrl(this.authService.redirectUrl);
+                                    this.authService.redirectUrl = null;
+                                }
+                                else{
+                                    this.redirectUserToDashboard(res.body);
+                                }
+                            }
+                        }).catch((err)=>{
+                            this.isLogging = false;
+                            alert(err);
+                        });
+                    }
                 }
+            }).catch((err)=>{
+                this.isLogging = false;
+                console.log("errrrrrrrrrrr",err);
+                alert("wrong password");
             });
         }
         else{

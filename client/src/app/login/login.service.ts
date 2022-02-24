@@ -25,12 +25,15 @@ export class LoginService {
     login(user) {
         return new Promise((resolve, reject) => {
             let url = API_URL.LOGIN;
-            return this.httpService.makeHttpPostRequest(url, user).subscribe((res)=>{
-                if(res.status == 200){
-                    return  resolve(res);
+            return this.httpService.makeHttpPostRequest(url, user).subscribe({
+                next: (res) => {
+                    return resolve(res);
+                }, error: (err) => {
+                    if(err.status == 406){
+                       return resolve(err);
+                    }
+                    return  reject(err);
                 }
-
-                return reject({error: "something went wrong"});
             });
         });
     }
