@@ -9,6 +9,7 @@ import { HttpService } from './shared/service/http.service';
 import { AppState } from './app.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppHttpInterceptor } from './app.http-inceptor';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { AppHttpInterceptor } from './app.http-inceptor';
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     AuthGuard, 

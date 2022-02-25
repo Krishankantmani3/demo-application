@@ -1,9 +1,10 @@
-import { Component } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from "@angular/router";
 import { USER_ROLE } from "../shared/constant/user.role";
 import { AuthService } from "../shared/service/auth.service";
 import { LoginService } from "./login.service";
+import { ToastrService } from 'ngx-toastr';
 
 enum role {
     ARCHITECT = 3,
@@ -15,7 +16,7 @@ enum role {
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit, OnDestroy{
     selectedRole: number = role.ARCHITECT;
     userDetails;
     userForm: any;
@@ -23,8 +24,12 @@ export class LoginComponent {
     isSubmitted: boolean;
     isLogging = false;
 
-    constructor(private loginService: LoginService, private router: Router, private authService: AuthService) {
+    constructor(private loginService: LoginService, private router: Router, private authService: AuthService, private toastr: ToastrService) {
         this.createFormGroup();
+    }
+
+    ngOnInit(): void {
+        
     }
 
     createFormGroup() {
@@ -85,14 +90,23 @@ export class LoginComponent {
                             }
                         }).catch((err)=>{
                             this.isLogging = false;
-                            alert(err);
+                            if(err.status && err.status == 403){
+                                this.toastr.error("wrong username or password");
+                            }
+                            else{
+                                this.toastr.error("something went wrong");
+                            }
                         });
                     }
                 }
             }).catch((err)=>{
                 this.isLogging = false;
-                console.log("errrrrrrrrrrr",err);
-                alert("wrong password");
+                if(err.status && err.status == 403){
+                    this.toastr.error("wrong username or password");
+                }
+                else{
+                    this.toastr.error("something went wrong");
+                }
             });
         }
         else{
@@ -116,5 +130,9 @@ export class LoginComponent {
 
     routeToRegisterPage(){
         this.router.navigate(['/register']);
+    }
+
+    ngOnDestroy(): void {
+        this.toastr.clear();
     }
 }
