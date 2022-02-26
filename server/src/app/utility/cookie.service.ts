@@ -16,7 +16,7 @@ export function setJwtTokenInCookies(req: any, res: any, user: any) {
         }
         else {
             let options = {
-                maxAge: process.env.COOKIE_TIMEOUT, // would expire after 24 hrs.
+                maxAge: process.env.COOKIE_TIMEOUT_SEC, // would expire after 24 hrs.
                 httpOnly: true, // The cookie only accessible by the web server
                 signed: true,
                 sameSite: 'Strict',

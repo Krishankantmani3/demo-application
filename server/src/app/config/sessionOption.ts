@@ -2,11 +2,18 @@ import session from "express-session";
 import { redisClient } from "../../redis/config/redis.config";
 var RedisStore = require('connect-redis')(session);
 
-const COOKIE_SECRET = process.env.COOKIE_SECRET
-if (!COOKIE_SECRET) {
-    console.error('[error]: The "API_KEY" environment variable is required')
+if (!process.env.COOKIE_SECRET) {
+    console.error('[error]: The "COOKIE_SECRET" environment variable is required')
     process.exit(1)
 }
+
+if (!process.env.COOKIE_TIMEOUT_SEC) {
+    console.error('[error]: The "COOKIE_TIMEOUT" environment variable is required')
+    process.exit(1)
+}
+
+const COOKIE_SECRET = process.env.COOKIE_SECRET;
+const COOKIE_TIMEOUT_SEC = parseInt(process.env.COOKIE_TIMEOUT_SEC);
 
 export const sessionOption = {
     name: 'session_cookie',
@@ -15,7 +22,7 @@ export const sessionOption = {
     saveUninitialized: false,
     resave: false,
     cookie: {
-        maxAge: 1000 * 60 * 10,
+        maxAge: COOKIE_TIMEOUT_SEC*1000,
         httpOnly: false,
         secure: false,
         path: "/",

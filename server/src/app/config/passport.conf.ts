@@ -11,6 +11,11 @@ const userDb = new UserDb();
 const LOGIN_KEY_PREFIX = 'login_';
 const userSessionUtility = new UserSessionUtility();
 const SESSION_MAX_LIMIT = 2;
+if (!process.env.COOKIE_TIMEOUT_SEC) {
+    console.error('[error]: The "COOKIE_TIMEOUT_SEC" environment variable is required')
+    process.exit(1)
+}
+const COOKIE_TIMEOUT_SEC = parseInt(process.env.COOKIE_TIMEOUT_SEC);
 
 async function verifyLoginCredential(username: any, password: any) {
     let result: any = {};
@@ -74,7 +79,7 @@ export const passportConfig = (passport: any, tokenService?: any) => {
 
                 userDetails.setUserSessionId(req.sessionID);
                 let redisKey = LOGIN_KEY_PREFIX + userDetails.username + '_' + req.sessionID;
-                await redisUtility.setValueToRedis(redisKey, userDetails);
+                await redisUtility.setDataAndExpiry(redisKey, userDetails, COOKIE_TIMEOUT_SEC);
                 return done(null, userDetails);
             } catch (err: any) {
                 done(null, false, err);

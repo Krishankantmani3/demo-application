@@ -80,7 +80,6 @@ export class AuthService {
             }
 
             if (!user) {
-                console.log("something galat ba");
                 return res.status(info.status).json(info.message);
             }
 

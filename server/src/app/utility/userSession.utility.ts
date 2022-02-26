@@ -36,13 +36,7 @@ export class UserSessionUtility {
         try {
             let sessionKeys: any = await this.redisUtility.getValueFromKeyPattern(key);
             let sessions: any = await this.redisUtility.getValuesForMultipleKey(sessionKeys);
-            if(sessions && sessions.length){
-                sessions = sessions.map((obj: any)=>{
-                    obj = JSON.parse(obj);
-                    console.log("obj.sessionId",obj,obj["sessionId"] );
-                    return "sess:" + obj.sessionId;
-                });
-            }
+            sessions = sessions.map((obj: any) => "sess:" + obj.sessionId );
             let fun1 = this.redisUtility.deleteOneKeyFromRedis(sessions);
             let fun2 = this.redisUtility.deleteKeysFromKeyPattern(key);
             return Promise.all([fun1, fun2]);

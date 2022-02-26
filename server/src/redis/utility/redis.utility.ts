@@ -85,13 +85,14 @@ export class RedisUtility {
 
     public getValuesForMultipleKey(key: any) {
         return new Promise((resolve, reject) => {
-            redisClient.mget(key, (err: Error, result: string) => {
+            redisClient.mget(key, (err: Error, result: any) => {
                 if (err) {
                     printErrorLog("RedisUtility", "getValuesForMultipleKey", err);
                     return reject(err);
                 }
 
                 if (result && result.length) {
+                    result = result.map( (obj: any) => JSON.parse(obj));
                     return resolve(result);
                 }
                 else {
@@ -100,4 +101,23 @@ export class RedisUtility {
             });
         });
     }
+
+    public async setExpiryRedis(key: any, seconds: number){
+        try {
+            let result = await redisClient.get(key);
+            await redisClient.set(key, result, 'ex', seconds);
+        } catch (err) {
+            printErrorLog("RedisUtility", "setExpiryRedis", err);
+        }
+    }
+
+    public async setDataAndExpiry(key: any, data: any, seconds: number){
+        try {
+            await redisClient.set(key, JSON.stringify(data), 'ex', seconds);
+        } catch (err) {
+            printErrorLog("RedisUtility", "setExpiryRedis", err);
+        }
+    }
+
+
 }

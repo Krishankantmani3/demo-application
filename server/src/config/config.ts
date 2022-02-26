@@ -9,6 +9,6 @@ export const config = {
   JWT_ACCESS_SECRET: "DGNDGJ4589ghhfd615ionEFBJRFFB45bgfheyyuj",
   COOKIE_SECRET: "DGNDGJ4589ghhfd615ionEFBJRFFB45bgfheyyuj",
   ALLOWED_ORIGIN: "http://172.17.0.2:4200 http://localost:4200 https://task.com",
-  COOKIE_TIMEOUT: 86400000,
+  COOKIE_TIMEOUT_SEC: 3600,
   SESSION_MAX_LIMIT: 2
 }
