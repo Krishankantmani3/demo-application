@@ -39,7 +39,11 @@
                                     <div *ngIf="isSubmitted && userForm.controls.password.errors?.minlength" class="text-danger">Atleast 4 characters allowed.</div>
                                     <div *ngIf="isSubmitted && userForm.controls.password.errors?.maxlength" class="text-danger">Atmost 10 characters allowed.</div>
                                 </div>
-                                <input type="submit" class="btnRegister" value="Login" (click)="submit()" />
+                                <!-- <input type="submit" class="btnRegister" value="Login" (click)="submit()" /> -->
+                                <button class="btnRegister" (click)="submit()">
+                                    <span class="spinner-border spinner-border-sm" *ngIf="isLogging" role="status" aria-hidden="true"></span>
+                                    <span>Login</span>
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -48,3 +52,7 @@
         </div>
     </div>
 </div>
+
+<vertical-modal modalId="forcefullLogin" headerContent="Force Login?" 
+bodyContent="You have exceeded active sessions. if  you forcefully login then It will log you out from all sessions." [showModal]="showForceFullLoginModal" 
+(modalAction)="loginForcefully($event)"></vertical-modal>

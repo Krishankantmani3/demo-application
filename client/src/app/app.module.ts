@@ -10,6 +10,7 @@ import { AppState } from './app.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppHttpInterceptor } from './app.http-inceptor';
 import { ToastrModule } from 'ngx-toastr';
+import { UtilityService } from './shared/service/utility.service';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ToastrModule } from 'ngx-toastr';
       provide: HTTP_INTERCEPTORS,
       useClass: AppHttpInterceptor,
       multi: true
-    }
+    },
+    UtilityService
   ],
   bootstrap: [AppComponent]
 })

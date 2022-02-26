@@ -1,0 +1,44 @@
+<!-- Modal -->
+<div class="modal fade" #modal [id]="modalId" tabindex=-1 data-backdrop="static" role="dialog" aria-modal="true"
+  data-keyboard="false" (keyup.Escape)="cancel()">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">{{ headerContent }}</h3>
+        <button type="button" class="close" (click)="cancel()" data-dismiss="modal" aria-label="Close"
+          *ngIf="!hideCancelInHeader">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col">
+            <div [innerHtml]="bodyContent"></div>
+          </div>
+        </div>
+        <div class="form-check" *ngIf="modalOptions?.showCheckbox">
+          <input class="form-check-input" type="checkbox" (click)="checkboxClick($event.target.checked)">
+          <label class="form-check-label">{{modalOptions?.checkboxMsg}}</label>
+        </div>
+        <!-- <div class="form-check" *ngIf="checkBoxTexts?.PERMIT">
+          <div class="text-danger" *ngIf="permittedAndConfirmed && !permitProctor">Required</div>
+          <input class="form-check-input" type="checkbox" [(ngModel)]="permitProctor">
+          <label class="form-check-label" [innerHtml]="checkBoxTexts?.PERMIT"></label>
+        </div> -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-dark" (click)="cancel()" *ngIf="!modalOptions?.hideCancelButton">
+          <span *ngIf="!modalOptions?.cancelButtonLabel">cancel</span>
+          <span *ngIf="modalOptions?.cancelButtonLabel">
+            {{modalOptions.cancelButtonLabel}}
+          </span>
+        </button>
+        <button type="button" class="btn btn-sm btn-primary" (click)="ok()" *ngIf="!modalOptions?.hideOKButton"
+          [disabled]="showSpinner">
+          <span class="spinner-border spinner-border-sm" *ngIf="showSpinner" role="status" aria-hidden="true"></span>
+          &nbsp;{{modalOptions?.okButtonLabel ? modalOptions.okButtonLabel : 'ok'}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

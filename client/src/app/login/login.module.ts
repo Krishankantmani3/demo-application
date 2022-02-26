@@ -6,6 +6,7 @@ import { HttpService } from "../shared/service/http.service";
 import { LoginComponent } from "./login.component";
 import { LoginService } from "./login.service";
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { VerticalModalModule } from "../shared/modules/modals/vertical-modal.module";
 
 const routes: Routes = [
     {
@@ -22,7 +23,8 @@ const routes: Routes = [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        MatProgressBarModule
+        MatProgressBarModule,
+        VerticalModalModule
     ],
     providers: [
         LoginService,

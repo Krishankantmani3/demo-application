@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit, OnDestroy{
     isFormDirty: boolean;
     isSubmitted: boolean;
     isLogging = false;
+    showForceFullLoginModal = false;
 
     constructor(private loginService: LoginService, private router: Router, private authService: AuthService, private toastr: ToastrService) {
         this.createFormGroup();
@@ -74,30 +75,7 @@ export class LoginComponent implements OnInit, OnDestroy{
                 }
                 else if(res.status == 406){
                     // alert("active session limit exceeded");
-                    if(confirm("active session limit exceeded\n Do you want to login forcefully?")){
-                        this.userDetails.forcedLogin = true;
-                        this.isLogging = true;
-                        this.loginService.login(this.userDetails).then((res: any)=>{
-                            this.isLogging = false;
-                            if(res.status == 200){
-                                if(this.authService.redirectUrl){
-                                    this.router.navigateByUrl(this.authService.redirectUrl);
-                                    this.authService.redirectUrl = null;
-                                }
-                                else{
-                                    this.redirectUserToDashboard(res.body);
-                                }
-                            }
-                        }).catch((err)=>{
-                            this.isLogging = false;
-                            if(err.status && err.status == 403){
-                                this.toastr.error("wrong username or password");
-                            }
-                            else{
-                                this.toastr.error("something went wrong");
-                            }
-                        });
-                    }
+                    this.showForceFullLoginModal = true;
                 }
             }).catch((err)=>{
                 this.isLogging = false;
@@ -111,6 +89,34 @@ export class LoginComponent implements OnInit, OnDestroy{
         }
         else{
             this.isLogging = false;
+        }
+    }
+
+    loginForcefully(isOk){
+        this.showForceFullLoginModal = false;
+        if(isOk){
+            this.userDetails.forcedLogin = true;
+            this.isLogging = true;
+            this.loginService.login(this.userDetails).then((res: any)=>{
+                this.isLogging = false;
+                if(res.status == 200){
+                    if(this.authService.redirectUrl){
+                        this.router.navigateByUrl(this.authService.redirectUrl);
+                        this.authService.redirectUrl = null;
+                    }
+                    else{
+                        this.redirectUserToDashboard(res.body);
+                    }
+                }
+            }).catch((err)=>{
+                this.isLogging = false;
+                if(err.status && err.status == 403){
+                    this.toastr.error("wrong username or password");
+                }
+                else{
+                    this.toastr.error("something went wrong");
+                }
+            });
         }
     }
 
