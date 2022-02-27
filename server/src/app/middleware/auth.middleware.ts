@@ -50,7 +50,9 @@ export class AuthMiddleWare {
 
     public async auth(req: any, res: any) {
         try {
+            console.log("req.user", req.user);
             if (req.isAuthenticated() && req.user) {
+                console.log("reached at ", new UserResponseDTO(req.user));
                 return res.status(200).json(new UserResponseDTO(req.user));
             }
             else {

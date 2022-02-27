@@ -5,117 +5,97 @@ import { redisClient } from "../config/redis.config";
 export class RedisUtility {
     constructor() { }
 
-    public getValueFromRedis(key: string | number) {
-        return new Promise((resolve, reject) => {
-            redisClient.get(key, (err: Error, result: string) => {
-                if (err) {
-                    printErrorLog("RedisUtility", "getValueFromRedis", err);
-                    return reject(err);
-                }
-
-                if (result) {
-                    return resolve(JSON.parse(result));
-                }
-                else {
-                    return resolve(false);
-                }
-            });
-        });
+    public async getValueFromRedis(key: string | number) {
+        try {
+            let result = await redisClient.get(key);
+            if (!result) {
+                return false;
+            }
+            return JSON.parse(result);
+        } catch (err) {
+            printErrorLog("RedisUtility", "getValueFromRedis", err);
+            throw err;
+        }
     }
 
-    public setValueToRedis(key: string | number, value: any) {
-        return new Promise<void>((resolve, reject) => {
-            redisClient.set(key, JSON.stringify(value), (err: Error, data: any) => {
-                if (err) {
-                    printErrorLog("RedisUtility", "setValueToRedis", err);
-                    return reject(err);
-                } else {
-                    resolve();
-                }
-            });
-        });
+    public async setValueToRedis(key: string | number, value: any) {
+        try {
+            await redisClient.set(key, JSON.stringify(value));
+        } catch (err) {
+            printErrorLog("RedisUtility", "setValueToRedis", err);
+            throw err;
+        }
     }
 
-    public deleteOneKeyFromRedis(key: any) {
-        return new Promise((resolve, reject) => {
-            redisClient.del(key, (err: Error, data: any) => {
-                if (err) {
-                    printErrorLog("RedisUtility", "deleteKeyFromRedis", err);
-                    return reject(err);
-                }
-
-                return resolve(true);
-            });
-        });
+    public async deleteOneKeyFromRedis(key: any) {
+        try {
+            await redisClient.del(key);
+        } catch (err) {
+            printErrorLog("RedisUtility", "getValueFromRedis", err);
+            throw err;
+        }
     }
 
-    public getValueFromKeyPattern(key: string | number) {
-        return new Promise((resolve, reject) => {
-            redisClient.keys(key, (err: Error, result: string) => {
-                if (err) {
-                    printErrorLog("RedisUtility", "getValueFromKeyPattern", err);
-                    return reject(err);
-                }
-                if (result) {
-                    return resolve(result);
-                }
-                else {
-                    return resolve(false);
-                }
-            });
-        });
+    public async getValueFromKeyPattern(key: string | number) {
+        try {
+            let result = await redisClient.keys(key);
+            if (result && result.length) {
+                return result;
+            }
+            return false;
+        } catch (err) {
+            printErrorLog("RedisUtility", "getValueFromRedis", err);
+            throw err;
+        }
     }
 
     public async deleteKeysFromKeyPattern(key: string) {
         try {
             let values: any = await this.getValueFromKeyPattern(key);
-            return new Promise((resolve, reject) => {
-                if (values && values.length) {
-                    resolve(this.deleteOneKeyFromRedis(values));
-                }
-                else {
-                    resolve(true);
-                }
-            });
+            if (values && values.length) {
+                return this.deleteOneKeyFromRedis(values);
+            }
+            else {
+                return true;
+            }
         } catch (err) {
             printErrorLog("RedisUtility", "deleteKeyFromRedis", err);
             throw err;
         }
     }
 
-    public getValuesForMultipleKey(key: any) {
-        return new Promise((resolve, reject) => {
-            redisClient.mget(key, (err: Error, result: any) => {
-                if (err) {
-                    printErrorLog("RedisUtility", "getValuesForMultipleKey", err);
-                    return reject(err);
-                }
-
-                if (result && result.length) {
-                    result = result.map( (obj: any) => JSON.parse(obj));
-                    return resolve(result);
-                }
-                else {
-                    return resolve(false);
-                }
-            });
-        });
+    public async getValuesForMultipleKey(key: any) {
+        try {
+            let result = await redisClient.mget(key);
+            if (result && result.length) {
+                result = result.map((obj: any) => JSON.parse(obj));
+                return result;
+            }
+            else {
+                return false;
+            }
+        } catch (err) {
+            printErrorLog("RedisUtility", "getValueFromRedis", err);
+            throw err;
+        }
     }
 
-    public async setExpiryRedis(key: any, seconds: number){
+    public async setExpiryRedis(key: any, seconds: number) {
         try {
             let result = await redisClient.get(key);
             await redisClient.set(key, result, 'ex', seconds);
         } catch (err) {
             printErrorLog("RedisUtility", "setExpiryRedis", err);
+            throw err;
         }
     }
 
-    public async setDataAndExpiry(key: any, data: any, seconds: number){
+    public async setDataAndExpiry(key: any, data: any, seconds: number) {
         try {
             await redisClient.set(key, JSON.stringify(data), 'ex', seconds);
         } catch (err) {
-            printErrorLog("RedisUtility", "setExpiryRedis", err);
+            printErrorLog("RedisUtility", "setDataAndExpiry", err);
+            throw err;
         }
     }
 
