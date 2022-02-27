@@ -108,7 +108,7 @@ export class AuthService {
                 if (err) {
                     return next(err);
                 }
-                await this.redisUtility.deleteOneKeyFromRedis('login_' + username + '_' +req.sessionID);
+                await this.redisUtility.deleteDataByKey('login_' + username + '_' +req.sessionID);
                 return res.status(200).json({ status: true });
             });
         }

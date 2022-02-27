@@ -5,7 +5,7 @@ import { redisClient } from "../config/redis.config";
 export class RedisUtility {
     constructor() { }
 
-    public async getValueFromRedis(key: string | number) {
+    public async getDataByKey(key: string | number) {
         try {
             let result = await redisClient.get(key);
             if (!result) {
@@ -13,30 +13,30 @@ export class RedisUtility {
             }
             return JSON.parse(result);
         } catch (err) {
-            printErrorLog("RedisUtility", "getValueFromRedis", err);
+            printErrorLog("RedisUtility", "getDataByKey", err);
             throw err;
         }
     }
 
-    public async setValueToRedis(key: string | number, value: any) {
+    public async setDataByKey(key: string | number, value: any) {
         try {
             await redisClient.set(key, JSON.stringify(value));
         } catch (err) {
-            printErrorLog("RedisUtility", "setValueToRedis", err);
+            printErrorLog("RedisUtility", "setDataByKey", err);
             throw err;
         }
     }
 
-    public async deleteOneKeyFromRedis(key: any) {
+    public async deleteDataByKey(key: any) {
         try {
             await redisClient.del(key);
         } catch (err) {
-            printErrorLog("RedisUtility", "getValueFromRedis", err);
+            printErrorLog("RedisUtility", "deleteDataByKey", err);
             throw err;
         }
     }
 
-    public async getValueFromKeyPattern(key: string | number) {
+    public async getDataByKeyPattern(key: string | number) {
         try {
             let result = await redisClient.keys(key);
             if (result && result.length) {
@@ -44,27 +44,27 @@ export class RedisUtility {
             }
             return false;
         } catch (err) {
-            printErrorLog("RedisUtility", "getValueFromRedis", err);
+            printErrorLog("RedisUtility", "getDataByKeyPattern", err);
             throw err;
         }
     }
 
-    public async deleteKeysFromKeyPattern(key: string) {
+    public async deleteDataByKeyPattern(key: string) {
         try {
-            let values: any = await this.getValueFromKeyPattern(key);
+            let values: any = await this.getDataByKeyPattern(key);
             if (values && values.length) {
-                return this.deleteOneKeyFromRedis(values);
+                return this.deleteDataByKey(values);
             }
             else {
                 return true;
             }
         } catch (err) {
-            printErrorLog("RedisUtility", "deleteKeyFromRedis", err);
+            printErrorLog("RedisUtility", "deleteDataByKeyPattern", err);
             throw err;
         }
     }
 
-    public async getValuesForMultipleKey(key: any) {
+    public async getMultiDataByMultiKey(key: any) {
         try {
             let result = await redisClient.mget(key);
             if (result && result.length) {
@@ -75,17 +75,17 @@ export class RedisUtility {
                 return false;
             }
         } catch (err) {
-            printErrorLog("RedisUtility", "getValueFromRedis", err);
+            printErrorLog("RedisUtility", "getMultiDataByMultiKey", err);
             throw err;
         }
     }
 
-    public async setExpiryRedis(key: any, seconds: number) {
+    public async setExpiry(key: any, seconds: number) {
         try {
             let result = await redisClient.get(key);
             await redisClient.set(key, result, 'ex', seconds);
         } catch (err) {
-            printErrorLog("RedisUtility", "setExpiryRedis", err);
+            printErrorLog("RedisUtility", "setExpiry", err);
             throw err;
         }
     }
@@ -98,6 +98,4 @@ export class RedisUtility {
             throw err;
         }
     }
-
-
 }

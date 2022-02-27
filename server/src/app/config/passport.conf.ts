@@ -48,8 +48,9 @@ export const passportConfig = (passport: any, tokenService?: any) => {
             return done(null, false);
         }
         let redisKey = LOGIN_KEY_PREFIX + sessionUser.username + '_' + sessionUser.sessionId;
-        let storedUserDetails = await redisUtility.getValueFromRedis(redisKey);
+        let storedUserDetails = await redisUtility.getDataByKey(redisKey);
         if (storedUserDetails) {
+            userSessionUtility.resetUserSessionExpiry(redisKey, COOKIE_TIMEOUT_SEC);
             return done(null, storedUserDetails);
         }
         return done(null, false);

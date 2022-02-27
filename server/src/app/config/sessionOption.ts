@@ -21,6 +21,7 @@ export const sessionOption = {
     secret: COOKIE_SECRET,
     saveUninitialized: false,
     resave: false,
+    rolling: true,
     cookie: {
         maxAge: COOKIE_TIMEOUT_SEC*1000,
         httpOnly: false,
