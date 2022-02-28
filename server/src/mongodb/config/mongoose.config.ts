@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { printConsoleLog, printErrorLog } from '../../app/utility/logger';
 let config = require('../../config/config');
+const db = mongoose.connection;
 
 export default function setMongooseConfig() {
 
@@ -8,18 +9,11 @@ export default function setMongooseConfig() {
         throw new Error(`No MongoDB connection URI specified.`);
     }
 
-    const db = mongoose.connection;
     db.on('error', (err) => {
         printErrorLog("mongoose.config.ts", "onError", err);
     });
 
-    // db.once('open', ()=>{
-    //     printConsoleLog("mongoose.config.ts", "onceOpen", "");
-    // });
-
     db.on('connected', () => {
-        // printConsoleLog("mongoose.config.ts", "onConnected", "");
-
         db.on('disconnected', (err) => {
             printErrorLog("mongoose.config.ts", "onDisconnected", err);
         });

@@ -24,8 +24,8 @@ export const sessionOption = {
     rolling: true,
     cookie: {
         maxAge: COOKIE_TIMEOUT_SEC*1000,
-        httpOnly: false,
-        secure: false,
+        httpOnly: process.env.NODE_ENV != 'development' ? true : false,
+        secure: process.env.NODE_ENV != 'development' ? true : false,
         path: "/",
         sameSite: true 
     }
