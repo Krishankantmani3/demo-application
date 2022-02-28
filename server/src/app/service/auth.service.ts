@@ -1,5 +1,5 @@
 import { JwtHandler } from "../utility/jwt.handler";
-import { UserDb } from "../../mongodb/query/user.db";
+import { UserDao } from "../../mongodb/dao/user.dao";
 import { User } from '../../mongodb/model/user.model';
 import { MESSAGE } from '../utility/constant/constant';
 import { printErrorLog } from '../utility/logger';
@@ -10,11 +10,11 @@ import { UserResponseDTO } from "../utility/dto/userResponse.dto";
 
 export class AuthService {
 
-    userDb: UserDb;
+    userDb: UserDao;
     redisUtility: RedisUtility;
 
     constructor() {
-        this.userDb = new UserDb();
+        this.userDb = new UserDao();
         this.login = this.login.bind(this);
         this.register = this.register.bind(this);
         this.logout = this.logout.bind(this);
