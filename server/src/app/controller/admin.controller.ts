@@ -5,22 +5,22 @@ import { AuthService } from "../service/auth.service";
 
 const baseUrl = '/admin';
 
-export class AdminController{
+export class AdminController {
 
     router: Router;
     app: Application;
     authMiddleware: AuthMiddleWare;
     adminService: AdminService;
-    constructor(app: Application, router: Router){
+    constructor(app: Application, router: Router) {
         this.app = app;
         this.router = router;
         this.authMiddleware = new AuthMiddleWare();
         this.adminService = new AdminService();
     }
 
-    initializeRouting(){    
-       this.router.get(`${baseUrl}/tasks`, this.authMiddleware.adminAuth ,this.adminService.getAllTasks);
+    initializeRouting() {
+        this.router.get(`${baseUrl}/students`, this.authMiddleware.adminAuth, this.adminService.getAllStudentList);
     }
 
-    
+
 };

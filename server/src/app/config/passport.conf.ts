@@ -2,12 +2,12 @@ import { RedisUtility } from "../../redis/utility/redis.utility";
 import * as local from "passport-local";
 import { MESSAGE } from "../utility/constant/constant";
 import * as bcrypt from 'bcrypt';
-import { UserDb } from "../../mongodb/query/user.db";
+import { UserDao } from "../../mongodb/dao/user.dao";
 import { UserSessionDTO } from "../utility/dto/userSession.dto";
 import { UserSessionUtility } from "../utility/userSession.utility";
 
 const redisUtility = new RedisUtility();
-const userDb = new UserDb();
+const userDao = new UserDao();
 const LOGIN_KEY_PREFIX = 'login_';
 const userSessionUtility = new UserSessionUtility();
 const SESSION_MAX_LIMIT = 2;
@@ -19,7 +19,7 @@ const COOKIE_TIMEOUT_SEC = parseInt(process.env.COOKIE_TIMEOUT_SEC);
 
 async function verifyLoginCredential(username: any, password: any) {
     let result: any = {};
-    let userDetails = await userDb.findOneByUserName(username);
+    let userDetails = await userDao.findOneByUserName(username);
     if (userDetails == MESSAGE.NO_DATA_FOUND) {
         result = { status: 403, message: "wrong username or password" };
         throw result;

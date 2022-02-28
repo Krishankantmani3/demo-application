@@ -11,8 +11,8 @@ export class AuthMiddleWare {
     constructor() {
         this.redisUtility = new RedisUtility();
         this.adminAuth = this.adminAuth.bind(this);
-        this.architectAuth = this.architectAuth.bind(this);
-        this.builderAuth = this.builderAuth.bind(this);
+        this.studentAuth = this.studentAuth.bind(this);
+        this.educatorAuth = this.educatorAuth.bind(this);
         this.auth = this.auth.bind(this);
     }
 
@@ -40,12 +40,12 @@ export class AuthMiddleWare {
         return await this.roleAuth(req, res, next, USER_ROLE.ADMIN);
     }
 
-    public async architectAuth(req: any, res: any, next: any) {
-        return await this.roleAuth(req, res, next, USER_ROLE.ARCHITECT);
+    public async studentAuth(req: any, res: any, next: any) {
+        return await this.roleAuth(req, res, next, USER_ROLE.STUDENT);
     }
 
-    public async builderAuth(req: any, res: any, next: any) {
-        return await this.roleAuth(req, res, next, USER_ROLE.BUILDER);
+    public async educatorAuth(req: any, res: any, next: any) {
+        return await this.roleAuth(req, res, next, USER_ROLE.EDUCATOR);
     }
 
     public async auth(req: any, res: any) {

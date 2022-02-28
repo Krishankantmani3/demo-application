@@ -8,6 +8,8 @@ export class User{
     email: string;
     fullname: string;
     role: [number];
+    isEmailVerified: boolean;
+    isUserActivated: boolean;
 
     constructor(user: User){
         this.username = user.username;
@@ -15,12 +17,13 @@ export class User{
         this.email = user.email;
         this.fullname = user.fullname;
         this.role = user.role;
+        this.isEmailVerified = user.isEmailVerified || false;
+        this.isUserActivated = user.isUserActivated || false;
     }
 
     public hashPasswd(password: string){
         return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
     }
-
 }
 
 let UserSchema = new Schema({

@@ -1,20 +1,9 @@
 
 export const USER_ROLE = {
     ADMIN: 1,
-    BUILDER: 2,
-    ARCHITECT: 3
+    STUDENT: 2,
+    EDUCATOR: 3
 }
-
-export const TASK_PROGRESS = {
-    PENDING: 1,
-    PROGRESS: 2,
-    COMPLETED: 3
-};
-
-export const TASK_STATUS = {
-    ASSIGNED: 1,
-    UNASSIGNED: 2
-};
 
 export const MESSAGE = {
     DATABASE_ERROR: "DATABASE_ERROR",

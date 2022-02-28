@@ -23,10 +23,10 @@ export const sessionOption = {
     resave: false,
     rolling: true,
     cookie: {
-        maxAge: COOKIE_TIMEOUT_SEC*1000,
+        maxAge: COOKIE_TIMEOUT_SEC * 1000,
         httpOnly: process.env.NODE_ENV != 'development' ? true : false,
         secure: process.env.NODE_ENV != 'development' ? true : false,
         path: "/",
-        sameSite: true 
+        sameSite: true
     }
 };

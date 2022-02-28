@@ -10,12 +10,10 @@ import { UserResponseDTO } from "../utility/dto/userResponse.dto";
 
 export class AuthService {
 
-    jwtHandler: JwtHandler;
     userDb: UserDb;
     redisUtility: RedisUtility;
 
     constructor() {
-        this.jwtHandler = new JwtHandler();
         this.userDb = new UserDb();
         this.login = this.login.bind(this);
         this.register = this.register.bind(this);
@@ -116,9 +114,5 @@ export class AuthService {
             printErrorLog("AuthService", "logout", err);
             return res.status(500).json({ message: MESSAGE.SERVER_ERROR, status: false });
         }
-    }
-
-    authorized(req: any, res: any, user: any) {
-        res.status(200).json({ "authorized": true });
     }
 }
