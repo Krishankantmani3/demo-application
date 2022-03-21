@@ -1,4 +1,5 @@
 import { Schema } from "mongoose";
+import mongoose from 'mongoose';
 import { MESSAGE } from "../../app/utility/constant/constant";
 import { USER_ROLE } from "../../app/utility/constant/constant";
 import { printErrorLog } from "../../app/utility/logger";
@@ -26,6 +27,7 @@ export class UserDao {
             if (result.length == 0) {
                 return false;
             }
+            console.log("result", result);
             return result;
         } catch (err) {
             printErrorLog("UserDao", "findByUserNameOrEmail", err);
@@ -58,16 +60,41 @@ export class UserDao {
         }
     }
 
-    public async getStudentList() {
+    public async getStudentsList() {
         try {
-            let result = Users.find({ role: USER_ROLE.STUDENT }, { email: 1, username: 1, fullname: 1, isEmailVerified: 1, isUserActivated: 1 });
+            let result = await Users.find({ role: USER_ROLE.STUDENT }, { email: 1, username: 1, fullname: 1, isEmailVerified: 1, isUserActivated: 1 });
             if (!result || result.length == 0) {
                 return false;
             }
             return result;
         }
         catch (err) {
-            printErrorLog("UserDao", "getStudentList", err);
+            printErrorLog("UserDao", "getStudentsList", err);
+            throw { status: 500, message: MESSAGE.DATABASE_ERROR };
+        }
+    }
+
+    public async getEducatorsList() {
+        try {
+            let result = await Users.find({ role: USER_ROLE.EDUCATOR }, { email: 1, username: 1, fullname: 1, isEmailVerified: 1, isUserActivated: 1 });
+            if (!result || result.length == 0) {
+                return false;
+            }
+            return result;
+        }
+        catch (err) {
+            printErrorLog("UserDao", "getEducatorsList", err);
+            throw { status: 500, message: MESSAGE.DATABASE_ERROR };
+        }
+    }
+
+    public async updateUserField(userId: any, updateObj: any){
+        try{
+            console.log("userId in server side", updateObj);
+            return Users.updateOne({_id: mongoose.Types.ObjectId(userId)}, {$set: updateObj});
+        }
+        catch(err){
+            printErrorLog("UserDao", "updateUserField", err);
             throw { status: 500, message: MESSAGE.DATABASE_ERROR };
         }
     }

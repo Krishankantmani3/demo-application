@@ -5,7 +5,7 @@ import { AdminComponent } from "./admin.component";
 
 const routes: Routes = [
     {
-        path:'',
+        path: '',
         component: AdminComponent,
         children: [
             {
@@ -14,9 +14,14 @@ const routes: Routes = [
                 // canActivate: [AuthGuard]
             },
             {
-                path: 'tasks',
+                path: 'educators',
                 pathMatch: 'full',
-                loadChildren: () => import('./tasks/tasks.module').then(m => m.TasksModule)
+                loadChildren: () => import('./educatorsList/educatorsList.module').then(m => m.EducatorsListModule)
+            },
+            {
+                path: 'manage-user',
+                pathMatch: 'full',
+                loadChildren: () => import('./manage-user/manage-user.module').then(m => m.ManageUserModule)
             }
         ]
     }
@@ -34,6 +39,6 @@ const routes: Routes = [
         NavModule
     ]
 })
-export class AdminModule{
+export class AdminModule {
 
 }

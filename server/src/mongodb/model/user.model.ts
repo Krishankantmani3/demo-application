@@ -32,6 +32,8 @@ let UserSchema = new Schema({
     email: {type: String, unique: true, required: true},
     fullname: {type: String, required: true},
     role: {type: [Number], required: true},
+    isEmailVerified: {type: Boolean},
+    isUserActivated: {type: Boolean}
 });
 
 export let Users = mongoose.model('User', UserSchema);

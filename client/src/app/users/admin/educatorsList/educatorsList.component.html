@@ -1,0 +1,29 @@
+<mat-progress-bar *ngIf="isLoaded == false" mode="indeterminate" color="accent"></mat-progress-bar>
+<div *ngIf="isLoaded == true">
+    <h1 class="p-3 text-center center" *ngIf="educatorsList?.length == 0">No Educators has been added yet.</h1>
+    <div class="container" *ngIf="educatorsList?.length != 0">
+        <h1 class="center">Educators list</h1>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Full name</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Email verified</th>
+                    <th scope="col">Account activated</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let educator of educatorsList; let i = index" [style.background-color]="'#009DAE'">
+                    <td scope="row">{{ i+1 }}</td>
+                    <td>{{ educator.fullname }}</td>
+                    <td>{{ educator.username }}</td>
+                    <td>{{ educator.email }}</td>
+                    <td>{{ educator.isEmailVerified ? "Yes":"No" }}</td>
+                    <td>{{ educator.isUserActivated ? "Yes":"No" }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

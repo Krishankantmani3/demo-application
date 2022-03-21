@@ -12,5 +12,10 @@ export const API_URL = {
     BUILDER_TASK: '/api/builder/task',
     BUILDER_TASK_ASSIGN: '/api/builder/task/assignee',
     ARCHITECTS: '/api/builder/architects',
-    TASKS: 'api/admin/tasks'
+    TASKS: 'api/admin/tasks',
+    EDUCATORS: 'api/admin/educators',
+    USER: 'api/admin/user',
+    VERIFY_EMAIL_MANUALLY: 'api/admin/email-verified',
+    ACTIVATE_USER_MANUALLY: 'api/admin/user-activated',
+    DEACTIVATE_USER_MANUALLY: 'api/admin/user-deactivated'
 };
