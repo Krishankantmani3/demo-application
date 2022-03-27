@@ -22,7 +22,7 @@ import { AuthGuard } from "./shared/guards/auth-guard.service";
         loadChildren: () => import('./users/builder/builder.module').then(m => m.BuilderModule),
         canActivate: [AuthGuard],
         data: {
-            role: [USER_ROLE.BUILDER]
+            role: [USER_ROLE.STUDENT]
         }
     },
     {
@@ -30,7 +30,7 @@ import { AuthGuard } from "./shared/guards/auth-guard.service";
         loadChildren: ()=> import('./users/architect/architect.module').then(m => m.ArchitectModule),
         canActivate: [AuthGuard],
         data: {
-            role: [USER_ROLE.ARCHITECT]
+            role: [USER_ROLE.EDUCATOR]
         }
     },
     {

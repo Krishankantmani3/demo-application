@@ -71,9 +71,9 @@ export class AuthGuard implements CanActivate, CanActivateChild {
         if (userData.role) {
             if (userData.role.indexOf(USER_ROLE.ADMIN) >= 0) {
                 this.router.navigate(['/admin']);
-            } else if (userData.role.indexOf(USER_ROLE.ARCHITECT) >= 0) {
+            } else if (userData.role.indexOf(USER_ROLE.EDUCATOR) >= 0) {
                 this.router.navigate(['/architect']);
-            } else if (userData.role.indexOf(USER_ROLE.BUILDER) >= 0) {
+            } else if (userData.role.indexOf(USER_ROLE.STUDENT) >= 0) {
                 this.router.navigate(['/builder']);
             }
         }

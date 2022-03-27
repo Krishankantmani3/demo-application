@@ -36,7 +36,7 @@ export class NavComponent {
     if(USER_ROLE.ADMIN == role){
       this.menuItems = ['dashboard', 'educators', 'manage-user'];
     }
-    else if(USER_ROLE.ARCHITECT == role){
+    else if(USER_ROLE.EDUCATOR == role){
       this.menuItems = ['dashboard', 'sales', 'tasks'];
     }
     else{

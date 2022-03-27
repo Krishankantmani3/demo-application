@@ -21,7 +21,7 @@ export class AdminController {
     initializeRouting() {
         this.router.get(`${baseUrl}/students`, this.authMiddleware.adminAuth, this.adminService.getStudentList);
         this.router.get(`${baseUrl}/educators`, this.authMiddleware.adminAuth, this.adminService.getEducatorsList);
-        this.router.get(`${baseUrl}/user/:username`, this.authMiddleware.adminAuth, this.adminService.getUserByUserName);
+        this.router.get(`${baseUrl}/user/:username`, this.authMiddleware.adminAuth, this.adminService.getStudentOrEducatorDetailsByUserName);
         this.router.patch(`${baseUrl}/email-verified/:userId`, this.authMiddleware.adminAuth, this.adminService.verifyEmailByAdmin);
         this.router.patch(`${baseUrl}/user-activated/:userId`, this.authMiddleware.adminAuth, this.adminService.activateUSerByAdmin);
         this.router.patch(`${baseUrl}/user-deactivated/:userId`, this.authMiddleware.adminAuth, this.adminService.deactivateUserByAdmin);

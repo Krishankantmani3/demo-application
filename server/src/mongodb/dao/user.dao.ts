@@ -21,6 +21,20 @@ export class UserDao {
         }
     }
 
+    public async findOneByUserNameAndRoles(username: string, roles: number[]) {
+        try {
+            let user = await Users.findOne({ username, role: { $in: roles}});
+            if (user == undefined) {
+                return false;
+            }
+            return user;
+        }
+        catch (err) {
+            printErrorLog("UserDao", "findOneByUserNameAndRoles", err);
+            throw { status: 500, message: MESSAGE.DATABASE_ERROR };
+        }
+    }
+
     public async findByUserNameOrEmail(username: any, email: any) {
         try {
             let result = await Users.find({ $or: [{ "email": email }, { "username": username }] });

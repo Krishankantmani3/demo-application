@@ -1,5 +1,5 @@
 import { UserDao } from "../../mongodb/dao/user.dao";
-import { MESSAGE } from "../utility/constant/constant";
+import { MESSAGE, USER_ROLE } from "../utility/constant/constant";
 import { UserResponseDTO } from "../utility/dto/userResponse.dto";
 import { printErrorLog } from "../utility/logger";
 
@@ -10,7 +10,7 @@ export class AdminService {
         this.userDao = new UserDao();
         this.getStudentList = this.getStudentList.bind(this);
         this.getEducatorsList = this.getEducatorsList.bind(this);
-        this.getUserByUserName = this.getUserByUserName.bind(this);
+        this.getStudentOrEducatorDetailsByUserName = this.getStudentOrEducatorDetailsByUserName.bind(this);
         this.verifyEmailByAdmin = this.verifyEmailByAdmin.bind(this);
         this.activateUSerByAdmin = this.activateUSerByAdmin.bind(this);
         this.deactivateUserByAdmin = this.deactivateUserByAdmin.bind(this);
@@ -44,10 +44,11 @@ export class AdminService {
         }
     }
 
-    async getUserByUserName(req: any, res: any, next: any) {
+    async getStudentOrEducatorDetailsByUserName(req: any, res: any, next: any) {
         try {
             let username = req.params.username;
-            let user = await this.userDao.findOneByUserName(username);
+            let roles = [USER_ROLE.EDUCATOR, USER_ROLE.STUDENT];
+            let user = await this.userDao.findOneByUserNameAndRoles(username, roles);
             if (!user) {
                 return res.status(204).json({ message: MESSAGE.NO_DATA_FOUND });
             }
