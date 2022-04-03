@@ -12,11 +12,14 @@ export class ManageUserComponent implements OnInit {
     isLoaded = true;
     isFormSubmitted: boolean = false;
     username = "";
+    showMailModal = false;
+    modalTitle: string;
+    headerContent: string;
+    bodyContent: string;
+
     constructor(private manageUserService: ManageUserService, private router: Router) { }
 
-    ngOnInit() {
-
-    }
+    ngOnInit() { }
 
     getUserDetail() {
         this.isFormSubmitted = true;
@@ -57,5 +60,32 @@ export class ManageUserComponent implements OnInit {
         this.manageUserService.deActivateUserByAdmin(this.userDetail._id).then((res)=>{
             this.userDetail.isUserActivated = false;
         });
+    }
+
+    showModalForMailInput(){
+        this.modalTitle = `Mail to ${this.userDetail.email}`;
+        this.showMailModal = true;
+    }
+
+    mailToUser(formData){
+        this.showMailModal = false;
+        this.isLoaded = false;
+
+        if(formData){
+            let data = {
+                sendTo: this.userDetail.email,
+                subject: formData.headerContent,
+                body: formData.bodyContent
+            };
+
+            this.manageUserService.mailToUser(data).then((res)=>{
+                this.isLoaded = true;
+            }).catch((err)=>{
+                this.isLoaded = true;
+            });
+        }
+        else{
+            this.isLoaded = true;
+        }
     }
 }

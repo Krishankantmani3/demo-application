@@ -17,5 +17,6 @@ export const API_URL = {
     USER: 'api/admin/user',
     VERIFY_EMAIL_MANUALLY: 'api/admin/email-verified',
     ACTIVATE_USER_MANUALLY: 'api/admin/user-activated',
-    DEACTIVATE_USER_MANUALLY: 'api/admin/user-deactivated'
+    DEACTIVATE_USER_MANUALLY: 'api/admin/user-deactivated',
+    MAIL_TO_USER: 'api/admin/mail'
 };

@@ -25,5 +25,6 @@ export class AdminController {
         this.router.patch(`${baseUrl}/email-verified/:userId`, this.authMiddleware.adminAuth, this.adminService.verifyEmailByAdmin);
         this.router.patch(`${baseUrl}/user-activated/:userId`, this.authMiddleware.adminAuth, this.adminService.activateUSerByAdmin);
         this.router.patch(`${baseUrl}/user-deactivated/:userId`, this.authMiddleware.adminAuth, this.adminService.deactivateUserByAdmin);
+        this.router.post(`${baseUrl}/mail`, this.authMiddleware.adminAuth, this.adminService.mailToUser);
     }
 };

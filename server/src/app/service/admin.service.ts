@@ -2,18 +2,23 @@ import { UserDao } from "../../mongodb/dao/user.dao";
 import { MESSAGE, USER_ROLE } from "../utility/constant/constant";
 import { UserResponseDTO } from "../utility/dto/userResponse.dto";
 import { printErrorLog } from "../utility/logger";
+import { NodeMailerService } from "../utility/nodemailer.service";
 
 export class AdminService {
 
     private userDao: UserDao;
+    private nodeMailerService: NodeMailerService;
+
     constructor() {
         this.userDao = new UserDao();
+        this.nodeMailerService = new NodeMailerService();
         this.getStudentList = this.getStudentList.bind(this);
         this.getEducatorsList = this.getEducatorsList.bind(this);
         this.getStudentOrEducatorDetailsByUserName = this.getStudentOrEducatorDetailsByUserName.bind(this);
         this.verifyEmailByAdmin = this.verifyEmailByAdmin.bind(this);
         this.activateUSerByAdmin = this.activateUSerByAdmin.bind(this);
         this.deactivateUserByAdmin = this.deactivateUserByAdmin.bind(this);
+        this.mailToUser = this.mailToUser.bind(this);
     }
 
     async getStudentList(req: any, res: any, next: any) {
@@ -98,4 +103,18 @@ export class AdminService {
             next(err);
         }
     }
+
+    async mailToUser(req: any, res: any, next: any) {
+        try {
+            let inputData = req.body;
+            let result = await this.nodeMailerService.sendMail("try.and.test@outlook.com", inputData.sendTo, inputData.subject, inputData.body);
+            console.log("res", inputData, result);
+            return res.status(204).json();
+        }
+        catch (err) {
+            printErrorLog("AdminService", "deactivateUserByAdmin", err);
+            next(err);
+        }
+    }
+
 }

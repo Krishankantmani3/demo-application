@@ -1,18 +1,22 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormModalComponent } from "./form-modal.component";
 import { VerticalModalComponent } from "./vertical-modal.component";
 
 @NgModule({
     imports: [
         FormsModule,
-        CommonModule
+        CommonModule,
+        ReactiveFormsModule
     ],
     declarations: [
-        VerticalModalComponent
+        VerticalModalComponent,
+        FormModalComponent
     ],
     exports: [
-        VerticalModalComponent
+        VerticalModalComponent,
+        FormModalComponent
     ]
 })
 export class VerticalModalModule { }

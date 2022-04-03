@@ -90,4 +90,23 @@ export class ManageUserService {
             });
         });
     }
+
+    mailToUser(data){
+        return new Promise((resolve, reject) => {
+            let url = API_URL.MAIL_TO_USER;
+            this.httpService.makeHttpPostRequest(url, data).subscribe({
+                next: (res) => {
+                    if (res.status == 204) {
+                        resolve(true);
+                    }
+                    else {
+                        reject(true);
+                    }
+                },
+                error: (err) => {
+                    reject(err);
+                }
+            });
+        });
+    }
 }

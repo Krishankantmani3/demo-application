@@ -74,7 +74,6 @@ export class LoginComponent implements OnInit, OnDestroy{
                     }
                 }
                 else if(res.status == 406){
-                    // alert("active session limit exceeded");
                     this.showForceFullLoginModal = true;
                 }
             }).catch((err)=>{

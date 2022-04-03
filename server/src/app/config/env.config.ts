@@ -16,6 +16,7 @@ function setAppEnvVariable() {
     process.env.COOKIE_TIMEOUT_SEC = process.env.COOKIE_TIMEOUT__SEC || JSON.stringify(config.COOKIE_TIMEOUT_SEC);
     process.env.REDIS_URI = process.env.REDIS_URI || JSON.stringify(config.REDIS_URI);
     process.env.SESSION_MAX_LIMIT = process.env.SESSION_MAX_LIMIT || JSON.stringify(config.SESSION_MAX_LIMIT);
+    process.env.NODEMAILER_INFO = process.env.NODEMAILER_INFO || JSON.stringify(config.NODEMAILER_INFO);
 }
 
 setAppEnvVariable();

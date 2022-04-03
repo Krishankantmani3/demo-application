@@ -1,4 +1,9 @@
 <mat-progress-bar *ngIf="isLoaded == false" mode="indeterminate" color="accent"></mat-progress-bar>
+
+<form-modal modalId="mailModal" [title]="modalTitle" headerTitle="Subject:" 
+bodyTitle="Message:" [showModal]="showMailModal"
+(modalAction)="mailToUser($event)"></form-modal>
+
 <div class="container-fluid">
     <div class="class-container">
         <div class="row" *ngIf="isLoaded && isFormSubmitted && userDetail">
@@ -11,6 +16,7 @@
                         <button type="button" class="btn btn-primary my-0" (click)="makeEmailVerified()">Email verified</button>
                         <button type="button" class="btn btn-primary my-0 ms-2" (click)="activateUserAccount()">Activate account</button>
                         <button type="button" class="btn btn-primary my-0 ms-2" (click)="deactivateUserAccount()">Deactivate account</button>
+                        <button type="button" class="btn btn-primary my-0 ms-2" (click)="showModalForMailInput()">Mail to user</button>
                     </div>
                 </div>
             </div>
