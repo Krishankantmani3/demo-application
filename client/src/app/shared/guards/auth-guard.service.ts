@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot } from "@angular/router";
 import { Observable, of, throwError } from "rxjs";
@@ -28,10 +27,11 @@ export class AuthGuard implements CanActivate, CanActivateChild {
         try {
             if (!this.appState.get('isUserAuthenticated')) {
                 return this.authService.authenticate().pipe(map((res) => {
+                    console.log("authentcated", res.body);
                     this.authService.redirectUrl = null;
                     this.appState.set('isUserAuthenticated', 1);
                     this.appState.set('userData', res.body);
-                    return this.isUserAuthorized(route);
+                    return this.isUserAuthorized(route, url);
                 }), catchError((error) => {
                     console.log("error in req");
                     this.authService.redirectUrl = url;
@@ -42,7 +42,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
             }
             else {
                 this.authService.redirectUrl = null;
-                return this.isUserAuthorized(route);
+                return this.isUserAuthorized(route, url);
             }
         }
         catch (err) {
@@ -51,20 +51,31 @@ export class AuthGuard implements CanActivate, CanActivateChild {
         }
     }
 
-    isUserAuthorized(route: ActivatedRouteSnapshot) {
+    isUserAuthorized(route: ActivatedRouteSnapshot, url) {
         let routeData = route.data;
-        console.log("routeData", routeData);
-        console.log("userData", this.appState.get('userData').role);
+
+        if(url == '/verify-email'){
+            return true;
+        }
+
+        if(!this.appState.get('userData').isUserActivated){
+            this.redirectUserToUserDeactivatedPage();
+            return false;
+        }
+
+        if(!this.appState.get('userData').isEmailVerified){
+            this.redirectUserToVerifyEmailPage();
+            return false;
+        }
 
         for (let role of this.appState.get('userData').role) {
-            if (routeData.role.indexOf(role) < 0) {
-                console.warn('Unauthorized Access');
-                this.redirectUserToDashboard(this.appState.state.userData);
-                return false;
+            if (routeData.role.indexOf(role) >= 0) {
+                return true;
             }
         }
 
-        return true;
+        this.redirectUserToDashboard(this.appState.state.userData);
+        return false;
     }
 
     redirectUserToDashboard(userData: any) {
@@ -77,5 +88,13 @@ export class AuthGuard implements CanActivate, CanActivateChild {
                 this.router.navigate(['/builder']);
             }
         }
+    }
+
+    redirectUserToVerifyEmailPage(){
+        this.router.navigate(['/verify-email']);
+    }
+
+    redirectUserToUserDeactivatedPage(){
+        this.router.navigate(['/account-deactivated']);
     }
 }

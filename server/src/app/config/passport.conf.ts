@@ -30,6 +30,9 @@ async function verifyLoginCredential(username: any, password: any) {
     }
     let status = bcrypt.compareSync(password, userDetails.password);
     if (status) {
+        if(!userDetails.isUserActivated){
+            throw { status: 401, message: "account is deactivated" };
+        }
         return userDetails;
     }
     else {

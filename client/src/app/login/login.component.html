@@ -1,53 +1,55 @@
 <mat-progress-bar *ngIf="isLogging == true" mode="indeterminate" fixedInViewport color="accent"></mat-progress-bar>
-<div class="container register">
-    <div class="row">
-        <div class="col-md-3 register-left">
-            <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
-            <h3>Welcome</h3>
-            <p>Are you new user? if yes then, register yourself from below link.</p>
-            <input type="submit" name="" value="Register" (click)="routeToRegisterPage()" /><br />
-        </div>
-        <div class="col-md-9 register-right">
-            <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link pointer" id="architect-tab" data-toggle="tab" type="button"
-                        [class.active]="selectedRole == 3" (click)="setRole(3)" role="tab">Architect</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link pointer" id="builder-tab" data-toggle="tab" type="button"
-                        [class.active]="selectedRole == 2" (click)="setRole(2)" role="tab">Builder</a>
-                </li>
-            </ul>
 
-            <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="architect" role="tabpanel" aria-labelledby="architect-tab">
-                    <h3 class="register-heading">Login as {{ selectedRole == 3 ? "an Architect" : "a Builder"}}</h3>
-                    <form [formGroup]="userForm">
-                        <div class="row register-form center">
-                            <div class="col-md-6">
-                                <div class="form-group"
-                                    [ngClass]="{'error': isSubmitted && userForm.controls.username.invalid }">
-                                    <input type="text" class="form-control" placeholder="Username *" formControlName="username" />
-                                    <div *ngIf="isSubmitted && userForm.controls.username.errors?.required" class="text-danger">This field is required. *</div>
-                                    <div *ngIf="isSubmitted && userForm.controls.username.errors?.minlength" class="text-danger">Atleast 4 characters allowed.</div>
-                                    <div *ngIf="isSubmitted && userForm.controls.username.errors?.maxlength" class="text-danger">Atmost 12 characters allowed.</div>
-                                </div>
-                                <div class="form-group"
-                                    [ngClass]="{'error': isSubmitted && userForm.controls.password.invalid }">
-                                    <input type="password" class="form-control" placeholder="Password *" formControlName="password" />
-                                    <div *ngIf="isSubmitted && userForm.controls.password.errors?.required" class="text-danger">This field is required. *</div>
-                                    <div *ngIf="isSubmitted && userForm.controls.password.errors?.minlength" class="text-danger">Atleast 4 characters allowed.</div>
-                                    <div *ngIf="isSubmitted && userForm.controls.password.errors?.maxlength" class="text-danger">Atmost 10 characters allowed.</div>
-                                </div>
-                                <!-- <input type="submit" class="btnRegister" value="Login" (click)="submit()" /> -->
-                                <button class="btnRegister" (click)="submit()">
-                                    <span class="spinner-border spinner-border-sm" *ngIf="isLogging" role="status" aria-hidden="true"></span>
-                                    <span>Login</span>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+<div class="container">
+    <!-- <div class="row justify-content-center">
+        <div class="col-md-6 text-center mb-5">
+            <h2 class="heading-section">Login #01</h2>
+        </div>
+    </div> -->
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-5">
+            <div class="login-wrap p-4 p-md-5">
+                <div class="icon d-flex align-items-center justify-content-center">
+                    <span class="fa fa-user-o"></span>
                 </div>
+                <h3 class="text-center mb-4">Sign In</h3>
+                <form [formGroup]="userForm">
+                    <div class="form-group" [ngClass]="{'error': isSubmitted && userForm.controls.username.invalid }">
+                        <input type="text" class="form-control" placeholder="Username *" formControlName="username" />
+                        <div *ngIf="isSubmitted && userForm.controls.username.errors?.required" class="text-danger">This field is required.
+                            *</div>
+                        <div *ngIf="isSubmitted && userForm.controls.username.errors?.minlength" class="text-danger">Atleast 4 characters
+                            allowed.</div>
+                        <div *ngIf="isSubmitted && userForm.controls.username.errors?.maxlength" class="text-danger">Atmost 12 characters
+                            allowed.</div>
+                    </div>
+                    <div class="form-group" [ngClass]="{'error': isSubmitted && userForm.controls.password.invalid }">
+                        <input type="password" class="form-control" placeholder="Password *" formControlName="password" />
+                        <div *ngIf="isSubmitted && userForm.controls.password.errors?.required" class="text-danger">This field is required.
+                            *</div>
+                        <div *ngIf="isSubmitted && userForm.controls.password.errors?.minlength" class="text-danger">Atleast 4 characters
+                            allowed.</div>
+                        <div *ngIf="isSubmitted && userForm.controls.password.errors?.maxlength" class="text-danger">Atmost 10 characters
+                            allowed.</div>
+                    </div>
+                    <div class="form-group">
+                        <button class="form-control btn btn-primary rounded submit px-3" (click)="submit()">
+                            <span class="spinner-border spinner-border-sm" *ngIf="isLogging" role="status" aria-hidden="true"></span>
+                            <span>Login</span>
+                        </button>
+                    </div>
+                    <div class="form-group d-md-flex">
+                        <div class="w-50">
+                            <label class="checkbox-wrap checkbox-primary">Remember Me
+                                <input type="checkbox" checked>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <div class="w-50 text-md-right">
+                            <a href="#">Forgot Password</a>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

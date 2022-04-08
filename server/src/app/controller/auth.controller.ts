@@ -22,6 +22,7 @@ export class Auth {
         this.router.post('/logout', this.authService.logout);
         this.router.post('/register', this.authService.register);
         this.router.get('/auth', this.authMiddleware.auth);
+        this.router.get('/verify-email', this.authService.test);
         this.router.get('/test', this.authService.test);
     }
 };

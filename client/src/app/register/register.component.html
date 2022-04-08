@@ -1,82 +1,78 @@
 <mat-progress-bar *ngIf="isRegistering == true" mode="indeterminate" color="accent"></mat-progress-bar>
-<div class="container register">
-    <div class="row">
-        <div class="col-md-3 register-left">
-            <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
-            <h3>Welcome</h3>
-            <p>Have you already an account? if yes then, signin from below link.</p>
-            <input type="submit" name="" value="Login" (click)="routeToLoginPage()"/><br />
+
+<div class="container">
+    <!-- <div class="row justify-content-center">
+        <div class="col-md-6 text-center mb-5">
+            <h2 class="heading-section">Login #01</h2>
         </div>
-        <div class="col-md-9 register-right">
-            <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link pointer" id="architect-tab" data-toggle="tab" type="button"
-                        [class.active]="selectedRole == 3" (click)="setRole(3)" role="tab">Architect</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link pointer" id="builder-tab" data-toggle="tab" type="button"
-                        [class.active]="selectedRole == 2" (click)="setRole(2)" role="tab">Builder</a>
-                </li>
-            </ul>
-
-            <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="architect" role="tabpanel" aria-labelledby="architect-tab">
-                    <h3 class="register-heading">Register as {{ selectedRole == 3 ? "an Architect" : "a Builder"}}</h3>
-                    <form [formGroup]="userForm">
-                        <div class="row register-form">
-
-                            <div class="col-md-6">
-                                <div class="form-group" [ngClass]="{'error': isSubmitted && userForm.controls.username.invalid }">
-                                    <input type="text" class="form-control" placeholder="Username *" formControlName="username"/>
-                                    <div *ngIf="isSubmitted && userForm.controls.username.errors?.required" class="text-danger">This field is required. *</div>
-                                    <div *ngIf="isSubmitted && userForm.controls.username.errors?.minlength" class="text-danger">Atleast 4 characters allowed.</div>
-                                    <div *ngIf="isSubmitted && userForm.controls.username.errors?.maxlength" class="text-danger">Atmost 12 characters allowed.</div>
-                                </div>
-                                <div class="form-group" [ngClass]="{'error': isSubmitted && userForm.controls.fullname.invalid }">
-                                    <input type="text" class="form-control" placeholder="Full Name *" value="" formControlName="fullname"/>
-                                    <div *ngIf="isSubmitted && userForm.controls.fullname.errors?.required" class="text-danger">This field is required. *</div>
-                                    <div *ngIf="isSubmitted && userForm.controls.fullname.errors?.minlength" class="text-danger">Atleast 4 characters allowed.</div>
-                                    <div *ngIf="isSubmitted && userForm.controls.fullname.errors?.maxlength" class="text-danger">Atmost 30 characters allowed.</div>
-                                </div>
-                                <div class="form-group" [ngClass]="{'error': isSubmitted && userForm.controls.email.invalid }">
-                                    <input type="email" class="form-control" placeholder="Email *" value="" formControlName="email"/>
-                                    <div *ngIf="isSubmitted && userForm.controls.email.errors?.required" class="text-danger">This field is required. *</div>
-                                    <div *ngIf="isSubmitted && this.userForm.controls.email.errors?.email" class="text-danger">This is not valid email.</div>
-                                    <div *ngIf="isSubmitted && userForm.controls.email.errors?.maxlength" class="text-danger">Atmost 25 characters allowed.</div> 
-                                </div>
+    </div> -->
+    <div class="row justify-content-center">
+            <div class="login-wrap p-4 p-md-5">
+                <div class="icon d-flex align-items-center justify-content-center">
+                    <span class="fa fa-user-o"></span>
+                </div>
+                <h3 class="text-center mb-4">Registration Form</h3>
+                <form [formGroup]="userForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group" [ngClass]="{'error': isSubmitted && userForm.controls.username.invalid }">
+                                <input type="text" class="form-control" placeholder="Username *" formControlName="username"/>
+                                <div *ngIf="isSubmitted && userForm.controls.username.errors?.required" class="text-danger">This field is required. *</div>
+                                <div *ngIf="isSubmitted && userForm.controls.username.errors?.minlength" class="text-danger">Atleast 4 characters allowed.</div>
+                                <div *ngIf="isSubmitted && userForm.controls.username.errors?.maxlength" class="text-danger">Atmost 12 characters allowed.</div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group" [ngClass]="{'error': isSubmitted && userForm.controls.password.invalid }">
-                                    <input type="password" class="form-control" placeholder="Password *" value="" formControlName="password"/>
-                                    <div *ngIf="isSubmitted && userForm.controls.password.errors?.required" class="text-danger">This field is required. *</div>
-                                    <div *ngIf="isSubmitted && userForm.controls.password.errors?.minlength" class="text-danger">Atleast 4 characters allowed.</div>
-                                    <div *ngIf="isSubmitted && userForm.controls.password.errors?.maxlength" class="text-danger">Atmost 10 characters allowed.</div>
-                                </div>
-                                <div class="form-group" [ngClass]="{'error': isSubmitted && userForm.controls.confirmPassword.invalid }">
-                                    <input type="password" class="form-control" placeholder="Confirm Password *" value="" formControlName="confirmPassword" />
-                                    <div *ngIf="isSubmitted && userForm.controls.confirmPassword.errors?.minlength" class="text-danger">Atleast 4 characters allowed.</div>
-                                    <div *ngIf="isSubmitted && userForm.controls.confirmPassword.errors?.required" class="text-danger">This field is required. *</div>
-                                    <div *ngIf="isSubmitted && userForm.controls.confirmPassword.errors?.maxlength" class="text-danger">Atmost 10 characters allowed.</div>
-                                </div>
-                                <div class="form-group" [ngClass]="{'radio-error': isSubmitted && userForm.controls.gender.invalid }">
-                                    <div class="maxl">
-                                        <label class="radio inline">
-                                            <input type="radio" name="gender" value="male" formControlName="gender">
-                                            <span> Male </span>
-                                        </label>
-                                        <label class="radio inline">
-                                            <input type="radio" name="gender" value="female" formControlName="gender">
-                                            <span>Female </span>
-                                        </label>
-                                    </div>
-                                    <div *ngIf="isSubmitted && userForm.controls.gender.errors?.required" class="text-danger">This field is required. *</div>
-                                </div>
-                                <input type="submit" class="btnRegister" value="Register" (click)="submit()" />
+                            <div class="form-group" [ngClass]="{'error': isSubmitted && userForm.controls.fullname.invalid }">
+                                <input type="text" class="form-control" placeholder="Full Name *" value="" formControlName="fullname"/>
+                                <div *ngIf="isSubmitted && userForm.controls.fullname.errors?.required" class="text-danger">This field is required. *</div>
+                                <div *ngIf="isSubmitted && userForm.controls.fullname.errors?.minlength" class="text-danger">Atleast 4 characters allowed.</div>
+                                <div *ngIf="isSubmitted && userForm.controls.fullname.errors?.maxlength" class="text-danger">Atmost 30 characters allowed.</div>
+                            </div>
+                            <div class="form-group" [ngClass]="{'error': isSubmitted && userForm.controls.email.invalid }">
+                                <input type="email" class="form-control" placeholder="Email *" value="" formControlName="email"/>
+                                <div *ngIf="isSubmitted && userForm.controls.email.errors?.required" class="text-danger">This field is required. *</div>
+                                <div *ngIf="isSubmitted && this.userForm.controls.email.errors?.email" class="text-danger">This is not valid email.</div>
+                                <div *ngIf="isSubmitted && userForm.controls.email.errors?.maxlength" class="text-danger">Atmost 25 characters allowed.</div> 
                             </div>
                         </div>
-                    </form>
-                </div>
+                        <div class="col-md-6">
+                            <div class="form-group" [ngClass]="{'error': isSubmitted && userForm.controls.password.invalid }">
+                                <input type="password" class="form-control" placeholder="Password *" value="" formControlName="password"/>
+                                <div *ngIf="isSubmitted && userForm.controls.password.errors?.required" class="text-danger">This field is required. *</div>
+                                <div *ngIf="isSubmitted && userForm.controls.password.errors?.minlength" class="text-danger">Atleast 4 characters allowed.</div>
+                                <div *ngIf="isSubmitted && userForm.controls.password.errors?.maxlength" class="text-danger">Atmost 10 characters allowed.</div>
+                            </div>
+                            <div class="form-group" [ngClass]="{'error': isSubmitted && userForm.controls.confirmPassword.invalid }">
+                                <input type="password" class="form-control" placeholder="Confirm Password *" value="" formControlName="confirmPassword" />
+                                <div *ngIf="isSubmitted && userForm.controls.confirmPassword.errors?.minlength" class="text-danger">Atleast 4 characters allowed.</div>
+                                <div *ngIf="isSubmitted && userForm.controls.confirmPassword.errors?.required" class="text-danger">This field is required. *</div>
+                                <div *ngIf="isSubmitted && userForm.controls.confirmPassword.errors?.maxlength" class="text-danger">Atmost 10 characters allowed.</div>
+                            </div>
+                            <div class="form-group" [ngClass]="{'radio-error': isSubmitted && userForm.controls.gender.invalid }">
+                                <label class="label">Gender</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gender" value="male" id="male" formControlName="gender">
+                                    <label class="form-check-label" for="male">
+                                        Male
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gender" value="female" id="female" formControlName="gender">
+                                    <label class="form-check-label" for="female">
+                                        Female
+                                    </label>
+                                  </div>
+                            </div>      
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="form-group">
+                            <button class="form-control btn btn-primary rounded submit px-3" (click)="submit()">
+                                <span class="spinner-border spinner-border-sm" *ngIf="isRegistering" role="status" aria-hidden="true"></span>
+                                <span>Register</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </div>
     </div>
 </div>

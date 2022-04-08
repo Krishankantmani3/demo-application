@@ -4,18 +4,11 @@ import { RegisterService } from "./register.service";
 import { Router } from "@angular/router";
 import { USER_ROLE } from "../shared/constant/user.role";
 
-enum role {
-    ARCHITECT = 3,
-    BUILDER = 2
-};
-
 @Component({
     selector: "register",
-    templateUrl: './register.component.html',
-    styleUrls: ['./register.component.css']
+    templateUrl: './register.component.html'
 })
 export class RegisterComponent {
-    selectedRole: number = USER_ROLE.EDUCATOR;
     userDetails;
     userForm: any;
     isFormDirty: boolean;
@@ -44,14 +37,6 @@ export class RegisterComponent {
         // });
     }
 
-    setRole(role) {
-        this.selectedRole = role;
-    }
-
-    submitGender(myForm: NgForm) {
-        console.log(myForm.value);
-    }
-
     submit() {
         this.isSubmitted = true;
         this.isRegistering = true;
@@ -62,8 +47,7 @@ export class RegisterComponent {
                 email: this.userForm.value.email,
                 password: this.userForm.value.password,
                 confirmPassword: this.userForm.value.confirmPassword,
-                gender: this.userForm.value.gender,
-                role: [this.selectedRole]
+                gender: this.userForm.value.gender
             };
 
             this.registerService.register({user: this.userDetails}).then((res: any)=>{

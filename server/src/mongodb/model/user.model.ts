@@ -17,11 +17,11 @@ export class User{
         this.email = user.email;
         this.fullname = user.fullname;
         this.role = user.role;
-        this.isEmailVerified = user.isEmailVerified || false;
-        this.isUserActivated = user.isUserActivated || false;
+        this.isEmailVerified = user.isEmailVerified;
+        this.isUserActivated = user.isUserActivated;
     }
 
-    public hashPasswd(password: string){
+    private hashPasswd(password: string){
         return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
     }
 }
@@ -32,8 +32,8 @@ let UserSchema = new Schema({
     email: {type: String, unique: true, required: true},
     fullname: {type: String, required: true},
     role: {type: [Number], required: true},
-    isEmailVerified: {type: Boolean},
-    isUserActivated: {type: Boolean}
+    isEmailVerified: {type: Boolean, default: false},
+    isUserActivated: {type: Boolean, default: true}
 });
 
 export let Users = mongoose.model('User', UserSchema);

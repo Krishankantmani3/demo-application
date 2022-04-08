@@ -6,18 +6,11 @@ import { AuthService } from "../shared/service/auth.service";
 import { LoginService } from "./login.service";
 import { ToastrService } from 'ngx-toastr';
 
-enum role {
-    ARCHITECT = 3,
-    BUILDER = 2
-};
-
 @Component({
     selector: "login",
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css']
+    templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit, OnDestroy{
-    selectedRole: number = role.ARCHITECT;
     userDetails;
     userForm: any;
     isFormDirty: boolean;
@@ -46,10 +39,6 @@ export class LoginComponent implements OnInit, OnDestroy{
         });
     }
 
-    setRole(role) {
-        this.selectedRole = role;
-    }
-
     submit() {
         this.isSubmitted = true;
         this.isLogging = true;
@@ -57,8 +46,7 @@ export class LoginComponent implements OnInit, OnDestroy{
         if(this.userForm.valid){
             this.userDetails = {
                 username: this.userForm.value.username,
-                password: this.userForm.value.password,
-                role: this.selectedRole
+                password: this.userForm.value.password
             };
 
             this.loginService.login(this.userDetails).then((res: any)=>{

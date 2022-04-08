@@ -1,9 +1,7 @@
-import { JwtHandler } from "../utility/jwt.handler";
 import { UserDao } from "../../mongodb/dao/user.dao";
 import { User } from '../../mongodb/model/user.model';
-import { MESSAGE } from '../utility/constant/constant';
+import { MESSAGE, USER_ROLE } from '../utility/constant/constant';
 import { printErrorLog } from '../utility/logger';
-import { setJwtTokenInCookies } from '../utility/cookie.service';
 import passport from 'passport';
 import { RedisUtility } from "../../redis/utility/redis.utility";
 import { UserResponseDTO } from "../utility/dto/userResponse.dto";
@@ -32,33 +30,28 @@ export class AuthService {
         }
     }
 
-    public async register(req: any, res: any) {
+    public async register(req: any, res: any, next: any) {
         try {
-            req.user = req.body.user;
+            let user = req.body.user;
 
-            if (req.user == undefined) {
-                return res.status(301).json({ message: MESSAGE.INVALID_DATA });
+            if (user == undefined) {
+                return res.status(400).json({ message: MESSAGE.INVALID_DATA });
             }
-            let email = req.user.email;
-            let username = req.user.username;
+            let email = user.email;
+            let username = user.username;
             let result = await this.userDb.findByUserNameOrEmail(username, email);
 
-            if (result == MESSAGE.NO_DATA_FOUND) {
-                let data = await this.userDb.saveNewUser(new User(req.body.user));
-                if (data == MESSAGE.DATABASE_ERROR) {
-                    return res.status(500).json({ message: MESSAGE.DATABASE_ERROR });
-                }
-
-                let userData = {
-                    _id: data._id,
-                    email: data.email,
-                    username: data.email,
-                    role: data.role,
-                    fullname: data.fullname
+            if (!result) {
+                let userData: any = {
+                    email: user.email,
+                    username: user.username,
+                    role: [USER_ROLE.STUDENT],
+                    fullname: user.fullname,
+                    password: user.password
                 };
 
-                setJwtTokenInCookies(req, res, userData);
-                return res.status(200).json(userData);
+                let data = await this.userDb.saveNewUser(new User(userData));
+                return res.status(200).json(new UserResponseDTO(data));
             }
             else {
                 return res.status(301).json({ message: MESSAGE.USER_ALREADY_EXIST });
@@ -66,7 +59,7 @@ export class AuthService {
         }
         catch (err) {
             printErrorLog("AuthService", "register", err);
-            res.status(401).json({ message: err });
+            next(err);
         }
     }
 

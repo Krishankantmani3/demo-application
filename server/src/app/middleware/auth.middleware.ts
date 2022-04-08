@@ -13,6 +13,7 @@ export class AuthMiddleWare {
         this.adminAuth = this.adminAuth.bind(this);
         this.studentAuth = this.studentAuth.bind(this);
         this.educatorAuth = this.educatorAuth.bind(this);
+        this.userAuth = this.userAuth.bind(this);
         this.auth = this.auth.bind(this);
     }
 
@@ -50,10 +51,13 @@ export class AuthMiddleWare {
 
     public async auth(req: any, res: any) {
         try {
-            console.log("req.user", req.user);
             if (req.isAuthenticated() && req.user) {
-                console.log("reached at ", new UserResponseDTO(req.user));
-                return res.status(200).json(new UserResponseDTO(req.user));
+                if(req.user.isUserActivated){
+                    return res.status(200).json(new UserResponseDTO(req.user));
+                }
+                else{
+                    return res.status(403).json({ message: "Account is deactivated" });
+                }
             }
             else {
                 return res.status(403).json({ message: MESSAGE.INVALID_TOKEN });
@@ -62,6 +66,21 @@ export class AuthMiddleWare {
         catch (err) {
             printErrorLog("AuthService", "auth", err);
             res.status(503).json({ status: MESSAGE.SERVER_ERROR });
+        }
+    }
+
+    public async userAuth(req: any, res: any, next: any) {
+        try {
+            if (req.isAuthenticated() && req.user) {
+                return next();
+            }
+            else {
+                return next(new Error("UnAuthorized"));
+            }
+        }
+        catch (err) {
+            printErrorLog("AuthService", "userAuth", err);
+            return next(new Error(MESSAGE.UNAUTHORIZED_ACCESS));
         }
     }
 }
