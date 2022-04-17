@@ -1,7 +1,7 @@
 import { Routes } from "@angular/router";
 import { UserAccountDeactivated } from "./shared/components/accountDeactivated/verifyEmail/account.deactivated.component";
 import { NotFoundComponent } from "./shared/components/notFound/notfound.component";
-import { verifyEmailComponent } from "./shared/components/verifyEmail/verify.email.component";
+import { verifyEmailComponent } from "./shared/modules/verifyEmail/verify.email.component";
 import { USER_ROLE } from "./shared/constant/user.role";
 import { AuthGuard } from "./shared/guards/auth-guard.service";
 
@@ -45,7 +45,7 @@ import { AuthGuard } from "./shared/guards/auth-guard.service";
     },
     {
         path: 'verify-email',
-        component: verifyEmailComponent,
+        loadChildren: ()=> import('./shared/modules/verifyEmail/verify.email.module').then(m => m.VerticalModalModule),
         canActivate: [AuthGuard]
     },
     {

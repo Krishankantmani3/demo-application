@@ -5,19 +5,30 @@ import { printErrorLog } from '../utility/logger';
 import passport from 'passport';
 import { RedisUtility } from "../../redis/utility/redis.utility";
 import { UserResponseDTO } from "../utility/dto/userResponse.dto";
+import { JwtHandler } from "../utility/jwt.handler";
+import { NodeMailerService } from "../utility/nodemailer.service";
+import { UserSessionUtility } from "../utility/userSession.utility";
 
 export class AuthService {
 
-    userDb: UserDao;
+    userDao: UserDao;
     redisUtility: RedisUtility;
+    jwtHandler: JwtHandler;
+    nodeMailerService: NodeMailerService;
+    userSessionUtility: UserSessionUtility;
 
     constructor() {
-        this.userDb = new UserDao();
+        this.userDao = new UserDao();
         this.login = this.login.bind(this);
         this.register = this.register.bind(this);
         this.logout = this.logout.bind(this);
         this.test = this.test.bind(this);
+        this.sendMailToVerifyEmail = this.sendMailToVerifyEmail.bind(this);
+        this.confirmEmail = this.confirmEmail.bind(this);
         this.redisUtility = new RedisUtility();
+        this.jwtHandler = new JwtHandler();
+        this.nodeMailerService = new NodeMailerService();
+        this.userSessionUtility = new UserSessionUtility();
     }
 
     public async test(req: any, res: any) {
@@ -39,7 +50,7 @@ export class AuthService {
             }
             let email = user.email;
             let username = user.username;
-            let result = await this.userDb.findByUserNameOrEmail(username, email);
+            let result = await this.userDao.findByUserNameOrEmail(username, email);
 
             if (!result) {
                 let userData: any = {
@@ -50,7 +61,7 @@ export class AuthService {
                     password: user.password
                 };
 
-                let data = await this.userDb.saveNewUser(new User(userData));
+                let data = await this.userDao.saveNewUser(new User(userData));
                 return res.status(200).json(new UserResponseDTO(data));
             }
             else {
@@ -105,6 +116,45 @@ export class AuthService {
         }
         catch (err) {
             printErrorLog("AuthService", "logout", err);
+            return res.status(500).json({ message: MESSAGE.SERVER_ERROR, status: false });
+        }
+    }
+
+    async sendMailToVerifyEmail(req: any, res: any, next: any){
+        try {
+            let user = req.user;
+            if(user.isEmailVerified == true){
+                return res.status(201).json({status: false, message: "Mail is already verified"});
+            }
+            else if(!user.email){
+                return res.status(201).json({status: false, message: "Mail not found"});
+            }
+            let payload = {_id: user._id, email: user.email};
+            let token = this.jwtHandler.generateToken(payload, {expiresIn: "10m"});
+            let sendFrom = "try.and.test@outlook.com", sendTo = user.email, subject = "please verify your email within 10 min.", body = `http://172.17.0.4:9000/api/confirm-email/${token}`;
+            let result  = await this.nodeMailerService.sendMail(sendFrom, sendTo, subject, body);
+            res.status(200).json({status: true, message: result});
+        } catch (err) {
+            printErrorLog("AuthService", "sendMailToVerifyEmail", err);
+            return res.status(500).json({ message: MESSAGE.SERVER_ERROR, status: false });
+        }
+    }
+
+    async confirmEmail(req: any, res: any, next: any){
+        try {
+            let token = req.params.token;
+            let decodedData: any = this.jwtHandler.verifyToken(token);
+            console.log("decodedData", decodedData);
+            if(decodedData != MESSAGE.INVALID_TOKEN){
+                let user = await this.userDao.updateUserField(decodedData._id, {isEmailVerified: true});
+                await this.userSessionUtility.updateSessionData(user);
+                res.status(200).send("<h1>Token is verified</h1>");
+            }
+            else{
+                res.status(401).send("<h1>Token is not verified</h1>");
+            }
+        } catch (err) {
+            printErrorLog("AuthService", "sendMailToVerifyEmail", err);
             return res.status(500).json({ message: MESSAGE.SERVER_ERROR, status: false });
         }
     }

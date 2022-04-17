@@ -1,5 +1,7 @@
 import { RedisUtility } from "../../redis/utility/redis.utility";
+import { UserSessionDTO } from "./dto/userSession.dto";
 import { printErrorLog } from "./logger";
+const LOGIN_KEY_PREFIX = 'login_';
 
 export class UserSessionUtility {
     redisUtility: RedisUtility;
@@ -17,8 +19,9 @@ export class UserSessionUtility {
         }
     }
 
-    async userSessionCount(key: any){
+    async userSessionCount(username: any){
         try {
+            let key = LOGIN_KEY_PREFIX + username + "_*";
             let users: any = await this.redisUtility.getDataByKeyPattern(key);
             if(users && users.length){
                 return users.length;
@@ -41,8 +44,9 @@ export class UserSessionUtility {
         }
     }
 
-    async deleteFromAllSession(key: any) {
+    async deleteFromAllSession(username: any) {
         try {
+            let key = LOGIN_KEY_PREFIX + username + "_*";
             let sessionKeys: any = await this.redisUtility.getDataByKeyPattern(key);
             let sessions: any = await this.redisUtility.getMultiDataByMultiKey(sessionKeys);
             sessions = sessions.map((obj: any) => "sess:" + obj.sessionId );
@@ -60,6 +64,19 @@ export class UserSessionUtility {
             this.redisUtility.setExpiry(key, seconds);
         } catch (err) {
             printErrorLog("UserSessionUtility", "resetUserSessionExpiry", err);
+            throw err;
+        }
+    }
+
+    async updateSessionData(user: any){
+        try {
+            let sessionUser = new UserSessionDTO(user);
+            let keyPattern = LOGIN_KEY_PREFIX + sessionUser.username + "_*";
+            let sessionKeys: any = await this.redisUtility.getDataByKeyPattern(keyPattern);
+            let ttls = await Promise.all(sessionKeys.map( (s: any) => this.redisUtility.getTtl(s)));
+            return Promise.all(sessionKeys.map( (s: any, i: number) => this.redisUtility.setDataAndExpiry(s, sessionUser, ttls[i])));
+        } catch (err) {
+            printErrorLog("UserSessionUtility", "updateSessionData", err);
             throw err;
         }
     }

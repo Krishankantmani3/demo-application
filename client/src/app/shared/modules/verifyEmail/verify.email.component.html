@@ -1,0 +1,8 @@
+<div class="h-100 d-flex justify-content-center align-items-center" *ngIf="verifyEmail">
+    <button type="button" class="btn btn-primary" (click)="sendEmailVerificationToken()">Send Mail to verify</button>
+</div>
+
+<h1 class="btn-success" *ngIf="showMessageToConfirm"> Mail has been sent for confirmation.</h1>
+<div *ngIf="showMessageToConfirm">
+    <h1>{{remainingTime}}</h1>
+</div>

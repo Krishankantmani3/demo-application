@@ -15,5 +15,4 @@ export class AuthService {
     authenticate() {
         return this.httpService.makeHttpGetRequest(API_URL.AUTH).pipe(filter(res => res.status == 200));
     }
-
 }

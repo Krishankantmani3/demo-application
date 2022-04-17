@@ -9,8 +9,8 @@ export class UserDao {
 
     public async findOneByUserName(username: string) {
         try {
-            let user = await Users.findOne({ username });
-            if (user == undefined) {
+            let user = await Users.findOne({ $or: [{ username: username}, {email: username }]});
+            if (!user) {
                 return false;
             }
             return user;
@@ -37,7 +37,7 @@ export class UserDao {
 
     public async findByUserNameOrEmail(username: any, email: any) {
         try {
-            let result = await Users.find({ $or: [{ "email": email }, { "username": username }] });
+            let result = await Users.find({ $or: [{ "email": {$in: [email, username]} }, { "username": {$in: [email, username]} }] });
             if (result.length == 0) {
                 return false;
             }
@@ -104,8 +104,7 @@ export class UserDao {
 
     public async updateUserField(userId: any, updateObj: any){
         try{
-            console.log("userId in server side", updateObj);
-            return Users.updateOne({_id: mongoose.Types.ObjectId(userId)}, {$set: updateObj});
+            return Users.findOneAndUpdate({_id: mongoose.Types.ObjectId(userId)}, {$set: updateObj}, {new: true});
         }
         catch(err){
             printErrorLog("UserDao", "updateUserField", err);

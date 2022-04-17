@@ -11,32 +11,41 @@ const userDao = new UserDao();
 const LOGIN_KEY_PREFIX = 'login_';
 const userSessionUtility = new UserSessionUtility();
 const SESSION_MAX_LIMIT = 2;
+
 if (!process.env.COOKIE_TIMEOUT_SEC) {
-    console.error('[error]: The "COOKIE_TIMEOUT_SEC" environment variable is required')
+    console.error('[error]: The "COOKIE_TIMEOUT_SEC" environment variable is required');
     process.exit(1)
 }
 const COOKIE_TIMEOUT_SEC = parseInt(process.env.COOKIE_TIMEOUT_SEC);
 
 async function verifyLoginCredential(username: any, password: any) {
-    let result: any = {};
-    let userDetails = await userDao.findOneByUserName(username);
-    if (userDetails == MESSAGE.NO_DATA_FOUND) {
-        result = { status: 403, message: "wrong username or password" };
-        throw result;
-    }
-    else if (userDetails == MESSAGE.DATABASE_ERROR) {
-        result = { status: 500, message: "internal error" };
-        throw result;
-    }
-    let status = bcrypt.compareSync(password, userDetails.password);
-    if (status) {
-        if(!userDetails.isUserActivated){
-            throw { status: 401, message: "account is deactivated" };
+    try {
+        console.log("username", username);
+        console.log("password", password);
+        let result: any = {};
+        let userDetails = await userDao.findOneByUserName(username);
+        if (userDetails == MESSAGE.NO_DATA_FOUND) {
+            result = { status: 403, message: "wrong username or password" };
+            throw result;
         }
-        return userDetails;
-    }
-    else {
-        throw { status: 403, message: "wrong username or password" };
+        else if (userDetails == MESSAGE.DATABASE_ERROR) {
+            result = { status: 500, message: "internal error" };
+            throw result;
+        }
+        console.log("userDetails.password", userDetails.password);
+        let status = bcrypt.compareSync(password, userDetails.password);
+        if (status) {
+            if (!userDetails.isUserActivated) {
+                throw { status: 401, message: "account is deactivated" };
+            }
+            return userDetails;
+        }
+        else {
+            throw { status: 403, message: "wrong username or password" };
+        }
+    } catch (err) {
+        console.log("err",err);
+        throw err;
     }
 }
 
@@ -68,13 +77,12 @@ export const passportConfig = (passport: any, tokenService?: any) => {
             try {
                 let userData = await verifyLoginCredential(username, password);
                 let userDetails: UserSessionDTO = new UserSessionDTO(userData);
-                let keyPattern = LOGIN_KEY_PREFIX + userDetails.username + "_*";
                 let userSessionCount = null;
                 if (req.body.forcedLogin) {
-                    await userSessionUtility.deleteFromAllSession(keyPattern);
+                    await userSessionUtility.deleteFromAllSession(userDetails.username);
                 }
                 else {
-                    userSessionCount = await userSessionUtility.userSessionCount(keyPattern);
+                    userSessionCount = await userSessionUtility.userSessionCount(userDetails.username);
                 }
 
                 if (userSessionCount >= SESSION_MAX_LIMIT) {
@@ -86,6 +94,7 @@ export const passportConfig = (passport: any, tokenService?: any) => {
                 await redisUtility.setDataAndExpiry(redisKey, userDetails, COOKIE_TIMEOUT_SEC);
                 return done(null, userDetails);
             } catch (err: any) {
+                console.log("err",err);
                 done(null, false, err);
             }
         }

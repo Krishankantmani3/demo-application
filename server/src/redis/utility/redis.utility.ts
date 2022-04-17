@@ -90,9 +90,18 @@ export class RedisUtility {
         }
     }
 
-    public async setDataAndExpiry(key: any, data: any, seconds: number) {
+    public async setDataAndExpiry(key: any, data: any, seconds: any) {
         try {
             await redisClient.set(key, JSON.stringify(data), 'ex', seconds);
+        } catch (err) {
+            printErrorLog("RedisUtility", "setDataAndExpiry", err);
+            throw err;
+        }
+    }
+
+    public async getTtl(key: any){
+        try {
+            return redisClient.ttl(key);
         } catch (err) {
             printErrorLog("RedisUtility", "setDataAndExpiry", err);
             throw err;
